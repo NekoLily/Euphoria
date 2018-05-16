@@ -53,6 +53,12 @@ public class GameManager : MonoBehaviour
                 }
     }
 
+    public void OnClickEvier()
+    {
+        CocktailString = "";
+        //Changement de sprite a 0.
+    }
+
     public void OnClickBartender()
     {
         
