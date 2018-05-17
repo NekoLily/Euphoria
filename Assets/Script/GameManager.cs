@@ -2,24 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     public GameState Status { get; set; }
     public System.Random Rnd;
-
+    int seed = Environment.TickCount;
     string CocktailString;
     int ID_Cocktail = 0;
 
     DataBase _DataBase;
-    Text _TimerText;
+    //Text _TimerText;
 
     // Use this for initialization
     void Start()
     {
         Status = GameState.Playing;
         _DataBase = gameObject.GetComponent<DataBase>();
-        _TimerText = GameObject.Find("TimerText").GetComponent<Text>();
+        //_TimerText = GameObject.Find("TimerText").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -36,7 +37,7 @@ public class GameManager : MonoBehaviour
                 if (Collider)
                     Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail); // Lance la méthode pour check si la commande match
             }
-            Rnd = new System.Random();
+            Rnd = new System.Random(seed++);
             AddCustomer(); // Test
         }
     }

@@ -10,6 +10,7 @@ public class ScoreManager : MonoBehaviour {
 
     public int Offset_Increase_Score;
     public int Offset_Decrease_Score;
+    public int Offset_Decrease_Score2;
 
     Text _ScoreText;
 
@@ -27,6 +28,12 @@ public class ScoreManager : MonoBehaviour {
     public void DecreaseScore()
     {
         Score += Offset_Decrease_Score;
+        _ScoreText.text = "Score : " + Score;
+    }
+
+    public void DecreaseScoreBagarre()
+    {
+        Score += Offset_Decrease_Score2;
         _ScoreText.text = "Score : " + Score;
     }
 }

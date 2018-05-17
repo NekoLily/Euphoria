@@ -3374,6 +3374,7 @@ MonoBehaviour:
   Score: 0
   Offset_Increase_Score: 100
   Offset_Decrease_Score: -50
+  Offset_Decrease_Score2: 0
 --- !u!1 &1887017578
 GameObject:
   m_ObjectHideFlags: 0
