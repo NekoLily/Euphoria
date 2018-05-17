@@ -62,7 +62,6 @@ public class Customer : MonoBehaviour
     {
         Vector3 currentPos = transform.position;
         Vector3 Pos = _DataBase.FindTable(ID_Table); // Poaition de fin
-        Debug.Log(Pos);
         var t = 0f;
         while (t < 1)
         {

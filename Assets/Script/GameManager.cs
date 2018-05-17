@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     {
         Status = GameState.Playing;
         _DataBase = gameObject.GetComponent<DataBase>();
-        _TimerText = GameObject.Find("TimerText").GetComponent<Text>();
+        _TimerText = GameObject.Find("Timer").GetComponent<Text>();
     }
 
     // Update is called once per frame
