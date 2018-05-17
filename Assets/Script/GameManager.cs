@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public System.Random Rnd;
     int seed = Environment.TickCount;
     string CocktailString;
-    int ID_Cocktail = 0;
+    int ID_Cocktail = -1;
 
     DataBase _DataBase;
     //Text _TimerText;

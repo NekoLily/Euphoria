@@ -11,8 +11,8 @@ public class Customer : MonoBehaviour
     ScoreManager _ScoreManager;
 
     //float Sec;
-    float OrderTime = 100;
-    float QTETime = 100;
+    public float OrderTime = 100;
+    public float QTETime = 100;
 
     int ID_Order; // ID de la commande
 
@@ -53,7 +53,7 @@ public class Customer : MonoBehaviour
 
     public void CheckOrder(int ID_Cocktail) // Check si le cocktail est le bon
     {
-        if (ID_Cocktail == 0)
+        if (ID_Cocktail == -1)
         {
             Debug.Log("Nothing");
         }
@@ -64,6 +64,7 @@ public class Customer : MonoBehaviour
             Destroy(Order); // supprime la bulle de commande
             _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
+            ID_Cocktail = -1;
         }
         else
         {
@@ -72,6 +73,7 @@ public class Customer : MonoBehaviour
             Destroy(Order); // supprime la bulle de commande
             _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
+            ID_Cocktail = -1;
         }
     }
 
