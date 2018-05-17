@@ -66,7 +66,7 @@ public class DataBase : MonoBehaviour
                 return 102;
             case "21011":  //Tropical
                 return 103;
-            case "37":  //SakéBomb
+            case "73":  //SakéBomb
                 return 104;
             case "612":  //Whisky
                 return 105;

@@ -52,7 +52,13 @@ public class Customer : MonoBehaviour
             StartCoroutine("_Leave");
         }
         else
+        {
+            gameObject.GetComponent<Collider2D>().enabled = false;
             _ScoreManager.DecreaseScore();
+            Destroy(Order); // supprime la bulle de commande
+            _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
+            StartCoroutine("_Leave");
+        }
     }
 
     IEnumerator _Move() // Bouge le client à a coter de la table
