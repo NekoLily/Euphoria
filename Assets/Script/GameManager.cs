@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     {
         if (Status == GameState.Playing)
         {
-            _TimerText.text = Mathf.Ceil(Time.deltaTime).ToString();
+            //_TimerText.text = Mathf.Ceil(Time.deltaTime).ToString();
             if (Input.GetMouseButtonDown(0)) // Prend le click
             {
                 Vector3 CAM_POS = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
