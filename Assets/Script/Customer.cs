@@ -6,12 +6,12 @@ public class Customer : MonoBehaviour
 {
     GameManager _GameManager;
     DataBase _DataBase;
-    CustomerManager _CustomerManager;
     ScoreManager _ScoreManager;
 
     float Sec;
 
     int ID_Order; // ID de la commande
+    int ID_Table;
 
     Object Order; // Object commande
 
@@ -19,9 +19,8 @@ public class Customer : MonoBehaviour
     {
         _GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _DataBase = _GameManager.GetComponent<DataBase>();
-        _CustomerManager = transform.parent.gameObject.GetComponent<CustomerManager>();
         _ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
-        _CustomerManager.ID_Table = _DataBase.GetTable(); // Attribue table
+        ID_Table = _DataBase.GetTable(); // Attribue table
         StartCoroutine("_Move");
     }
 
@@ -48,7 +47,6 @@ public class Customer : MonoBehaviour
             gameObject.GetComponent<Collider2D>().enabled = false;
             _ScoreManager.IncreaseScore();
             Destroy(Order); // supprime la bulle de commande
-            _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
         }
         else
@@ -56,7 +54,6 @@ public class Customer : MonoBehaviour
             gameObject.GetComponent<Collider2D>().enabled = false;
             _ScoreManager.DecreaseScore();
             Destroy(Order); // supprime la bulle de commande
-            _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
         }
     }
@@ -64,7 +61,7 @@ public class Customer : MonoBehaviour
     IEnumerator _Move() // Bouge le client à a coter de la table
     {
         Vector3 currentPos = transform.position;
-        Vector3 Pos = _DataBase.FindTable(_CustomerManager.ID_Table); // Poaition de fin
+        Vector3 Pos = _DataBase.FindTable(ID_Table); // Poaition de fin
         Debug.Log(Pos);
         var t = 0f;
         while (t < 1)
@@ -83,17 +80,18 @@ public class Customer : MonoBehaviour
     IEnumerator _Leave() // Fais sortir le client
     {
         Vector3 currentPos = transform.localPosition;
-        Vector3 Pos = new Vector3(-8, 0, 0); // position de sortie
+        Vector3 Pos = new Vector3(-10, -5, 0); // position de sortie
         var t = 0f;
         while (t < 1)
         {
-            if (_GameManager.Status == GameState.Playing && _CustomerManager.Leave == 0)
+            if (_GameManager.Status == GameState.Playing)
             {
                 t += Time.deltaTime / 3;
                 transform.position = Vector3.Lerp(currentPos, Pos, t);
             }
             yield return null;
         }
-        transform.parent.gameObject.GetComponent<CustomerManager>().NB_Customer -= 1; // décrémente pour détruire l'objet
+        _DataBase.LeaveTable(ID_Table);
+        DestroyObject(this.gameObject);
     }
 }

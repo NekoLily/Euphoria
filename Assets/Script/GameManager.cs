@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (_DataBase.Table[i] == 0) // Regarde quelle table est inoccupée
                     {
-                        Instantiate(Resources.Load("Prefab/Customer/Solo"));
+                        Instantiate(Resources.Load("Prefab/Customer/Customer"));
                         return;
                     }
                 }
