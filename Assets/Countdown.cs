@@ -9,13 +9,13 @@ public class Countdown : MonoBehaviour
     public Text Timer; //UI Text Object
     void Start()
     {
-        StartCoroutine("LoadScene2");
+        StartCoroutine("LoseTime");
         Time.timeScale = 1; 
     }
     void Update()
     {
         Timer.text = ("" + timeLeft);
-        Timer = GameObject.Find("Temps").GetComponent<Text>(); // va chercher le game object temps et le text 
+        
     }
     
     IEnumerator LoseTime()
