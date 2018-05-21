@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public GameState Status { get; set; }
     public System.Random Rnd;
     int seed = Environment.TickCount;
-    string CocktailString;
+    string CocktailString = "";
     int ID_Cocktail = -1;
 
     DataBase _DataBase;
@@ -57,22 +57,26 @@ public class GameManager : MonoBehaviour
     public void OnClickEvier()
     {
         CocktailString = "";
+        ID_Cocktail = -1;
         //Changement de sprite a 0.
     }
 
     public void OnClickBartender()
     {
-        
-        ID_Cocktail = _DataBase.Shaker(CocktailString);
-        Debug.Log(CocktailString + " " + ID_Cocktail);
-        CocktailString = "";
-        if (ID_Cocktail != -1)
-        {
-            
-            //Changement du sprite du curseurs
+        if (CocktailString == "")
+            Debug.Log("Nothing");
+        else {
+            ID_Cocktail = _DataBase.Shaker(CocktailString);
+            Debug.Log(CocktailString + " " + ID_Cocktail);
+            CocktailString = "";
+            if (ID_Cocktail != 0)
+            {
+
+                //Changement du sprite du curseurs
+            }
+            else
+                return; // Mauvais Cocktail
         }
-        else
-            return; // Mauvais Cocktail
     }
 
     public void OnClickCocktail(int num)  //Ajoute au string l'ID de l'élément ajouté.

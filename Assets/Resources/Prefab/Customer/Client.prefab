@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4669485137230520}
   - component: {fileID: 212312590381209156}
   - component: {fileID: 61070723995192300}
-  - component: {fileID: 114319504840926288}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
@@ -37,7 +36,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4594803976611732}
-  - component: {fileID: 114828540170893048}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -97,31 +95,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 13}
   m_EdgeRadius: 0
---- !u!114 &114319504840926288
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1193574349493552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddffdad2f2a2f094399b25f87fa69bb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114828540170893048
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1624835596907882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68f5169bd11b12247be1ebbcde6529af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NB_Customer: 1
-  ID_Table: 0
-  Leave: 1
 --- !u!212 &212312590381209156
 SpriteRenderer:
   m_ObjectHideFlags: 1

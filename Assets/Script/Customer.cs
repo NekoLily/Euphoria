@@ -57,7 +57,7 @@ public class Customer : MonoBehaviour
         {
             Debug.Log("Nothing");
         }
-        if (ID_Order == ID_Cocktail)
+        else if (ID_Order == ID_Cocktail)
         {
             gameObject.GetComponent<Collider2D>().enabled = false;
             _ScoreManager.IncreaseScore();
@@ -68,22 +68,18 @@ public class Customer : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<Collider2D>().enabled = false;
-            _ScoreManager.DecreaseScore();
-            Destroy(Order); // supprime la bulle de commande
-            _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
-            StartCoroutine("_Leave");
+            StartCoroutine("_Event");
             ID_Cocktail = -1;
         }
     }
 
     IEnumerator _Event()
     {
-        int rand = _GameManager.Rnd.Next(1, 4);
+        int rand = _GameManager.Rnd.Next(1, 3);
         switch (rand)
         {
             case 1: //Client explose.
-                //anim
+                Debug.Log("EXPLOSION"); //anim
                 gameObject.GetComponent<Collider2D>().enabled = false;
                 _ScoreManager.DecreaseScore();
                 Destroy(Order); // supprime la bulle de commande
@@ -91,7 +87,7 @@ public class Customer : MonoBehaviour
                 break;
 
             case 2: //Client frappe le comptoir;
-                //anim
+                Debug.Log("Frappe");//anim
                 gameObject.GetComponent<Collider2D>().enabled = false;
                 _ScoreManager.DecreaseScore();
                 Destroy(Order); // supprime la bulle de commande
@@ -100,12 +96,13 @@ public class Customer : MonoBehaviour
                 break;
 
             case 3: //Bagarre
+                Debug.Log("BAGARRE");
                 var t = 0f;
                 gameObject.GetComponent<Collider2D>().enabled = false;
                 _ScoreManager.DecreaseScore();
                 Destroy(Order); // supprime la bulle de commande
                 Instantiate(Resources.Load("Prefab/Customer/Client"));
-                Vector3 currentPos = GameObject.Find("Client(clone)").GetComponent<Transform>().position;
+                Vector3 currentPos = GameObject.Find("Client(Clone)").GetComponent<Transform>().position;
                 Vector3 Pos = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y, gameObject.transform.position.z);
                 while (t < 1)
                 {
@@ -121,7 +118,6 @@ public class Customer : MonoBehaviour
                 StartCoroutine("_QTE");
                 break;
         }
-        yield return 1;
     }
 
     IEnumerator _QTE()
@@ -138,7 +134,7 @@ public class Customer : MonoBehaviour
             _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
             float t = 0f;
-            Vector3 currentPos2 = GameObject.Find("Client(clone)").GetComponent<Transform>().position;
+            Vector3 currentPos2 = GameObject.Find("Client(Clone)").GetComponent<Transform>().position;
             Vector3 Pos2 = new Vector3(0, 0, 0);
             while (t < 1)
             {
@@ -156,7 +152,7 @@ public class Customer : MonoBehaviour
             _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
             float t = 0f;
-            Vector3 currentPos2 = GameObject.Find("Client(clone)").GetComponent<Transform>().position;
+            Vector3 currentPos2 = GameObject.Find("Client(Clone)").GetComponent<Transform>().position;
             Vector3 Pos2 = new Vector3(0, 0, 0);
             while (t < 1)
             {
@@ -168,14 +164,12 @@ public class Customer : MonoBehaviour
                 yield return null;
             }
         }
-        yield return 1;
     }
 
     IEnumerator _Move() // Bouge le client à a coter de la table
     {
         Vector3 currentPos = transform.position;
         Vector3 Pos = _DataBase.FindTable(_CustomerManager.ID_Table); // Poaition de fin
-        Debug.Log(Pos);
         var t = 0f;
         while (t < 1)
         {
