@@ -65,7 +65,7 @@ public class Customer : MonoBehaviour
         var t = 0f;
         while (t < 1)
         {
-            if (_GameManager.Status == GameState.Playing)
+            if (GameManager.Status == GameState.Playing)
             {
                 t += Time.deltaTime / 3;
                 transform.localPosition = Vector3.Lerp(currentPos, Pos, t);
@@ -83,7 +83,7 @@ public class Customer : MonoBehaviour
         var t = 0f;
         while (t < 1)
         {
-            if (_GameManager.Status == GameState.Playing)
+            if (GameManager.Status == GameState.Playing)
             {
                 t += Time.deltaTime / 3;
                 transform.position = Vector3.Lerp(currentPos, Pos, t);
