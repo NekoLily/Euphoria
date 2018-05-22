@@ -16,7 +16,11 @@ public class Customer : MonoBehaviour
 
     int ID_Order; // ID de la commande
 
+    bool IsPressed = false;
+    bool WaitKey = false;
+
     Object Order; // Object commande
+    GameObject Homme;
 
     void Start()
     {
@@ -31,6 +35,8 @@ public class Customer : MonoBehaviour
     void Update()
     {
         //Sec += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Space) && WaitKey)
+            IsPressed = true;
         if (OrderTime <= 0)
             StartCoroutine("_Event");
     }
@@ -76,6 +82,7 @@ public class Customer : MonoBehaviour
     IEnumerator _Event()
     {
         int rand = _GameManager.Rnd.Next(1, 3);
+        rand = 3;
         switch (rand)
         {
             case 1: //Client explose.
@@ -101,15 +108,15 @@ public class Customer : MonoBehaviour
                 gameObject.GetComponent<Collider2D>().enabled = false;
                 _ScoreManager.DecreaseScore();
                 Destroy(Order); // supprime la bulle de commande
-                Instantiate(Resources.Load("Prefab/Customer/Client"));
-                Vector3 currentPos = GameObject.Find("Client(Clone)").GetComponent<Transform>().position;
+                Homme = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Client"));
+                Vector3 currentPos = Homme.transform.position;
                 Vector3 Pos = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y, gameObject.transform.position.z);
                 while (t < 1)
                 {
                     if (_GameManager.Status == GameState.Playing)
                     {
                         t += Time.deltaTime / 3;
-                        transform.localPosition = Vector3.Lerp(currentPos, Pos, t);
+                        Homme.transform.localPosition = Vector3.Lerp(currentPos, Pos, t);
                     }
                     yield return null;
                 }
@@ -122,10 +129,18 @@ public class Customer : MonoBehaviour
 
     IEnumerator _QTE()
     {
-        while (QTETime != 0 || Input.GetKeyDown(KeyCode.Space) != true)
+        while (QTETime > 0)
         {
-            QTETime--;
-            _ScoreManager.DecreaseScoreBagarre();
+            WaitKey = true;
+            if (IsPressed)
+                break;
+            else
+            {
+                QTETime--;
+                Debug.Log(QTETime);
+                _ScoreManager.DecreaseScoreBagarre();
+                yield return new WaitForSeconds(1);
+            }
         }
         if (QTETime == 0)
         {
@@ -134,17 +149,18 @@ public class Customer : MonoBehaviour
             _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
             float t = 0f;
-            Vector3 currentPos2 = GameObject.Find("Client(Clone)").GetComponent<Transform>().position;
-            Vector3 Pos2 = new Vector3(0, 0, 0);
+            Vector3 currentPos2 = Homme.transform.position;
+            Vector3 Pos2 = new Vector3(-10, -4.5f, 0);
             while (t < 1)
             {
                 if (_GameManager.Status == GameState.Playing)
                 {
                     t += Time.deltaTime / 3;
-                    transform.localPosition = Vector3.Lerp(currentPos2, Pos2, t);
+                    Homme.transform.localPosition = Vector3.Lerp(currentPos2, Pos2, t);
                 }
                 yield return null;
             }
+            DestroyObject(Homme);
         }
         else
         {
@@ -152,18 +168,20 @@ public class Customer : MonoBehaviour
             _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
             float t = 0f;
-            Vector3 currentPos2 = GameObject.Find("Client(Clone)").GetComponent<Transform>().position;
-            Vector3 Pos2 = new Vector3(0, 0, 0);
+            Vector3 currentPos2 = Homme.transform.position;
+            Vector3 Pos2 = new Vector3(-10, -4.5f, 0);
             while (t < 1)
             {
                 if (_GameManager.Status == GameState.Playing)
                 {
                     t += Time.deltaTime / 3;
-                    transform.localPosition = Vector3.Lerp(currentPos2, Pos2, t);
+                    Homme.transform.localPosition = Vector3.Lerp(currentPos2, Pos2, t);
                 }
                 yield return null;
             }
+            DestroyObject(Homme);
         }
+        yield return null;
     }
 
     IEnumerator _Move() // Bouge le client à a coter de la table
@@ -186,8 +204,8 @@ public class Customer : MonoBehaviour
 
     IEnumerator _Leave() // Fais sortir le client
     {
-        Vector3 currentPos = transform.localPosition;
-        Vector3 Pos = new Vector3(-8, 0, 0); // position de sortie
+        Vector3 currentPos = transform.position; //transform.localPosition;
+        Vector3 Pos = new Vector3(-10, -4.5f, 0); // position de sortie
         var t = 0f;
         while (t < 1)
         {
