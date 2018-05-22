@@ -202,6 +202,15 @@ public class GameManager : MonoBehaviour
             case 6:
                 Status = GameState.MainMenu;
                 break;
+            case 7:
+                Status = GameState.Retry;
+                break;
+            case 8:
+                Status = GameState.MainMenu;
+                break;
+            case 9:
+                Status = GameState.NextLevel;
+                break;
         }
     }
 
