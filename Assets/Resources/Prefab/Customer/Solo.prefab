@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 212819611851364450}
   - component: {fileID: 61835965269442672}
   - component: {fileID: 114226172462562824}
+  - component: {fileID: 95691549465841520}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
@@ -97,6 +98,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 13}
   m_EdgeRadius: 0
+--- !u!95 &95691549465841520
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1441727546544574}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b9f757b0365742348b172463dfbce97b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114226172462562824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,6 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddffdad2f2a2f094399b25f87fa69bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  QTETime: 100
 --- !u!114 &114923747405683724
 MonoBehaviour:
   m_ObjectHideFlags: 1

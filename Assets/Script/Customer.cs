@@ -11,7 +11,6 @@ public class Customer : MonoBehaviour
     ScoreManager _ScoreManager;
 
     //float Sec;
-    public float OrderTime = 100;
     public float QTETime = 100;
 
     int ID_Order; // ID de la commande
@@ -21,15 +20,18 @@ public class Customer : MonoBehaviour
 
     Object Order; // Object commande
     GameObject Homme;
+    Animator Anim;
 
     void Start()
     {
+        Anim = GetComponent<Animator>();
         _GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _DataBase = _GameManager.GetComponent<DataBase>();
         _CustomerManager = transform.parent.gameObject.GetComponent<CustomerManager>();
         _ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         _CustomerManager.ID_Table = _DataBase.GetTable(); // Attribue table
         StartCoroutine("_Move");
+        Anim.SetTrigger("move");
     }
 
     void Update()
@@ -37,24 +39,17 @@ public class Customer : MonoBehaviour
         //Sec += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Space) && WaitKey)
             IsPressed = true;
-        if (OrderTime <= 0)
-            StartCoroutine("_Event");
     }
 
-    void AddOrder()
+    public void AddOrder()
     {
         ID_Order = _GameManager.Rnd.Next(100,110); // Choisi l'Id de la commande
         Order = Instantiate(Resources.Load("Prefab/Boisson/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation); // Instantiate l'affichage de la commande
-        OrderTime = 25f;
-        Timer();
     }
 
     void Timer()
     {
-        if (OrderTime >= 0f)
-        {
-            OrderTime -= Time.deltaTime;
-        }
+        StartCoroutine("_Event");       //Fonction de fin d'anim client.
     }
 
     public void CheckOrder(int ID_Cocktail) // Check si le cocktail est le bon
@@ -70,6 +65,7 @@ public class Customer : MonoBehaviour
             Destroy(Order); // supprime la bulle de commande
             _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
+            Anim.SetTrigger("move");
             ID_Cocktail = -1;
         }
         else
@@ -81,8 +77,7 @@ public class Customer : MonoBehaviour
 
     IEnumerator _Event()
     {
-        int rand = _GameManager.Rnd.Next(1, 3);
-        rand = 3;
+        int rand = _GameManager.Rnd.Next(1, 4);
         switch (rand)
         {
             case 1: //Client explose.
@@ -100,6 +95,7 @@ public class Customer : MonoBehaviour
                 Destroy(Order); // supprime la bulle de commande
                 _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
                 StartCoroutine("_Leave");
+                Anim.SetTrigger("move");
                 break;
 
             case 3: //Bagarre
@@ -148,6 +144,7 @@ public class Customer : MonoBehaviour
             _ScoreManager.Score -= 100;
             _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
+            Anim.SetTrigger("move");
             float t = 0f;
             Vector3 currentPos2 = Homme.transform.position;
             Vector3 Pos2 = new Vector3(-10, -4.5f, 0);
@@ -167,6 +164,7 @@ public class Customer : MonoBehaviour
             //animBarman
             _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
+            Anim.SetTrigger("move");
             float t = 0f;
             Vector3 currentPos2 = Homme.transform.position;
             Vector3 Pos2 = new Vector3(-10, -4.5f, 0);
@@ -200,6 +198,7 @@ public class Customer : MonoBehaviour
         }
         gameObject.GetComponent<Collider2D>().enabled = true;
         AddOrder(); // ajoute une commande
+        Anim.SetTrigger("Att");
     }
 
     IEnumerator _Leave() // Fais sortir le client
