@@ -27,14 +27,14 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-   //     MenuPrincipal = GameObject.Find("MenuPrincipal");
-   //     LevelSelect = GameObject.Find("LevelSelect");
-       // Play = GameObject.Find("Jouer");
-     //   Recettes = GameObject.Find("Recettes");
-    //    Credits = GameObject.Find("Credits");
-   //     Highscore = GameObject.Find("Highscore");
-   //     Quitter = GameObject.Find("Quitter");
-   //     Reset = GameObject.Find("Reset");
+        MenuPrincipal = GameObject.Find("MenuPrincipal");
+        LevelSelect = GameObject.Find("LevelSelect");
+        Play = GameObject.Find("Jouer");
+        Recettes = GameObject.Find("Recettes");
+        Credits = GameObject.Find("Credits");
+        Highscore = GameObject.Find("Highscore");
+        Quitter = GameObject.Find("Quitter");
+        Reset = GameObject.Find("Reset");
         Victoire = GameObject.Find("Victoire");
         Defaite = GameObject.Find("Defaite");
         GG = GameObject.Find("GG");
@@ -50,17 +50,15 @@ public class GameManager : MonoBehaviour
         Level4.interactable = false;
         Level5.interactable = false;*/
 
-      //  Play.SetActive(false);
-     //   Recettes.SetActive(false);
-      //  Credits.SetActive(false);
-    //    Highscore.SetActive(false);
+        Play.SetActive(false);
+        Recettes.SetActive(false);
+        Credits.SetActive(false);
+        Highscore.SetActive(false);
         //Victoire.SetActive(false);
         //Defaite.SetActive(false);
         //GG.SetActive(false);
 
-        Status = GameState.Playing;
-        _DataBase = gameObject.GetComponent<DataBase>();
-        _TimerText = GameObject.Find("Timer").GetComponent<Text>();
+        Status = GameState.MainMenu;
     }
 
     private void Awake()
@@ -113,7 +111,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        if (Status == GameState.Playing)
+        if (Status == GameState.Playing && SceneManager.GetActiveScene().name == "Jeu")
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -209,36 +207,46 @@ public class GameManager : MonoBehaviour
     {
         switch (number)
         {
-            case 10:
+            case 1:
                 LevelChoisi = 1;
+                SceneManager.LoadScene(1);
                 Status = GameState.Playing;
+                StartCoroutine("LoadLevelData");
+                
                 Debug.Log("Level1");
                 break;
 
-            case 11:
+            case 2:
                 LevelChoisi = 2;
                 Status = GameState.Playing;
                 Debug.Log("Level2");
                 break;
 
-            case 12:
+            case 3:
                 LevelChoisi = 3;
                 Status = GameState.Playing;
                 Debug.Log("Level3");
                 break;
 
-            case 13:
+            case 4:
                 LevelChoisi = 4;
                 Status = GameState.Playing;
                 Debug.Log("Level4");
                 break;
 
-            case 14:
+            case 5:
                 LevelChoisi = 5;
                 Status = GameState.Playing;
                 Debug.Log("Level5");
                 break;
         }
+    }
+
+    IEnumerator LoadLevelData()
+    {
+        yield return new WaitForSeconds(0.3f);
+        _DataBase = gameObject.GetComponent<DataBase>();
+        _TimerText = GameObject.Find("Timer").GetComponent<Text>();
     }
 
     public void GenerationLevel()

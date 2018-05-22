@@ -6,12 +6,10 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour {
 
     public bool MenuIsEnabled = false;
-    GameManager _GameManager;
     GameObject _MainMenu;
 	// Use this for initialization
 	void Start ()
     {
-        _GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _MainMenu = GameObject.Find("Canvas").transform.Find("MainMenu").gameObject;
 	}
 	
@@ -24,14 +22,14 @@ public class MenuManager : MonoBehaviour {
         if (MenuIsEnabled)
         {
             Time.timeScale = 0f;
-            _GameManager.Status = GameState.Pause;
+            GameManager.Status = GameState.Pause;
             _MainMenu.SetActive(true);
            
         }
         else
         {
             Time.timeScale = 1f;
-            _GameManager.Status = GameState.Playing;
+            GameManager.Status = GameState.Playing;
             _MainMenu.SetActive(false);
         }
 	}
@@ -39,7 +37,7 @@ public class MenuManager : MonoBehaviour {
     public void Resume()
     {
         Time.timeScale = 1f;
-        _GameManager.Status = GameState.Playing;
+        GameManager.Status = GameState.Playing;
         _MainMenu.SetActive(false);
     }
 
