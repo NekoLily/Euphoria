@@ -23,10 +23,13 @@ public class GameManager : MonoBehaviour
     Button Jouer, Recette, Credit, Scores, Quit, Réinitialiser;
     Button Level1, Level2, Level3, Level4, Level5;
 
-    DataBase _DataBase;
+    public DataBase _DataBase;
     Text _TimerText;
 
+
     // Use this for initialization
+    bool IsSpawning = true;
+
     void Start()
     {
         MenuPrincipal = GameObject.Find("MenuPrincipal");
@@ -52,17 +55,16 @@ public class GameManager : MonoBehaviour
         Level4.interactable = false;
         Level5.interactable = false;*/
 
-      //  Play.SetActive(false);
-     //   Recettes.SetActive(false);
-      //  Credits.SetActive(false);
-    //    Highscore.SetActive(false);
+        Play.SetActive(false);
+        Recettes.SetActive(false);
+        Credits.SetActive(false);
+        Highscore.SetActive(false);
         //Victoire.SetActive(false);
         //Defaite.SetActive(false);
         //GG.SetActive(false);
 
-        Status = GameState.Playing;
-        //_DataBase = gameObject.GetComponent<DataBase>();
-        //_TimerText = GameObject.Find("TimerText").GetComponent<Text>();
+        _DataBase = gameObject.GetComponent<DataBase>();
+        Status = GameState.MainMenu;
     }
 
     private void Awake()
@@ -75,7 +77,7 @@ public class GameManager : MonoBehaviour
         else if (current == this)
             Destroy(gameObject);
     }
-    
+
     void Update()
     {
         switch (Status)
@@ -115,26 +117,27 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        if (Status == GameState.Playing)
+        if (Status == GameState.Playing && SceneManager.GetActiveScene().name == "Jeu")
         {
             if (Input.GetMouseButtonDown(0))
             {
                 Vector3 CAM_POS = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
                 Collider2D Collider = Physics2D.OverlapPoint(CAM_POS);
 
-                    if (Collider) 
+                if (Collider)
                 {
                     Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
                 }
             }
             Rnd = new System.Random(seed++);
-            AddCustomer(); // Test
+            if (IsSpawning)
+                StartCoroutine("InstantiateMethod");
         }
     }
 
     void AddCustomer()
     {
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (_DataBase.Table[i] == 0)
             {
@@ -156,7 +159,7 @@ public class GameManager : MonoBehaviour
         if (CocktailString == "")
             Debug.Log("Nothing");
         else {
-            ID_Cocktail = _DataBase.Shaker(CocktailString);
+            ID_Cocktail = Shaker(CocktailString);
             Debug.Log(CocktailString + " " + ID_Cocktail);
             CocktailString = "";
             if (ID_Cocktail != 0)
@@ -218,36 +221,46 @@ public class GameManager : MonoBehaviour
     {
         switch (number)
         {
-            case 10:
+            case 1:
                 LevelChoisi = 1;
+                SceneManager.LoadScene(1);
                 Status = GameState.Playing;
+                StartCoroutine("LoadLevelData");
+
                 Debug.Log("Level1");
                 break;
 
-            case 11:
+            case 2:
                 LevelChoisi = 2;
                 Status = GameState.Playing;
                 Debug.Log("Level2");
                 break;
 
-            case 12:
+            case 3:
                 LevelChoisi = 3;
                 Status = GameState.Playing;
                 Debug.Log("Level3");
                 break;
 
-            case 13:
+            case 4:
                 LevelChoisi = 4;
                 Status = GameState.Playing;
                 Debug.Log("Level4");
                 break;
 
-            case 14:
+            case 5:
                 LevelChoisi = 5;
                 Status = GameState.Playing;
                 Debug.Log("Level5");
                 break;
         }
+    }
+
+    IEnumerator LoadLevelData()
+    {
+        yield return new WaitForSeconds(0.3f);
+        _DataBase = gameObject.GetComponent<DataBase>();
+        _TimerText = GameObject.Find("Timer").GetComponent<Text>();
     }
 
     public void GenerationLevel()
@@ -260,8 +273,8 @@ public class GameManager : MonoBehaviour
         switch (LevelChoisi)
         {
             case 0:
-                return "Level1";         
-                
+                return "Level1";
+
             case 1:
                 return "Level2";
 
@@ -279,9 +292,38 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public int Shaker(string Cocktail)    //Validation du cocktail créé.
+    {
+        switch (Cocktail) //retourne en fonction du string le cocktail créé.
+        {
+            case "113":  //LastCall
+                return 100;
+            case "311":  //Bière
+                return 101;
+            case "45":  //KirRoyal
+                return 102;
+            case "21011":  //Tropical
+                return 103;
+            case "73":  //SakéBomb
+                return 104;
+            case "612":  //Whisky
+                return 105;
+            case "154":  //PinkLove
+                return 106;
+            case "812":  //CubaLibre
+                return 107;
+            case "81011":  //Daïgoro
+                return 108;
+            case "213":  //BloodyMary
+                return 109;
+            default:
+                return 0;
+        }
+    }
+
     public void UnlockLevels(int UnlockingLevels)
     {
-        switch(UnlockingLevels)
+        switch (UnlockingLevels)
         {
             case 10:
                 if (Status == GameState.GameClear && Stars >= 1)
@@ -306,7 +348,20 @@ public class GameManager : MonoBehaviour
             case 14:
                 if (Status == GameState.GameClear && Stars >= 1)
                     GG.SetActive(true);
-                    break;
+                break;
         }
+    }
+
+    IEnumerator InstantiateMethod()
+    {
+        if (Status == GameState.Playing)
+        {
+            IsSpawning = false;
+            AddCustomer();
+            yield return new WaitForSeconds(3f);
+            IsSpawning = true;
+
+        }
+        yield return null;
     }
 }
