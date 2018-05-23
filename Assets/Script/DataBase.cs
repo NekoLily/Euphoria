@@ -79,7 +79,7 @@ public class DataBase : MonoBehaviour
             case "213":  //BloodyMary
                 return 109;
             default:
-                return -1;
+                return 0;
         }
     }
 }

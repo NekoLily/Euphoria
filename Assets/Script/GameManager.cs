@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -13,9 +14,12 @@ public class GameManager : MonoBehaviour
     string CocktailString;
     int ID_Cocktail = 0;
 
+    public GameState Status { get; set; }
     public System.Random Rnd;
+    int seed = Environment.TickCount;
+    string CocktailString = "";
+    int ID_Cocktail = -1;
 
-    public static GameState Status { get; set; }
     public static GameManager current;
     public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Credits, Highscore, Quitter, Reset, Victoire, Defaite, GG;
 
@@ -24,7 +28,8 @@ public class GameManager : MonoBehaviour
 
     DataBase _DataBase;
     Text _TimerText;
-    
+
+    // Use this for initialization
     void Start()
     {
    //     MenuPrincipal = GameObject.Find("MenuPrincipal");
@@ -60,7 +65,7 @@ public class GameManager : MonoBehaviour
 
         Status = GameState.Playing;
         _DataBase = gameObject.GetComponent<DataBase>();
-        _TimerText = GameObject.Find("Timer").GetComponent<Text>();
+        //_TimerText = GameObject.Find("TimerText").GetComponent<Text>();
     }
 
     private void Awake()
@@ -124,9 +129,9 @@ public class GameManager : MonoBehaviour
                 {
                     Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
                 }
-                Rnd = new System.Random();
-                AddCustomer();
             }
+            Rnd = new System.Random(seed++);
+            AddCustomer(); // Test
         }
     }
 
@@ -145,19 +150,26 @@ public class GameManager : MonoBehaviour
     public void OnClickEvier()
     {
         CocktailString = "";
+        ID_Cocktail = -1;
+        //Changement de sprite a 0.
     }
 
     public void OnClickBartender()
     {
-        ID_Cocktail = _DataBase.Shaker(CocktailString);
-        Debug.Log(CocktailString + " " + ID_Cocktail);
-        CocktailString = "";
-        if (ID_Cocktail != 1)
-        {
+        if (CocktailString == "")
+            Debug.Log("Nothing");
+        else {
+            ID_Cocktail = _DataBase.Shaker(CocktailString);
+            Debug.Log(CocktailString + " " + ID_Cocktail);
+            CocktailString = "";
+            if (ID_Cocktail != 0)
+            {
 
+                //Changement du sprite du curseurs
+            }
+            else
+                return; // Mauvais Cocktail
         }
-        else
-            return;
     }
 
     public void OnClickCocktail(int num)
