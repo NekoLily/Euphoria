@@ -1404,10 +1404,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Table: 
   cocktail: 
-  Pos_Solo_1: {x: 0, y: 0, z: 0}
-  Pos_Solo_2: {x: 0, y: 0, z: 0}
-  Pos_Solo_3: {x: 0, y: 0, z: 0}
-  Pos_Solo_4: {x: 0, y: 0, z: 0}
+  Pos_Solo_1: {x: -7.25, y: -4.5, z: 0}
+  Pos_Solo_2: {x: -3, y: -4.5, z: 0}
+  Pos_Solo_3: {x: 1.5, y: -4.5, z: 0}
+  Pos_Solo_4: {x: 5, y: -4.5, z: 0}
 --- !u!1 &497355606
 GameObject:
   m_ObjectHideFlags: 0

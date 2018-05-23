@@ -24,7 +24,9 @@ public class GameManager : MonoBehaviour
 
     DataBase _DataBase;
     Text _TimerText;
-    
+
+    bool IsSpawning = true;
+
     void Start()
     {
         MenuPrincipal = GameObject.Find("MenuPrincipal");
@@ -58,6 +60,7 @@ public class GameManager : MonoBehaviour
         //Defaite.SetActive(false);
         //GG.SetActive(false);
 
+        _DataBase = gameObject.GetComponent<DataBase>();
         Status = GameState.MainMenu;
     }
 
@@ -71,7 +74,7 @@ public class GameManager : MonoBehaviour
         else if (current == this)
             Destroy(gameObject);
     }
-    
+
     void Update()
     {
         switch (Status)
@@ -118,19 +121,20 @@ public class GameManager : MonoBehaviour
                 Vector3 CAM_POS = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
                 Collider2D Collider = Physics2D.OverlapPoint(CAM_POS);
 
-                    if (Collider) 
+                if (Collider)
                 {
                     Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
                 }
-                Rnd = new System.Random();
-                AddCustomer();
             }
+            Rnd = new System.Random();
+            if (IsSpawning)
+                StartCoroutine("InstantiateMethod");
         }
     }
 
     void AddCustomer()
     {
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (_DataBase.Table[i] == 0)
             {
@@ -212,7 +216,7 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadScene(1);
                 Status = GameState.Playing;
                 StartCoroutine("LoadLevelData");
-                
+
                 Debug.Log("Level1");
                 break;
 
@@ -259,8 +263,8 @@ public class GameManager : MonoBehaviour
         switch (LevelChoisi)
         {
             case 0:
-                return "Level1";         
-                
+                return "Level1";
+
             case 1:
                 return "Level2";
 
@@ -280,7 +284,7 @@ public class GameManager : MonoBehaviour
 
     public void UnlockLevels(int UnlockingLevels)
     {
-        switch(UnlockingLevels)
+        switch (UnlockingLevels)
         {
             case 10:
                 if (Status == GameState.GameClear && Stars >= 1)
@@ -305,7 +309,20 @@ public class GameManager : MonoBehaviour
             case 14:
                 if (Status == GameState.GameClear && Stars >= 1)
                     GG.SetActive(true);
-                    break;
+                break;
         }
+    }
+
+    IEnumerator InstantiateMethod()
+    {
+        if (Status == GameState.Playing)
+        {
+            IsSpawning = false;
+            AddCustomer();
+            yield return new WaitForSeconds(3f);
+            IsSpawning = true;
+
+        }
+        yield return null;
     }
 }

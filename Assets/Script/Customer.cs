@@ -14,7 +14,7 @@ public class Customer : MonoBehaviour
     int ID_Table;
 
     Object Order; // Object commande
-
+    
     void Start()
     {
         _GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
