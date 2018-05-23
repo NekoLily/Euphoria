@@ -83,7 +83,6 @@ public class Customer : MonoBehaviour
                 gameObject.GetComponent<Collider2D>().enabled = false;
                 _ScoreManager.DecreaseScore();
                 Destroy(Order); // supprime la bulle de commande
-                transform.parent.gameObject.GetComponent<CustomerManager>().NB_Customer -= 1; // décrémente pour détruire l'objet
                 break;
 
             case 2: //Client frappe le comptoir;
@@ -91,7 +90,6 @@ public class Customer : MonoBehaviour
                 gameObject.GetComponent<Collider2D>().enabled = false;
                 _ScoreManager.DecreaseScore();
                 Destroy(Order); // supprime la bulle de commande
-                _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
                 StartCoroutine("_Leave");
                 Anim.SetTrigger("move");
                 break;
@@ -107,7 +105,7 @@ public class Customer : MonoBehaviour
                 Vector3 Pos = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y, gameObject.transform.position.z);
                 while (t < 1)
                 {
-                    if (_GameManager.Status == GameState.Playing)
+                    if (GameManager.Status == GameState.Playing)
                     {
                         t += Time.deltaTime / 3;
                         Homme.transform.localPosition = Vector3.Lerp(currentPos, Pos, t);
@@ -140,7 +138,6 @@ public class Customer : MonoBehaviour
         {
             //Fin anim
             _ScoreManager.Score -= 100;
-            _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
             Anim.SetTrigger("move");
             float t = 0f;
@@ -148,7 +145,7 @@ public class Customer : MonoBehaviour
             Vector3 Pos2 = new Vector3(-10, -4.5f, 0);
             while (t < 1)
             {
-                if (_GameManager.Status == GameState.Playing)
+                if (GameManager.Status == GameState.Playing)
                 {
                     t += Time.deltaTime / 3;
                     Homme.transform.localPosition = Vector3.Lerp(currentPos2, Pos2, t);
@@ -160,7 +157,6 @@ public class Customer : MonoBehaviour
         else
         {
             //animBarman
-            _CustomerManager.Leave -= 1; // decrémente pour déclencher la sortie du client
             StartCoroutine("_Leave");
             Anim.SetTrigger("move");
             float t = 0f;
@@ -168,7 +164,7 @@ public class Customer : MonoBehaviour
             Vector3 Pos2 = new Vector3(-10, -4.5f, 0);
             while (t < 1)
             {
-                if (_GameManager.Status == GameState.Playing)
+                if (GameManager.Status == GameState.Playing)
                 {
                     t += Time.deltaTime / 3;
                     Homme.transform.localPosition = Vector3.Lerp(currentPos2, Pos2, t);

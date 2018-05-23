@@ -11,10 +11,7 @@ public class GameManager : MonoBehaviour
     public int ID = 1;
     public int LevelChoisi;
 
-    string CocktailString;
-    int ID_Cocktail = 0;
-
-    public GameState Status { get; set; }
+    public static GameState Status { get; set; }
     public System.Random Rnd;
     int seed = Environment.TickCount;
     string CocktailString = "";
@@ -32,14 +29,14 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-   //     MenuPrincipal = GameObject.Find("MenuPrincipal");
-   //     LevelSelect = GameObject.Find("LevelSelect");
-       // Play = GameObject.Find("Jouer");
-     //   Recettes = GameObject.Find("Recettes");
-    //    Credits = GameObject.Find("Credits");
-   //     Highscore = GameObject.Find("Highscore");
-   //     Quitter = GameObject.Find("Quitter");
-   //     Reset = GameObject.Find("Reset");
+        MenuPrincipal = GameObject.Find("MenuPrincipal");
+        LevelSelect = GameObject.Find("LevelSelect");
+        Play = GameObject.Find("Jouer");
+        Recettes = GameObject.Find("Recettes");
+        Credits = GameObject.Find("Credits");
+        Highscore = GameObject.Find("Highscore");
+        Quitter = GameObject.Find("Quitter");
+        Reset = GameObject.Find("Reset");
         Victoire = GameObject.Find("Victoire");
         Defaite = GameObject.Find("Defaite");
         GG = GameObject.Find("GG");
@@ -64,7 +61,7 @@ public class GameManager : MonoBehaviour
         //GG.SetActive(false);
 
         Status = GameState.Playing;
-        _DataBase = gameObject.GetComponent<DataBase>();
+        //_DataBase = gameObject.GetComponent<DataBase>();
         //_TimerText = GameObject.Find("TimerText").GetComponent<Text>();
     }
 
