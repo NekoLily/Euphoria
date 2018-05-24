@@ -11,4 +11,6 @@
     Start,
     MainMenu,
     SelectLevel,
+    Retry,
+    NextLevel,
 }
