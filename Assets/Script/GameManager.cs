@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     public static GameState Status { get; set; }
     public System.Random Rnd;
     int seed = Environment.TickCount;
-    string CocktailString = "";
-    int ID_Cocktail = -1;
+    public string CocktailString = "";
+    static int ID_Cocktail = -1;
 
     public static GameManager current;
     public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Credits, Highscore, Quitter, Reset, Victoire, Defaite, GG;
@@ -24,14 +24,17 @@ public class GameManager : MonoBehaviour
     Button Level1, Level2, Level3, Level4, Level5;
 
     public DataBase _DataBase;
-    Text _TimerText;
 
+    Text _TimerText;
 
     // Use this for initialization
     bool IsSpawning = true;
 
+    int[,] OffsetScoreRequired = { { 500, 1000, 1500 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 } }; // {0 , 1, 2} = {1er*, 2eme*, 3eme*}
+
     void Start()
     {
+
         MenuPrincipal = GameObject.Find("MenuPrincipal");
         LevelSelect = GameObject.Find("LevelSelect");
         Play = GameObject.Find("Jouer");
@@ -91,6 +94,23 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Playing:
+                if (SceneManager.GetActiveScene().name == "Jeu")
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Vector3 CAM_POS = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+                        Collider2D Collider = Physics2D.OverlapPoint(CAM_POS);
+
+                        if (Collider)
+                        {
+                            Debug.Log(ID_Cocktail);
+                            Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
+                        }
+                    }
+                    Rnd = new System.Random(seed++);
+                    if (IsSpawning)
+                        StartCoroutine("InstantiateMethod");
+                }
                 break;
 
             case GameState.SelectLevel:
@@ -115,24 +135,23 @@ public class GameManager : MonoBehaviour
 
             case GameState.Reset:
                 break;
-        }
-
-        if (Status == GameState.Playing && SceneManager.GetActiveScene().name == "Jeu")
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Vector3 CAM_POS = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-                Collider2D Collider = Physics2D.OverlapPoint(CAM_POS);
-
-                if (Collider)
+            case GameState.GameClear:
+                int Score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>().Score;
+                if (Score < OffsetScoreRequired[LevelChoisi - 1, 0])
                 {
-                    Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
+                    Stars = 1;
                 }
-            }
-            Rnd = new System.Random(seed++);
-            if (IsSpawning)
-                StartCoroutine("InstantiateMethod");
+                else if (Score >= OffsetScoreRequired[LevelChoisi - 1, 0] && Score < OffsetScoreRequired[LevelChoisi, 1])
+                {
+                    Stars = 2;
+                }
+                else if (Score >= OffsetScoreRequired[LevelChoisi - 1, 1] && Score < OffsetScoreRequired[LevelChoisi, 2])
+                {
+                    Stars = 3;
+                }
+                break;
         }
+
     }
 
     void AddCustomer()
@@ -158,13 +177,13 @@ public class GameManager : MonoBehaviour
     {
         if (CocktailString == "")
             Debug.Log("Nothing");
-        else {
+        else
+        {
             ID_Cocktail = Shaker(CocktailString);
             Debug.Log(CocktailString + " " + ID_Cocktail);
             CocktailString = "";
             if (ID_Cocktail != 0)
             {
-
                 //Changement du sprite du curseurs
             }
             else
@@ -296,7 +315,7 @@ public class GameManager : MonoBehaviour
     {
         switch (Cocktail) //retourne en fonction du string le cocktail créé.
         {
-            case "113":  //LastCall
+            case "19":  //LastCall
                 return 100;
             case "311":  //Bière
                 return 101;

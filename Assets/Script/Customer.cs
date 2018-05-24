@@ -68,6 +68,7 @@ public class Customer : MonoBehaviour
         }
         else
         {
+            Debug.Log("Wrong cocktail");
             StartCoroutine("_Event");
             ID_Cocktail = -1;
         }
