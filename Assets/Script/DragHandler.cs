@@ -4,17 +4,32 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
-{
+{ 
     public static GameObject itemDrag;
 
     Vector3 StartPosition;
+    Quaternion StartRotation;
 
-    void Update()
+    GameObject Image;
+
+    void Start()
     {
-        transform.rotation = 
+        Image = GameObject.Find("Image");
     }
-    
-    
+
+    public void Update()
+    {
+        if (Image.transform.position.x != -200)
+        {
+            Image.transform.localPosition = new Vector3(-200, Image.transform.position.y, Image.transform.position.z);
+        }
+
+        if (Image.transform.position.y > 100)
+        {
+            Image.transform.Rotate(0, 0, 1);
+        }
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         itemDrag = gameObject;
@@ -30,9 +45,13 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         itemDrag = null;
         transform.position = StartPosition;
+        transform.rotation = StartRotation;
     }
 }
-/* private Color originalColor = Color.white;
+
+
+
+/*     private Color originalColor = Color.white;
      private Color mouseOverColor = Color.yellow;
      private bool dragging = false;
      private float dragDistance;
