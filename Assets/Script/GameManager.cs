@@ -137,15 +137,15 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GameClear:
                 int Score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>().Score;
-                if (Score < OffsetScoreRequired[LevelChoisi - 1, 0])
+                if (Score >= OffsetScoreRequired[LevelChoisi - 1, 0] && Score < OffsetScoreRequired[LevelChoisi - 1, 1])
                 {
                     Stars = 1;
                 }
-                else if (Score >= OffsetScoreRequired[LevelChoisi - 1, 0] && Score < OffsetScoreRequired[LevelChoisi, 1])
+                else if (Score >= OffsetScoreRequired[LevelChoisi - 1, 1] && Score < OffsetScoreRequired[LevelChoisi, 2])
                 {
                     Stars = 2;
                 }
-                else if (Score >= OffsetScoreRequired[LevelChoisi - 1, 1] && Score < OffsetScoreRequired[LevelChoisi, 2])
+                else if (Score >= OffsetScoreRequired[LevelChoisi, 2])
                 {
                     Stars = 3;
                 }
