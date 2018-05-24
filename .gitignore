@@ -35,3 +35,5 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+.vs/EuphoriaGit/v15/Server/sqlite3/storage.ide-wal
+.vs/EuphoriaGit/v15/Server/sqlite3/storage.ide-shm
