@@ -22,19 +22,19 @@ public class GameManager : MonoBehaviour
     Button Jouer, Recette, Credit, Scores, Quit, Réinitialiser;
     Button Level1, Level2, Level3, Level4, Level5;
 
-    DataBase _DataBase;
-    Text _TimerText;
-    
+    DataBase DataBase;
+    Text TimerText;
+
     void Start()
     {
-   //     MenuPrincipal = GameObject.Find("MenuPrincipal");
-   //     LevelSelect = GameObject.Find("LevelSelect");
-       // Play = GameObject.Find("Jouer");
-     //   Recettes = GameObject.Find("Recettes");
-    //    Credits = GameObject.Find("Credits");
-   //     Highscore = GameObject.Find("Highscore");
-   //     Quitter = GameObject.Find("Quitter");
-   //     Reset = GameObject.Find("Reset");
+        MenuPrincipal = GameObject.Find("MenuPrincipal");
+        LevelSelect = GameObject.Find("LevelSelect");
+        Play = GameObject.Find("Jouer");
+        Recettes = GameObject.Find("Recettes");
+        Credits = GameObject.Find("Credits");
+        Highscore = GameObject.Find("Highscore");
+        Quitter = GameObject.Find("Quitter");
+        Reset = GameObject.Find("Reset");
         Victoire = GameObject.Find("Victoire");
         Defaite = GameObject.Find("Defaite");
         GG = GameObject.Find("GG");
@@ -50,17 +50,17 @@ public class GameManager : MonoBehaviour
         Level4.interactable = false;
         Level5.interactable = false;*/
 
-      //  Play.SetActive(false);
-     //   Recettes.SetActive(false);
-      //  Credits.SetActive(false);
-    //    Highscore.SetActive(false);
+        Play.SetActive(false);
+        Recettes.SetActive(false);
+        Credits.SetActive(false);
+        Highscore.SetActive(false);
         //Victoire.SetActive(false);
         //Defaite.SetActive(false);
         //GG.SetActive(false);
 
         Status = GameState.Playing;
-        _DataBase = gameObject.GetComponent<DataBase>();
-        _TimerText = GameObject.Find("Timer").GetComponent<Text>();
+        DataBase = gameObject.GetComponent<DataBase>();
+        TimerText = GameObject.Find("Timer").GetComponent<Text>();
     }
 
     private void Awake()
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
         else if (current == this)
             Destroy(gameObject);
     }
-    
+
     void Update()
     {
         switch (Status)
@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
                 Vector3 CAM_POS = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
                 Collider2D Collider = Physics2D.OverlapPoint(CAM_POS);
 
-                    if (Collider) 
+                if (Collider)
                 {
                     Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
                 }
@@ -132,9 +132,9 @@ public class GameManager : MonoBehaviour
 
     void AddCustomer()
     {
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
-            if (_DataBase.Table[i] == 0)
+            if (DataBase.Table[i] == 0)
             {
                 Instantiate(Resources.Load("Prefab/Customer/Customer"));
                 return;
@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
 
     public void OnClickBartender()
     {
-        ID_Cocktail = _DataBase.Shaker(CocktailString);
+        ID_Cocktail = DataBase.Shaker(CocktailString);
         Debug.Log(CocktailString + " " + ID_Cocktail);
         CocktailString = "";
         if (ID_Cocktail != 1)
@@ -260,14 +260,14 @@ public class GameManager : MonoBehaviour
         switch (LevelChoisi)
         {
             case 0:
-                return "Level1";         
-                
+                return "Level1";
+
             case 1:
                 return "Level2";
 
             case 2:
-
                 return "Level3";
+
             case 3:
                 return "Level4";
 
@@ -281,7 +281,7 @@ public class GameManager : MonoBehaviour
 
     public void UnlockLevels(int UnlockingLevels)
     {
-        switch(UnlockingLevels)
+        switch (UnlockingLevels)
         {
             case 10:
                 if (Status == GameState.GameClear && Stars >= 1)
@@ -306,7 +306,13 @@ public class GameManager : MonoBehaviour
             case 14:
                 if (Status == GameState.GameClear && Stars >= 1)
                     GG.SetActive(true);
-                    break;
+                break;
         }
     }
+
+  /*  public void NextLevel(int NextLevel)
+    {
+        NextLevel += NextLevel;
+        Debug.Log("Prochain Level");
+    }*/
 }
