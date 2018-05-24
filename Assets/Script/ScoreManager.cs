@@ -14,6 +14,7 @@ public class ScoreManager : MonoBehaviour {
 
     Text _ScoreText;
 
+
     void Start()
     {
         _ScoreText = GameObject.Find("ScoreText").GetComponent<Text>();
