@@ -3,6 +3,7 @@
     Pause,
     Playing,
     GameClear,
+    End,
     Recettes,
     Credits,
     Highscore,

@@ -11,7 +11,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     void Update()
     {
-        transform.rotation = 
+        //transform.rotation = 
     }
     
     

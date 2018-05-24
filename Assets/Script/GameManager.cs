@@ -7,9 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public int Stars;
+    public int Stars = 0;
     public int ID = 1;
     public int LevelChoisi;
+    public int Score;
+    bool firstcall = true;
 
     public static GameState Status { get; set; }
     public System.Random Rnd;
@@ -83,6 +85,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(Status);
         switch (Status)
         {
             case GameState.MainMenu:
@@ -136,7 +139,6 @@ public class GameManager : MonoBehaviour
             case GameState.Reset:
                 break;
             case GameState.GameClear:
-                int Score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>().Score;
                 if (Score >= OffsetScoreRequired[LevelChoisi - 1, 0] && Score < OffsetScoreRequired[LevelChoisi - 1, 1])
                 {
                     Stars = 1;
@@ -149,6 +151,8 @@ public class GameManager : MonoBehaviour
                 {
                     Stars = 3;
                 }
+                Status = GameState.End;
+                SceneManager.LoadScene(2);
                 break;
         }
 
@@ -171,6 +175,14 @@ public class GameManager : MonoBehaviour
         CocktailString = "";
         ID_Cocktail = -1;
         //Changement de sprite a 0.
+    }
+
+    public void OnClickRecette()
+    {
+        if (Recettes.activeInHierarchy == false)
+            Recettes.SetActive(true);
+        else
+            Recettes.SetActive(false);
     }
 
     public void OnClickBartender()
@@ -280,6 +292,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         _DataBase = gameObject.GetComponent<DataBase>();
         _TimerText = GameObject.Find("Timer").GetComponent<Text>();
+        Recettes = GameObject.Find("Recettes");
+        Recettes.SetActive(false);
     }
 
     public void GenerationLevel()
