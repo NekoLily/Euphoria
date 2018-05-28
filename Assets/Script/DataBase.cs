@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.IO;
 
 public class DataBase : MonoBehaviour
 {
@@ -13,9 +15,12 @@ public class DataBase : MonoBehaviour
     public Vector3 Pos_Solo_3;
     public Vector3 Pos_Solo_4;
 
+    public string[] Tab_Score;
+
     void Start()
     {
         Table = new int[4];
+        GetSave();
     }
 
     public int GetTable()
@@ -29,7 +34,7 @@ public class DataBase : MonoBehaviour
             }
         }
         return -1;
-                
+
     }
 
     public Vector3 FindTable(int ID_Table) // Trouve la position de la table avec L'ID_Table
@@ -47,7 +52,6 @@ public class DataBase : MonoBehaviour
         }
         return new Vector3();
     }
-
 
     public void LeaveTable(int ID_Table) // Met la table inocupée
     {
@@ -80,6 +84,45 @@ public class DataBase : MonoBehaviour
                 return 109;
             default:
                 return 0;
+        }
+    }
+
+    public void GetSave()
+    {
+        string _Text = "";
+        StreamReader _Reader = new StreamReader("Assets/Resources/Save.txt");
+        {
+            while (!_Reader.EndOfStream)
+            {
+                _Text += _Reader.ReadLine();
+                _Text += "\n";
+            }
+            _Reader.Close();
+            Tab_Score = _Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+        }
+    }
+
+    public void SaveScore(int Level, int Score)
+    {
+        if (Score >= int.Parse(Tab_Score[Level - 1]))
+        {
+            Tab_Score[Level - 1] = "" + Score;
+            StreamWriter _Writter = new StreamWriter("Assets/Resources/Save.txt");
+            {
+                for (int i = 0; i < 5; i++)
+                    _Writter.WriteLine(Tab_Score[i]);
+                _Writter.Close();
+            }
+        }
+    }
+
+    public void ResetScore()
+    {
+        StreamWriter _Writter = new StreamWriter("Assets/Resources/Save.txt");
+        {
+            for (int i = 0; i < 5; i++)
+                _Writter.WriteLine("0");
+            _Writter.Close();
         }
     }
 }

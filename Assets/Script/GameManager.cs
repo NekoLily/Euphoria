@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     Button Level1, Level2, Level3, Level4, Level5;
 
     public DataBase _DataBase;
+    public Text _HighScore;
 
     Text _TimerText;
 
@@ -49,16 +50,16 @@ public class GameManager : MonoBehaviour
         Defaite = GameObject.Find("Defaite");
         GG = GameObject.Find("GG");
 
-        //Level1 = GameObject.Find("Level1").GetComponent<Button>;
-        //Level2 = GameObject.Find("Level2").GetComponent<Button>;
-        //Level3 = GameObject.Find("Level3").GetComponent<Button>;
-        //Level4 = GameObject.Find("Level4").GetComponent<Button>;
-        //Level5 = GameObject.Find("Level5").GetComponent<Button>;
+        //Level1 = LevelSelect.transform.Find("Level1").GetComponent<Button>();
+        Level2 = LevelSelect.transform.Find("Level2").GetComponent<Button>();
+        Level3 = LevelSelect.transform.Find("Level3").GetComponent<Button>();
+        Level4 = LevelSelect.transform.Find("Level4").GetComponent<Button>();
+        Level5 = LevelSelect.transform.Find("Level5").GetComponent<Button>();
 
-        /*Level2.interactable = false;
+        Level2.interactable = false;
         Level3.interactable = false;
         Level4.interactable = false;
-        Level5.interactable = false;*/
+        Level5.interactable = false;
 
         Play.SetActive(false);
         Recettes.SetActive(false);
@@ -69,6 +70,7 @@ public class GameManager : MonoBehaviour
         //GG.SetActive(false);
 
         _DataBase = gameObject.GetComponent<DataBase>();
+        CheckSave();
         Status = GameState.MainMenu;
     }
 
@@ -130,6 +132,7 @@ public class GameManager : MonoBehaviour
 
             case GameState.Highscore:
                 Highscore.SetActive(true);
+                _HighScore.text = String.Format("Votre Highscore est : \n\n Level 1 : {0} \n Level 2 : {1} \n Level 3 : {2} \n Level 4 : {3} \n Level 5 : {4}", _DataBase.Tab_Score[0], _DataBase.Tab_Score[1], _DataBase.Tab_Score[2], _DataBase.Tab_Score[3], _DataBase.Tab_Score[4]);
                 break;
 
             case GameState.Quitter:
@@ -137,6 +140,10 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Reset:
+                _DataBase.ResetScore();
+                _DataBase.GetSave();
+                CheckSave();
+                Status = GameState.MainMenu;
                 break;
             case GameState.GameClear:
                 if (Score >= OffsetScoreRequired[LevelChoisi - 1, 0] && Score < OffsetScoreRequired[LevelChoisi - 1, 1])
@@ -383,6 +390,29 @@ public class GameManager : MonoBehaviour
                     GG.SetActive(true);
                 break;
         }
+    }
+
+    public void CheckSave()
+    {
+        if (int.Parse(_DataBase.Tab_Score[0]) >= OffsetScoreRequired[0, 0])
+            Level2.interactable = true;
+        else
+            Level2.interactable = false;
+
+        if (int.Parse(_DataBase.Tab_Score[1]) >= OffsetScoreRequired[1, 0])
+            Level3.interactable = true;
+        else
+            Level3.interactable = false;
+
+        if (int.Parse(_DataBase.Tab_Score[2]) >= OffsetScoreRequired[2, 0])
+            Level4.interactable = true;
+        else
+            Level4.interactable = false;
+
+        if (int.Parse(_DataBase.Tab_Score[3]) >= OffsetScoreRequired[3, 0])
+            Level5.interactable = true;
+        else
+            Level5.interactable = false;
     }
 
     IEnumerator InstantiateMethod()
