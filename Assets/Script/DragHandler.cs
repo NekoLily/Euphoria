@@ -3,49 +3,62 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
-{ 
-    public static GameObject itemDrag;
+public class DragHandler : MonoBehaviour//, IBeginDragHandler, IDragHandler, IEndDragHandler
+{
+    /*public static GameObject itemDrag;
 
     Vector3 StartPosition;
     Quaternion StartRotation;
 
-    GameObject Image;
+    GameObject Image;*/
+
+
+    Vector3 StartPos;
+    Vector3 screenPoint;
+    Vector3 offset;
+
+    Vector3 StartRotation;
+
+    public Transform target;
+
+    // prints "close" if the z-axis of this transform looks
+    // almost towards the target
 
     void Start()
     {
-        Image = GameObject.Find("Image");
+        StartPos = transform.position;
+        StartRotation = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 
-    public void Update()
+    void Update()
     {
-        if (Image.transform.position.x != -200)
-        {
-            Image.transform.localPosition = new Vector3(-200, Image.transform.position.y, Image.transform.position.z);
-        }
+        Vector3 targetDir = target.position - transform.position;
+        float angle = Vector3.Angle(transform.position, targetDir);
 
-        if (Image.transform.position.y > 100)
-        {
-            Image.transform.Rotate(0, 0, 1);
-        }
+        if (transform.position.y >= 0)
+            transform.eulerAngles = new Vector3(0, 0, angle);
+        else
+            transform.eulerAngles = new Vector3();
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    void OnMouseDown()
     {
-        itemDrag = gameObject;
-        StartPosition = transform.position;       
+        screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
     }
 
-    public void OnDrag(PointerEventData eventData)
+    void OnMouseDrag()
     {
-        transform.position = Input.mousePosition;
+        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
+        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+        if (transform.position.y < 2 || curPosition.y < 2)
+            transform.position = new Vector3(StartPos.x, curPosition.y, transform.position.z);
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    void OnMouseUp()
     {
-        itemDrag = null;
-        transform.position = StartPosition;
-        transform.rotation = StartRotation;
+        transform.position = StartPos;
+        transform.eulerAngles = StartRotation;
     }
 }
 
