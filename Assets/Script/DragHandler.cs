@@ -3,36 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DragHandler : MonoBehaviour
 {
-    public static GameObject itemDrag;
+    Vector3 StartPos;
+    Vector3 screenPoint;
+    Vector3 offset;
 
-    Vector3 StartPosition;
+    Vector3 StartRotation;
+
+    public Transform target;
+
+    // prints "close" if the z-axis of this transform looks
+    // almost towards the target
+
+    void Start()
+    {
+        StartPos = transform.position;
+        StartRotation = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
+    }
 
     void Update()
     {
-        //transform.rotation = 
-    }
-    
-    
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        itemDrag = gameObject;
-        StartPosition = transform.position;       
+        Vector3 targetDir = target.position - transform.position;
+        float angle = Vector3.Angle(transform.position, targetDir);
+
+        if (transform.position.y >= 0)
+            transform.eulerAngles = new Vector3(0, 0, angle);
+        else
+            transform.eulerAngles = new Vector3();
     }
 
-    public void OnDrag(PointerEventData eventData)
+    void OnMouseDown()
     {
-        transform.position = Input.mousePosition;
+        screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    void OnMouseDrag()
     {
-        itemDrag = null;
-        transform.position = StartPosition;
+        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
+        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+        if (transform.position.y < 2 || curPosition.y < 2)
+            transform.position = new Vector3(StartPos.x, curPosition.y, transform.position.z);
+    }
+
+    void OnMouseUp()
+    {
+        transform.position = StartPos;
+        transform.eulerAngles = StartRotation;
     }
 }
-/* private Color originalColor = Color.white;
+
+
+
+/*     private Color originalColor = Color.white;
      private Color mouseOverColor = Color.yellow;
      private bool dragging = false;
      private float dragDistance;
