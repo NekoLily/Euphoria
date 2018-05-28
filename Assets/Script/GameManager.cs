@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
             current = this;
             DontDestroyOnLoad(this);
         }
-        else if (current == this)
+        else if (current != this)
             Destroy(gameObject);
     }
 
