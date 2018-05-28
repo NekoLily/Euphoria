@@ -9,6 +9,7 @@ public class Countdown : MonoBehaviour
     public Text Timer; //UI Text Object
 
     bool IsFinish = false;
+    bool first = true;
 
     void Start()
     {
@@ -18,10 +19,11 @@ public class Countdown : MonoBehaviour
     void Update()
     {
         Timer.text = ("" + timeLeft);
-        if (timeLeft <= 0)
+        if (timeLeft <= 0 && first != false)
         {
             GameManager.current.Score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>().Score;
             GameManager.Status = GameState.GameClear;
+            first = false;
         }
     }
 

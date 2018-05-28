@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     static int ID_Cocktail = -1;
 
     public static GameManager current;
-    public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Credits, Highscore, Quitter, Reset, Victoire, Defaite, GG;
+    public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Credits, Highscore, Quitter, Reset, Victoire, Defaite, GG, Loading;
 
     Button Jouer, Recette, Credit, Scores, Quit, Réinitialiser;
     Button Level1, Level2, Level3, Level4, Level5;
@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
         Victoire = GameObject.Find("Victoire");
         Defaite = GameObject.Find("Defaite");
         GG = GameObject.Find("GG");
+        Loading = GameObject.Find("Loading");
 
         //Level1 = GameObject.Find("Level1").GetComponent<Button>;
         //Level2 = GameObject.Find("Level2").GetComponent<Button>;
@@ -64,6 +65,7 @@ public class GameManager : MonoBehaviour
         Recettes.SetActive(false);
         Credits.SetActive(false);
         Highscore.SetActive(false);
+        Loading.SetActive(false);
         //Victoire.SetActive(false);
         //Defaite.SetActive(false);
         //GG.SetActive(false);
@@ -79,12 +81,17 @@ public class GameManager : MonoBehaviour
             current = this;
             DontDestroyOnLoad(this);
         }
-        else if (current == this)
+        else if (current != this)
             Destroy(gameObject);
     }
 
     void Update()
     {
+        if (SceneManager.GetActiveScene().name != "MenuPrincipal")
+            MenuPrincipal.SetActive(false);
+        else
+            //Nothing
+
         Debug.Log(Status);
         switch (Status)
         {
@@ -96,25 +103,7 @@ public class GameManager : MonoBehaviour
                 Highscore.SetActive(false);
                 break;
 
-            case GameState.Playing:
-                if (SceneManager.GetActiveScene().name == "Jeu")
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        Vector3 CAM_POS = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-                        Collider2D Collider = Physics2D.OverlapPoint(CAM_POS);
-
-                        if (Collider)
-                        {
-                            Debug.Log(ID_Cocktail);
-                            Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
-                        }
-                    }
-                    Rnd = new System.Random(seed++);
-                    if (IsSpawning)
-                        StartCoroutine("InstantiateMethod");
-                }
-                break;
+            
 
             case GameState.SelectLevel:
                 Play.SetActive(true);
@@ -138,6 +127,38 @@ public class GameManager : MonoBehaviour
 
             case GameState.Reset:
                 break;
+
+            case GameState.Start:
+                Loading.SetActive(true);
+                MenuPrincipal.SetActive(true);
+                Play.SetActive(false);
+                Recettes.SetActive(false);
+                Credits.SetActive(false);
+                Highscore.SetActive(false);
+                Loading.GetComponent<LoadingScreen>().Loading(0);
+                GameManager.Status = GameState.Loading;
+                break;
+
+            case GameState.Playing:
+                if (SceneManager.GetActiveScene().name == "Jeu")
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Vector3 CAM_POS = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+                        Collider2D Collider = Physics2D.OverlapPoint(CAM_POS);
+
+                        if (Collider)
+                        {
+                            Debug.Log(ID_Cocktail);
+                            Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
+                        }
+                    }
+                    Rnd = new System.Random(seed++);
+                    if (IsSpawning)
+                        StartCoroutine("InstantiateMethod");
+                }
+                break;
+
             case GameState.GameClear:
                 if (Score >= OffsetScoreRequired[LevelChoisi - 1, 0] && Score < OffsetScoreRequired[LevelChoisi - 1, 1])
                 {
@@ -151,8 +172,15 @@ public class GameManager : MonoBehaviour
                 {
                     Stars = 3;
                 }
-                Status = GameState.End;
-                SceneManager.LoadScene(2);
+                Loading.SetActive(true);
+                Loading.GetComponent<LoadingScreen>().Loading(0);
+                GameManager.Status = GameState.Loading;
+                break;
+
+            case GameState.End:
+                Loading.SetActive(true);
+                Loading.GetComponent<LoadingScreen>().Loading(0);
+                GameManager.Status = GameState.Loading;
                 break;
         }
 
@@ -254,34 +282,31 @@ public class GameManager : MonoBehaviour
         {
             case 1:
                 LevelChoisi = 1;
-                SceneManager.LoadScene(1);
-                Status = GameState.Playing;
-                StartCoroutine("LoadLevelData");
-
+                Status = GameState.Start;
                 Debug.Log("Level1");
                 break;
 
             case 2:
                 LevelChoisi = 2;
-                Status = GameState.Playing;
+                Status = GameState.Start;
                 Debug.Log("Level2");
                 break;
 
             case 3:
                 LevelChoisi = 3;
-                Status = GameState.Playing;
+                Status = GameState.Start;
                 Debug.Log("Level3");
                 break;
 
             case 4:
                 LevelChoisi = 4;
-                Status = GameState.Playing;
+                Status = GameState.Start;
                 Debug.Log("Level4");
                 break;
 
             case 5:
                 LevelChoisi = 5;
-                Status = GameState.Playing;
+                Status = GameState.Start;
                 Debug.Log("Level5");
                 break;
         }
@@ -294,6 +319,7 @@ public class GameManager : MonoBehaviour
         _TimerText = GameObject.Find("Timer").GetComponent<Text>();
         Recettes = GameObject.Find("Recettes");
         Recettes.SetActive(false);
+
     }
 
     public void GenerationLevel()
@@ -354,7 +380,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void UnlockLevels(int UnlockingLevels)
+    /*public void UnlockLevels(int UnlockingLevels)
     {
         switch (UnlockingLevels)
         {
@@ -383,7 +409,7 @@ public class GameManager : MonoBehaviour
                     GG.SetActive(true);
                 break;
         }
-    }
+    }*/
 
     IEnumerator InstantiateMethod()
     {

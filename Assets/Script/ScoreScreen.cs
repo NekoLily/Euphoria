@@ -64,15 +64,21 @@ public class ScoreScreen : MonoBehaviour {
         switch(num)
         {
             case 1:
-
+                GameManager.Loading.SetActive(true);
+                GameManager.Loading.GetComponent<LoadingScreen>().Loading(2);  //Replay
+                GameManager.Status = GameState.Loading;
                 break;
 
             case 2:
-                SceneManager.LoadScene(0);
-                GameManager.Status = GameState.MainMenu;
+                GameManager.Loading.SetActive(true);
+                GameManager.Loading.GetComponent<LoadingScreen>().Loading(1);   //Menu
+                GameManager.Status = GameState.Loading;
                 break;
 
-            case 3:
+            case 3:                                         //NExtLEvel
+                GameManager.Loading.SetActive(true);
+                GameManager.Loading.GetComponent<LoadingScreen>().Loading(0);
+                GameManager.Status = GameState.Loading;
                 break;
         }
     }

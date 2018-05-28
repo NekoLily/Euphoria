@@ -1,5 +1,6 @@
 ﻿public enum GameState
 {
+    Start,
     Pause,
     Playing,
     GameClear,
@@ -9,9 +10,9 @@
     Highscore,
     Quitter,
     Reset,
-    Start,
     MainMenu,
     SelectLevel,
     Retry,
     NextLevel,
+    Loading,
 }
