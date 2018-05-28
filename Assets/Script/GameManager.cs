@@ -87,6 +87,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (SceneManager.GetActiveScene().name != "MenuPrincipal")
+            MenuPrincipal.SetActive(false);
+        else
+            //Nothing
+
         Debug.Log(Status);
         switch (Status)
         {
@@ -125,7 +130,12 @@ public class GameManager : MonoBehaviour
 
             case GameState.Start:
                 Loading.SetActive(true);
-                GetComponent<LoadingScreen>().Loading(0);
+                MenuPrincipal.SetActive(true);
+                Play.SetActive(false);
+                Recettes.SetActive(false);
+                Credits.SetActive(false);
+                Highscore.SetActive(false);
+                Loading.GetComponent<LoadingScreen>().Loading(0);
                 GameManager.Status = GameState.Loading;
                 break;
 
@@ -162,12 +172,14 @@ public class GameManager : MonoBehaviour
                 {
                     Stars = 3;
                 }
-                Status = GameState.End;
+                Loading.SetActive(true);
+                Loading.GetComponent<LoadingScreen>().Loading(0);
+                GameManager.Status = GameState.Loading;
                 break;
 
             case GameState.End:
                 Loading.SetActive(true);
-                GetComponent<LoadingScreen>().Loading(0);
+                Loading.GetComponent<LoadingScreen>().Loading(0);
                 GameManager.Status = GameState.Loading;
                 break;
         }

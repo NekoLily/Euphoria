@@ -10,7 +10,7 @@ public class MenuManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        _MainMenu = GameObject.Find("Canvas").transform.Find("MainMenu").gameObject;
+        _MainMenu = GameObject.Find("MainMenu");
 	}
 	
 	// Update is called once per frame
@@ -49,7 +49,7 @@ public class MenuManager : MonoBehaviour {
     public void Exit()
     {
         GameManager.Loading.SetActive(true);
-        GetComponent<LoadingScreen>().Loading(1);
+        GameManager.Loading.GetComponent<LoadingScreen>().Loading(1);
         GameManager.Status = GameState.Loading;
     }
 }
