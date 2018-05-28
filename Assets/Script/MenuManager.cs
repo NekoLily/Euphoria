@@ -48,6 +48,8 @@ public class MenuManager : MonoBehaviour {
 
     public void Exit()
     {
-        //SceneManager.LoadScene();
+        GameManager.Loading.SetActive(true);
+        GetComponent<LoadingScreen>().Loading(1);
+        GameManager.Status = GameState.Loading;
     }
 }
