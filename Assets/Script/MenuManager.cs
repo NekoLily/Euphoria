@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuManager : MonoBehaviour {
+public class MenuManager : MonoBehaviour {      //Script Menu Pause: Activation et Boutons.
 
     public bool MenuIsEnabled = false;
     GameObject _MainMenu;

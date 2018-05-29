@@ -19,7 +19,7 @@ public class LoadingScreen : MonoBehaviour {
 		
 	}
 
-    public void Loading(int num)
+    public void Loading(int num)            //en fonction de la situation, lance la méthode pour charger la bonne scene.
     {
         scene = SceneManager.GetActiveScene();
         switch (scene.name)

@@ -14,13 +14,15 @@ public class GameManager : MonoBehaviour
     bool firstcall = true;
 
     public static GameState Status { get; set; }
-    public System.Random Rnd;
+    public System.Random Rnd, Rnd2;
     int seed = Environment.TickCount;
     public string CocktailString = "";
     static int ID_Cocktail = -1;
+    int customer;
+    GameObject client;
 
     public static GameManager current;
-    public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Carte, Credits, Highscore, Quitter, Reset, Victoire, Defaite, GG, Loading;
+    public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Carte, Credits, Highscore, Quitter, Reset, Loading;
 
     Button Jouer, Recette, Credit, Scores, Quit, Réinitialiser;
     Button Level1, Level2, Level3, Level4, Level5;
@@ -46,12 +48,8 @@ public class GameManager : MonoBehaviour
         Highscore = GameObject.Find("Highscore");
         Quitter = GameObject.Find("Quitter");
         Reset = GameObject.Find("Reset");
-        Victoire = GameObject.Find("Victoire");
-        Defaite = GameObject.Find("Defaite");
-        GG = GameObject.Find("GG");
         Loading = GameObject.Find("Loading");
 
-        //Level1 = LevelSelect.transform.Find("Level1").GetComponent<Button>();
         Level2 = LevelSelect.transform.Find("Level2").GetComponent<Button>();
         Level3 = LevelSelect.transform.Find("Level3").GetComponent<Button>();
         Level4 = LevelSelect.transform.Find("Level4").GetComponent<Button>();
@@ -67,9 +65,6 @@ public class GameManager : MonoBehaviour
         Credits.SetActive(false);
         Highscore.SetActive(false);
         Loading.SetActive(false);
-        //Victoire.SetActive(false);
-        //Defaite.SetActive(false);
-        //GG.SetActive(false);
 
         _DataBase = gameObject.GetComponent<DataBase>();
         CheckSave();
@@ -193,8 +188,66 @@ public class GameManager : MonoBehaviour
         {
             if (_DataBase.Table[i] == 0)
             {
-                Instantiate(Resources.Load("Prefab/Customer/Customer"));
-                return;
+                Rnd2 = new System.Random(seed++);
+                customer = Rnd2.Next(1, 5);
+                switch (customer)
+                {
+                    case 1:
+                        if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1"));
+                            client.GetComponent<Customer>().ID = 1;
+                            return;
+                        }
+                        else
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1.2"));
+                            client.GetComponent<Customer>().ID = 1;
+                            return;
+                        }
+
+                    case 2:
+                        if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2"));
+                            client.GetComponent<Customer>().ID = 2;
+                            return;
+                        }
+                        else
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2.2"));
+                            client.GetComponent<Customer>().ID = 2;
+                            return;
+                        }
+
+                    case 3:
+                        if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3"));
+                            client.GetComponent<Customer>().ID = 3;
+                            return;
+                        }
+                        else
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3.2"));
+                            client.GetComponent<Customer>().ID = 3;
+                            return;
+                        }
+
+                    case 4:
+                        if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4"));
+                            client.GetComponent<Customer>().ID = 4;
+                            return;
+                        }
+                        else
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4.2"));
+                            client.GetComponent<Customer>().ID = 4;
+                            return;
+                        }
+                }
             }
         }
     }
@@ -313,44 +366,38 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator LoadLevelData()
+    IEnumerator LoadLevelData()  //Spécificité des niveaux.
     {
         yield return new WaitForSeconds(0.3f);
         _DataBase = gameObject.GetComponent<DataBase>();
         _TimerText = GameObject.Find("Timer").GetComponent<Text>();
         Carte = GameObject.Find("Recettes");
+        switch (LevelChoisi)
+        {
+            case 1:
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 90;
+                GameObject.Find("Bar2").SetActive(false);
+                break;
+            case 2:
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 90;
+                GameObject.Find("Bar2").SetActive(false);
+                break;
+            case 3:
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 90;
+                GameObject.Find("Bar2").SetActive(false);
+                break;
+            case 4:
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 180;
+                GameObject.Find("Bar").SetActive(false);
+                break;
+            case 5:
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 180;
+                GameObject.Find("Bar").SetActive(false);
+                break;
+        }
         GameManager.Carte.SetActive(false);
         yield return new WaitForSeconds(0.2f);
         GameManager.Loading.SetActive(false);
-    }
-
-    public void GenerationLevel()
-    {
-        Instantiate(Resources.Load(LoadLevel()));
-    }
-
-    public string LoadLevel()
-    {
-        switch (LevelChoisi)
-        {
-            case 0:
-                return "Level1";
-
-            case 1:
-                return "Level2";
-
-            case 2:
-
-                return "Level3";
-            case 3:
-                return "Level4";
-
-            case 4:
-                return "Level5";
-
-            default:
-                return "Error";
-        }
     }
 
     public int Shaker(string Cocktail)    //Validation du cocktail créé.
@@ -381,37 +428,6 @@ public class GameManager : MonoBehaviour
                 return 0;
         }
     }
-
-    /*public void UnlockLevels(int UnlockingLevels)
-    {
-        switch (UnlockingLevels)
-        {
-            case 10:
-                if (Status == GameState.GameClear && Stars >= 1)
-                    Level2.interactable = true;
-                break;
-
-            case 11:
-                if (Status == GameState.GameClear && Stars >= 1)
-                    Level3.interactable = true;
-                break;
-
-            case 12:
-                if (Status == GameState.GameClear && Stars >= 1)
-                    Level4.interactable = true;
-                break;
-
-            case 13:
-                if (Status == GameState.GameClear && Stars >= 1)
-                    Level5.interactable = true;
-                break;
-
-            case 14:
-                if (Status == GameState.GameClear && Stars >= 1)
-                    GG.SetActive(true);
-                break;
-        }
-    }*/
 
     public void CheckSave()
     {

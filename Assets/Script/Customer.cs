@@ -14,6 +14,7 @@ public class Customer : MonoBehaviour
 
     int ID_Order; // ID de la commande
     int ID_Table;
+    public int ID;
 
     bool IsPressed = false;
     bool WaitKey = false;
@@ -25,7 +26,7 @@ public class Customer : MonoBehaviour
     void Start()
     {
         Anim = GetComponent<Animator>();
-        _GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();                  //Lancement du client.
         _DataBase = _GameManager.GetComponent<DataBase>();
         _ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         ID_Table = _DataBase.GetTable(); // Attribue table
@@ -35,9 +36,7 @@ public class Customer : MonoBehaviour
 
     void Update()
     {
-        //Sec += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space) && WaitKey)
-            IsPressed = true;
+
     }
 
     public void AddOrder()
@@ -61,7 +60,7 @@ public class Customer : MonoBehaviour
         {
             gameObject.GetComponent<Collider2D>().enabled = false;
             _ScoreManager.IncreaseScore();
-            Destroy(Order); // supprime la bulle de commande
+            Destroy(Order); // supprime la bulle de commande                //Cocktail OK.
             StartCoroutine("_Leave");
             Anim.SetTrigger("move");
             ID_Cocktail = -1;
@@ -69,112 +68,117 @@ public class Customer : MonoBehaviour
         else
         {
             Debug.Log("Wrong cocktail");
-            StartCoroutine("_Event");
+            StartCoroutine("_Event");                               //Ccocktail Pas OK.
             ID_Cocktail = -1;
         }
     }
 
-    IEnumerator _Event()
+    IEnumerator _Event()                        //Tous les Events possibles selon les clients.
     {
-        int rand = _GameManager.Rnd.Next(1, 4);
-        switch (rand)
+        int rand = _GameManager.Rnd.Next(1, 3);
+        switch (ID)
         {
-            case 1: //Client explose.
-                Debug.Log("EXPLOSION"); //anim
-                gameObject.GetComponent<Collider2D>().enabled = false;
-                _ScoreManager.DecreaseScore();
-                Destroy(Order); // supprime la bulle de commande
-                break;
-
-            case 2: //Client frappe le comptoir;
-                Debug.Log("Frappe");//anim
-                gameObject.GetComponent<Collider2D>().enabled = false;
-                _ScoreManager.DecreaseScore();
-                Destroy(Order); // supprime la bulle de commande
-                StartCoroutine("_Leave");
-                Anim.SetTrigger("move");
-                break;
-
-            case 3: //Bagarre
-                Debug.Log("BAGARRE");
-                var t = 0f;
-                gameObject.GetComponent<Collider2D>().enabled = false;
-                _ScoreManager.DecreaseScore();
-                Destroy(Order); // supprime la bulle de commande
-                Homme = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Client"));
-                Vector3 currentPos = Homme.transform.position;
-                Vector3 Pos = new Vector3(gameObject.transform.position.x - 1, gameObject.transform.position.y, gameObject.transform.position.z);
-                while (t < 1)
+            case 1:
+                switch (rand)
                 {
-                    if (GameManager.Status == GameState.Playing)
-                    {
-                        t += Time.deltaTime / 3;
-                        Homme.transform.localPosition = Vector3.Lerp(currentPos, Pos, t);
-                    }
-                    yield return null;
-                }
-                //anim
-                QTETime = 5f;
-                StartCoroutine("_QTE");
-                break;
-        }
-    }
+                    case 1:
+                        gameObject.GetComponent<Collider2D>().enabled = false;
+                        _ScoreManager.DecreaseScore(1);
+                        Destroy(Order); // supprime la bulle de commande
+                        //anim Explose de rage
+                        Debug.Log("Event1");
+                        _DataBase.LeaveTable(ID_Table);
+                        DestroyObject(this.gameObject);
+                        break;
 
-    IEnumerator _QTE()
-    {
-        while (QTETime > 0)
-        {
-            WaitKey = true;
-            if (IsPressed)
-                break;
-            else
-            {
-                QTETime--;
-                Debug.Log(QTETime);
-                _ScoreManager.DecreaseScoreBagarre();
-                yield return new WaitForSeconds(1);
-            }
-        }
-        if (QTETime == 0)
-        {
-            //Fin anim
-            _ScoreManager.Score -= 100;
-            StartCoroutine("_Leave");
-            Anim.SetTrigger("move");
-            float t = 0f;
-            Vector3 currentPos2 = Homme.transform.position;
-            Vector3 Pos2 = new Vector3(-10, -4.5f, 0);
-            while (t < 1)
-            {
-                if (GameManager.Status == GameState.Playing)
-                {
-                    t += Time.deltaTime / 3;
-                    Homme.transform.localPosition = Vector3.Lerp(currentPos2, Pos2, t);
+                    case 2:
+                        gameObject.GetComponent<Collider2D>().enabled = false;
+                        _ScoreManager.DecreaseScore(2);
+                        Destroy(Order); // supprime la bulle de commande
+                        //anim foudre + explosion bouteille
+                        Debug.Log("Event2");
+                        _DataBase.LeaveTable(ID_Table);
+                        DestroyObject(this.gameObject);
+                        break;
                 }
+                break;
+
+            case 2:
+                switch (rand)
+                {
+                    case 1:
+                        gameObject.GetComponent<Collider2D>().enabled = false;
+                        _ScoreManager.DecreaseScore(3);
+                        Destroy(Order); // supprime la bulle de commande
+                        //Anime flamme + bouteille brule
+                        Debug.Log("Event3");
+                        _DataBase.LeaveTable(ID_Table);
+                        DestroyObject(this.gameObject);
+                        break;
+
+                    case 2:
+                        gameObject.GetComponent<Collider2D>().enabled = false;
+                        _ScoreManager.DecreaseScore(4);
+                        Destroy(Order); // supprime la bulle de commande
+                        //Flamme devant poubelle durant 5 sec.
+                        Debug.Log("Event4");
+                        _DataBase.LeaveTable(ID_Table);
+                        DestroyObject(this.gameObject);
+                        break;
+                }
+                break;
+
+            case 3:
+                switch (rand)
+                {
+                    case 1:
+                        gameObject.GetComponent<Collider2D>().enabled = false;
+                        _ScoreManager.DecreaseScore(5);
+                        Destroy(Order); // supprime la bulle de commande
+                        //Enlevement Alien
+                        Debug.Log("Event5");
+                        _DataBase.LeaveTable(ID_Table);
+                        DestroyObject(this.gameObject);
+                        break;
+
+                    case 2:
+                        gameObject.GetComponent<Collider2D>().enabled = false;
+                        _ScoreManager.DecreaseScore(6);
+                        Destroy(Order); // supprime la bulle de commande
+                        //Anim explosion de tete
+                        Debug.Log("Event6");
+                        _DataBase.LeaveTable(ID_Table);
+                        DestroyObject(this.gameObject);
+                        break;
+                }
+                break;
+
+            case 4:
+                switch (rand)
+                {
+                    case 1:
+                        gameObject.GetComponent<Collider2D>().enabled = false;
+                        _ScoreManager.DecreaseScore(7);
+                        Destroy(Order); // supprime la bulle de commande
+                        //fume, cache les bouteilles.
+                        Debug.Log("Event7");
+                        StartCoroutine("_Leave");
+                        Anim.SetTrigger("move");
+                        break;
+
+                    case 2:
+                        gameObject.GetComponent<Collider2D>().enabled = false;
+                        _ScoreManager.DecreaseScore(8);
+                        Destroy(Order); // supprime la bulle de commande
+                        //Anim Crie + casse bouteille
+                        Debug.Log("Event8");
+                        _DataBase.LeaveTable(ID_Table);
+                        DestroyObject(this.gameObject);
+                        break;
+                }
+                break;
                 yield return null;
-            }
-            DestroyObject(Homme);
         }
-        else
-        {
-            //animBarman
-            StartCoroutine("_Leave");
-            Anim.SetTrigger("move");
-            float t = 0f;
-            Vector3 currentPos2 = Homme.transform.position;
-            Vector3 Pos2 = new Vector3(-10, -4.5f, 0);
-            while (t < 1)
-            {
-                if (GameManager.Status == GameState.Playing)
-                {
-                    t += Time.deltaTime / 3;
-                    Homme.transform.localPosition = Vector3.Lerp(currentPos2, Pos2, t);
-                }
-                yield return null;
-            }
-            DestroyObject(Homme);
-        }
-        yield return null;
     }
 
     IEnumerator _Move() // Bouge le client à a coter de la table
