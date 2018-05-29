@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     static int ID_Cocktail = -1;
 
     public static GameManager current;
-    public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Credits, Highscore, Quitter, Reset, Victoire, Defaite, GG, Loading;
+    public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Carte, Credits, Highscore, Quitter, Reset, Victoire, Defaite, GG, Loading;
 
     Button Jouer, Recette, Credit, Scores, Quit, Réinitialiser;
     Button Level1, Level2, Level3, Level4, Level5;
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     Text _TimerText;
 
     // Use this for initialization
-    bool IsSpawning = true;
+    public bool IsSpawning = true;
 
     int[,] OffsetScoreRequired = { { 500, 1000, 1500 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 } }; // {0 , 1, 2} = {1er*, 2eme*, 3eme*}
 
@@ -183,12 +183,6 @@ public class GameManager : MonoBehaviour
                 Loading.GetComponent<LoadingScreen>().Loading(0);
                 GameManager.Status = GameState.Loading;
                 break;
-
-            case GameState.End:
-                Loading.SetActive(true);
-                Loading.GetComponent<LoadingScreen>().Loading(0);
-                GameManager.Status = GameState.Loading;
-                break;
         }
 
     }
@@ -214,10 +208,10 @@ public class GameManager : MonoBehaviour
 
     public void OnClickRecette()
     {
-        if (Recettes.activeInHierarchy == false)
-            Recettes.SetActive(true);
+        if (Carte.activeInHierarchy == false)
+            Carte.SetActive(true);
         else
-            Recettes.SetActive(false);
+            Carte.SetActive(false);
     }
 
     public void OnClickBartender()
@@ -324,9 +318,10 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         _DataBase = gameObject.GetComponent<DataBase>();
         _TimerText = GameObject.Find("Timer").GetComponent<Text>();
-        Recettes = GameObject.Find("Recettes");
-        Recettes.SetActive(false);
-
+        Carte = GameObject.Find("Recettes");
+        GameManager.Carte.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
+        GameManager.Loading.SetActive(false);
     }
 
     public void GenerationLevel()

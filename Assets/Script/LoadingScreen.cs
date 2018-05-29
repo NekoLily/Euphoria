@@ -54,7 +54,6 @@ public class LoadingScreen : MonoBehaviour {
             yield return null;
         }
         GameManager.current.StartCoroutine("LoadLevelData");
-        GameManager.Loading.SetActive(false);
         GameManager.Status = GameState.Playing;
     }
 

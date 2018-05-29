@@ -41,11 +41,8 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Bureau
+  - name: Bar
     uniqueID: 2829177205
-    locked: 0
-  - name: Up
-    uniqueID: 3284979823
     locked: 0
   - name: Customer
     uniqueID: 2464065509
@@ -59,12 +56,12 @@ TagManager:
   - name: Drink2
     uniqueID: 1492116995
     locked: 0
-  - name: New Layer
-    uniqueID: 2561620465
-    locked: 0
-  - name: New Layer
-    uniqueID: 3962758519
-    locked: 0
   - name: Cadre
     uniqueID: 1642695467
+    locked: 0
+  - name: BGui
+    uniqueID: 3745120867
+    locked: 0
+  - name: UI
+    uniqueID: 2561620465
     locked: 0
