@@ -58,6 +58,19 @@ public class LoadingScreen : MonoBehaviour {
         GameManager.current.StartCoroutine("LoadLevelData");
     }
 
+    IEnumerator Replay()
+    {
+        yield return new WaitForSeconds(1f);
+        async = SceneManager.LoadSceneAsync(1);
+        while (!async.isDone)
+        {
+            loadingtext.color = new Color(loadingtext.color.r, loadingtext.color.g, loadingtext.color.b, Mathf.PingPong(Time.time, 1));
+            yield return null;
+        }
+        GameManager.Loading.SetActive(false);
+        GameManager.current.StartCoroutine("LoadLevelData");
+    }
+
     IEnumerator ReturnMenu()
     {
         yield return new WaitForSeconds(1f);
@@ -84,18 +97,7 @@ public class LoadingScreen : MonoBehaviour {
         GameManager.Status = GameState.Playing;
     }
 
-    IEnumerator Replay()
-    {
-        yield return new WaitForSeconds(1f);
-        async = SceneManager.LoadSceneAsync(1);
-        while (!async.isDone)
-        {
-            loadingtext.color = new Color(loadingtext.color.r, loadingtext.color.g, loadingtext.color.b, Mathf.PingPong(Time.time, 1));
-            yield return null;
-        }
-        GameManager.Loading.SetActive(false);
-        GameManager.current.StartCoroutine("LoadLevelData");
-    }
+    
 
     IEnumerator LoadMainMenu()
     {

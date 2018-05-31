@@ -32,10 +32,9 @@ public class GameManager : MonoBehaviour
 
     Text _TimerText;
 
-    // Use this for initialization
-    public bool IsSpawning = false;
-
     int[,] OffsetScoreRequired = { { 500, 1000, 1500 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 } }; // {0 , 1, 2} = {1er*, 2eme*, 3eme*}
+
+    public float SpawnTimerSecs = 1;
 
     void Start()
     {
@@ -69,6 +68,7 @@ public class GameManager : MonoBehaviour
         _DataBase = gameObject.GetComponent<DataBase>();
         CheckSave();
         Status = GameState.MainMenu;
+        StartCoroutine("SpawnTimer");
     }
 
     private void Awake()
@@ -99,9 +99,6 @@ public class GameManager : MonoBehaviour
                 Credits.SetActive(false);
                 Highscore.SetActive(false);
                 break;
-
-
-
             case GameState.SelectLevel:
                 Play.SetActive(true);
                 break;
@@ -156,13 +153,12 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     Rnd = new System.Random(seed++);
-                    if (IsSpawning)
-                        StartCoroutine("InstantiateMethod");
+                    AddCustomer();
                 }
                 break;
 
             case GameState.GameClear:
-                IsSpawning = false;
+                SpawnTimerSecs = 1;
                 if (Score >= OffsetScoreRequired[LevelChoisi - 1, 0] && Score < OffsetScoreRequired[LevelChoisi - 1, 1])
                     Stars = 1;
                 else if (Score >= OffsetScoreRequired[LevelChoisi - 1, 1] && Score < OffsetScoreRequired[LevelChoisi, 2])
@@ -180,69 +176,73 @@ public class GameManager : MonoBehaviour
 
     void AddCustomer()
     {
-        for (int i = 0; i < 4; i++)
+        if (SpawnTimerSecs <= 0)
         {
-            if (_DataBase.Table[i] == 0)
+            SpawnTimerSecs = 3;
+            for (int i = 0; i < 4; i++)
             {
-                Rnd2 = new System.Random(seed++);
-                customer = Rnd2.Next(1, 5);
-                switch (customer)
+                if (_DataBase.Table[i] == 0)
                 {
-                    case 1:
-                        if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
-                        {
-                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1"));
-                            client.GetComponent<Customer>().ID = 1;
-                            return;
-                        }
-                        else
-                        {
-                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1.2"));
-                            client.GetComponent<Customer>().ID = 1;
-                            return;
-                        }
+                    Rnd2 = new System.Random(seed++);
+                    customer = Rnd2.Next(1, 5);
+                    switch (customer)
+                    {
+                        case 1:
+                            if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1"));
+                                client.GetComponent<Customer>().ID = 1;
+                                return;
+                            }
+                            else
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1.2"));
+                                client.GetComponent<Customer>().ID = 1;
+                                return;
+                            }
 
-                    case 2:
-                        if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
-                        {
-                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2"));
-                            client.GetComponent<Customer>().ID = 2;
-                            return;
-                        }
-                        else
-                        {
-                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2.2"));
-                            client.GetComponent<Customer>().ID = 2;
-                            return;
-                        }
+                        case 2:
+                            if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2"));
+                                client.GetComponent<Customer>().ID = 2;
+                                return;
+                            }
+                            else
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2.2"));
+                                client.GetComponent<Customer>().ID = 2;
+                                return;
+                            }
 
-                    case 3:
-                        if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
-                        {
-                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3"));
-                            client.GetComponent<Customer>().ID = 3;
-                            return;
-                        }
-                        else
-                        {
-                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3.2"));
-                            client.GetComponent<Customer>().ID = 3;
-                            return;
-                        }
+                        case 3:
+                            if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3"));
+                                client.GetComponent<Customer>().ID = 3;
+                                return;
+                            }
+                            else
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3.2"));
+                                client.GetComponent<Customer>().ID = 3;
+                                return;
+                            }
 
-                    case 4:
-                        if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
-                        {
-                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4"));
-                            client.GetComponent<Customer>().ID = 4;
-                            return;
-                        }
-                        else
-                        {
-                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4.2"));
-                            client.GetComponent<Customer>().ID = 4;
-                            return;
-                        }
+                        case 4:
+                            if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4"));
+                                client.GetComponent<Customer>().ID = 4;
+                                return;
+                            }
+                            else
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4.2"));
+                                client.GetComponent<Customer>().ID = 4;
+                                return;
+                            }
+                    }
                 }
             }
         }
@@ -364,15 +364,14 @@ public class GameManager : MonoBehaviour
 
     IEnumerator LoadLevelData()  //Spécificité des niveaux.
     {
-        yield return new WaitForSeconds(0.3f);
-        _DataBase = gameObject.GetComponent<DataBase>();
         _DataBase.ResetTable();
         _TimerText = GameObject.Find("Timer").GetComponent<Text>();
         Carte = GameObject.Find("Recettes");
+        GameManager.Carte.SetActive(false);
         switch (LevelChoisi)
         {
             case 1:
-                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 90;
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 20;
                 GameObject.Find("Bar2").SetActive(false);
                 break;
             case 2:
@@ -392,11 +391,9 @@ public class GameManager : MonoBehaviour
                 GameObject.Find("Bar").SetActive(false);
                 break;
         }
-        GameManager.Carte.SetActive(false);
         yield return new WaitForSeconds(0.2f);
         GameManager.Loading.SetActive(false);
         GameManager.Status = GameState.Playing;
-        IsSpawning = true;
     }
 
     public int Shaker(string Cocktail)    //Validation du cocktail créé.
@@ -451,16 +448,13 @@ public class GameManager : MonoBehaviour
             Level5.interactable = false;
     }
 
-    IEnumerator InstantiateMethod()
+    IEnumerator SpawnTimer()
     {
-        if (Status == GameState.Playing)
+        while (true)
         {
-            IsSpawning = false;
-
-            AddCustomer();
-            yield return new WaitForSeconds(3f);
-            IsSpawning = true;
+            if (Status == GameState.Playing && SceneManager.GetActiveScene().name == "Jeu")
+            SpawnTimerSecs -= 1;
+            yield return new WaitForSeconds(1f);
         }
-        yield return null;
     }
 }
