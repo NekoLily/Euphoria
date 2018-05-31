@@ -9,7 +9,7 @@ public class ScoreScreen : MonoBehaviour {
     GameObject Star1, Star2, Star3, Fermeture, Bienjoue, genial, excellent, score, nbbouteille;
 
 	// Use this for initialization
-	void Start () {
+	void Start () {  //Mise en Place de la Scene.
         Star1 = GameObject.Find("1 Star");
         Star2 = GameObject.Find("2 Star");
         Star3 = GameObject.Find("3 Star");
@@ -59,7 +59,7 @@ public class ScoreScreen : MonoBehaviour {
 		
 	}
 
-    public void OnClickEnd(int num)
+    public void OnClickEnd(int num) //méthode des boutons de la Scene.
     {
         switch(num)
         {

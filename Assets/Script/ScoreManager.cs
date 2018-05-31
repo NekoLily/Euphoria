@@ -10,7 +10,6 @@ public class ScoreManager : MonoBehaviour {
 
     public int Offset_Increase_Score;
     public int Offset_Decrease_Score;
-    public int Offset_Decrease_Score2;
 
     Text _ScoreText;
 
@@ -26,15 +25,57 @@ public class ScoreManager : MonoBehaviour {
         _ScoreText.text = "Score : " + Score;
     }
 
-    public void DecreaseScore()
+    public void DecreaseScore(int num)  //Décremente le score en fonction de l'event.
     {
-        Score += Offset_Decrease_Score;
-        _ScoreText.text = "Score : " + Score;
-    }
+        switch (num)
+        {
+            case 1:
+                Score = 20;
+                Score += Offset_Decrease_Score;
+                _ScoreText.text = "Score : " + Score;
+                break;
 
-    public void DecreaseScoreBagarre()
-    {
-        Score += Offset_Decrease_Score2;
-        _ScoreText.text = "Score : " + Score;
+            case 2:
+                Score = 20;
+                Score += Offset_Decrease_Score;
+                _ScoreText.text = "Score : " + Score;
+                break;
+
+            case 3:
+                Score = 20;
+                Score += Offset_Decrease_Score;
+                _ScoreText.text = "Score : " + Score;
+                break;
+
+            case 4:
+                Score = 20;
+                Score += Offset_Decrease_Score;
+                _ScoreText.text = "Score : " + Score;
+                break;
+
+            case 5:
+                Score = 20;
+                Score += Offset_Decrease_Score;
+                _ScoreText.text = "Score : " + Score;
+                break;
+
+            case 6:
+                Score = 20;
+                Score += Offset_Decrease_Score;
+                _ScoreText.text = "Score : " + Score;
+                break;
+
+            case 7:
+                Score = 20;
+                Score += Offset_Decrease_Score;
+                _ScoreText.text = "Score : " + Score;
+                break;
+
+            case 8:
+                Score = 20;
+                Score += Offset_Decrease_Score;
+                _ScoreText.text = "Score : " + Score;
+                break;
+        }
     }
 }

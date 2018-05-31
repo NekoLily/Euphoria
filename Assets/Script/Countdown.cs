@@ -13,7 +13,7 @@ public class Countdown : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine("LoseTime");
+        StartCoroutine("LoseTime");                                         //Lancement compteur.
         Time.timeScale = 1;
     }
     void Update()
@@ -21,7 +21,7 @@ public class Countdown : MonoBehaviour
         Timer.text = ("" + timeLeft);
         if (timeLeft <= 0 && first != false)
         {
-            GameManager.current.Score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>().Score;
+            GameManager.current.Score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>().Score;         //Condition de GameOver.
             GameManager.Status = GameState.GameClear;
             first = false;
         }
@@ -32,7 +32,7 @@ public class Countdown : MonoBehaviour
         while (IsFinish == false)
         {
             timeLeft--;
-            if (timeLeft <= 0)
+            if (timeLeft <= 0)                                                  //Méthode du Compteur.
                 IsFinish = true;
             yield return new WaitForSeconds(1);
         }

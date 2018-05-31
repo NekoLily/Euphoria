@@ -14,13 +14,15 @@ public class GameManager : MonoBehaviour
     bool firstcall = true;
 
     public static GameState Status { get; set; }
-    public System.Random Rnd;
+    public System.Random Rnd, Rnd2;
     int seed = Environment.TickCount;
     public string CocktailString = "";
     static int ID_Cocktail = -1;
+    int customer;
+    GameObject client;
 
     public static GameManager current;
-    public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Credits, Highscore, Quitter, Reset, Victoire, Defaite, GG, Loading;
+    public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Carte, Credits, Highscore, Quitter, Reset, Loading;
 
     Button Jouer, Recette, Credit, Scores, Quit, Réinitialiser;
     Button Level1, Level2, Level3, Level4, Level5;
@@ -30,10 +32,9 @@ public class GameManager : MonoBehaviour
 
     Text _TimerText;
 
-    // Use this for initialization
-    bool IsSpawning = true;
-
     int[,] OffsetScoreRequired = { { 500, 1000, 1500 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 } }; // {0 , 1, 2} = {1er*, 2eme*, 3eme*}
+
+    public float SpawnTimerSecs = 1;
 
     void Start()
     {
@@ -46,12 +47,8 @@ public class GameManager : MonoBehaviour
         Highscore = GameObject.Find("Highscore");
         Quitter = GameObject.Find("Quitter");
         Reset = GameObject.Find("Reset");
-        Victoire = GameObject.Find("Victoire");
-        Defaite = GameObject.Find("Defaite");
-        GG = GameObject.Find("GG");
         Loading = GameObject.Find("Loading");
 
-        //Level1 = LevelSelect.transform.Find("Level1").GetComponent<Button>();
         Level2 = LevelSelect.transform.Find("Level2").GetComponent<Button>();
         Level3 = LevelSelect.transform.Find("Level3").GetComponent<Button>();
         Level4 = LevelSelect.transform.Find("Level4").GetComponent<Button>();
@@ -67,13 +64,11 @@ public class GameManager : MonoBehaviour
         Credits.SetActive(false);
         Highscore.SetActive(false);
         Loading.SetActive(false);
-        //Victoire.SetActive(false);
-        //Defaite.SetActive(false);
-        //GG.SetActive(false);
 
         _DataBase = gameObject.GetComponent<DataBase>();
         CheckSave();
         Status = GameState.MainMenu;
+        StartCoroutine("SpawnTimer");
     }
 
     private void Awake()
@@ -94,7 +89,7 @@ public class GameManager : MonoBehaviour
         else
             //Nothing
 
-        Debug.Log(Status);
+            Debug.Log(Status);
         switch (Status)
         {
             case GameState.MainMenu:
@@ -104,9 +99,6 @@ public class GameManager : MonoBehaviour
                 Credits.SetActive(false);
                 Highscore.SetActive(false);
                 break;
-
-            
-
             case GameState.SelectLevel:
                 Play.SetActive(true);
                 break;
@@ -161,33 +153,22 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     Rnd = new System.Random(seed++);
-                    if (IsSpawning)
-                        StartCoroutine("InstantiateMethod");
+                    AddCustomer();
                 }
                 break;
 
             case GameState.GameClear:
+                SpawnTimerSecs = 1;
                 if (Score >= OffsetScoreRequired[LevelChoisi - 1, 0] && Score < OffsetScoreRequired[LevelChoisi - 1, 1])
-                {
                     Stars = 1;
-                }
                 else if (Score >= OffsetScoreRequired[LevelChoisi - 1, 1] && Score < OffsetScoreRequired[LevelChoisi, 2])
-                {
                     Stars = 2;
-                }
                 else if (Score >= OffsetScoreRequired[LevelChoisi, 2])
-                {
                     Stars = 3;
-                }
                 Loading.SetActive(true);
                 Loading.GetComponent<LoadingScreen>().Loading(0);
                 GameManager.Status = GameState.Loading;
-                break;
 
-            case GameState.End:
-                Loading.SetActive(true);
-                Loading.GetComponent<LoadingScreen>().Loading(0);
-                GameManager.Status = GameState.Loading;
                 break;
         }
 
@@ -195,12 +176,74 @@ public class GameManager : MonoBehaviour
 
     void AddCustomer()
     {
-        for (int i = 0; i < 4; i++)
+        if (SpawnTimerSecs <= 0)
         {
-            if (_DataBase.Table[i] == 0)
+            SpawnTimerSecs = 3;
+            for (int i = 0; i < 4; i++)
             {
-                Instantiate(Resources.Load("Prefab/Customer/Customer"));
-                return;
+                if (_DataBase.Table[i] == 0)
+                {
+                    Rnd2 = new System.Random(seed++);
+                    customer = Rnd2.Next(1, 5);
+                    switch (customer)
+                    {
+                        case 1:
+                            if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1"));
+                                client.GetComponent<Customer>().ID = 1;
+                                return;
+                            }
+                            else
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1.2"));
+                                client.GetComponent<Customer>().ID = 1;
+                                return;
+                            }
+
+                        case 2:
+                            if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2"));
+                                client.GetComponent<Customer>().ID = 2;
+                                return;
+                            }
+                            else
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2.2"));
+                                client.GetComponent<Customer>().ID = 2;
+                                return;
+                            }
+
+                        case 3:
+                            if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3"));
+                                client.GetComponent<Customer>().ID = 3;
+                                return;
+                            }
+                            else
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3.2"));
+                                client.GetComponent<Customer>().ID = 3;
+                                return;
+                            }
+
+                        case 4:
+                            if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4"));
+                                client.GetComponent<Customer>().ID = 4;
+                                return;
+                            }
+                            else
+                            {
+                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4.2"));
+                                client.GetComponent<Customer>().ID = 4;
+                                return;
+                            }
+                    }
+                }
             }
         }
     }
@@ -214,10 +257,10 @@ public class GameManager : MonoBehaviour
 
     public void OnClickRecette()
     {
-        if (Recettes.activeInHierarchy == false)
-            Recettes.SetActive(true);
+        if (Carte.activeInHierarchy == false)
+            Carte.SetActive(true);
         else
-            Recettes.SetActive(false);
+            Carte.SetActive(false);
     }
 
     public void OnClickBartender()
@@ -319,43 +362,38 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator LoadLevelData()
+    IEnumerator LoadLevelData()  //Spécificité des niveaux.
     {
-        yield return new WaitForSeconds(0.3f);
-        _DataBase = gameObject.GetComponent<DataBase>();
+        _DataBase.ResetTable();
         _TimerText = GameObject.Find("Timer").GetComponent<Text>();
-        Recettes = GameObject.Find("Recettes");
-        Recettes.SetActive(false);
-
-    }
-
-    public void GenerationLevel()
-    {
-        Instantiate(Resources.Load(LoadLevel()));
-    }
-
-    public string LoadLevel()
-    {
+        Carte = GameObject.Find("Recettes");
+        GameManager.Carte.SetActive(false);
         switch (LevelChoisi)
         {
-            case 0:
-                return "Level1";
-
             case 1:
-                return "Level2";
-
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 20;
+                GameObject.Find("Bar2").SetActive(false);
+                break;
             case 2:
-
-                return "Level3";
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 90;
+                GameObject.Find("Bar2").SetActive(false);
+                break;
             case 3:
-                return "Level4";
-
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 90;
+                GameObject.Find("Bar2").SetActive(false);
+                break;
             case 4:
-                return "Level5";
-
-            default:
-                return "Error";
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 180;
+                GameObject.Find("Bar").SetActive(false);
+                break;
+            case 5:
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 180;
+                GameObject.Find("Bar").SetActive(false);
+                break;
         }
+        yield return new WaitForSeconds(0.2f);
+        GameManager.Loading.SetActive(false);
+        GameManager.Status = GameState.Playing;
     }
 
     public int Shaker(string Cocktail)    //Validation du cocktail créé.
@@ -387,37 +425,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /*public void UnlockLevels(int UnlockingLevels)
-    {
-        switch (UnlockingLevels)
-        {
-            case 10:
-                if (Status == GameState.GameClear && Stars >= 1)
-                    Level2.interactable = true;
-                break;
-
-            case 11:
-                if (Status == GameState.GameClear && Stars >= 1)
-                    Level3.interactable = true;
-                break;
-
-            case 12:
-                if (Status == GameState.GameClear && Stars >= 1)
-                    Level4.interactable = true;
-                break;
-
-            case 13:
-                if (Status == GameState.GameClear && Stars >= 1)
-                    Level5.interactable = true;
-                break;
-
-            case 14:
-                if (Status == GameState.GameClear && Stars >= 1)
-                    GG.SetActive(true);
-                break;
-        }
-    }*/
-
     public void CheckSave()
     {
         if (int.Parse(_DataBase.Tab_Score[0]) >= OffsetScoreRequired[0, 0])
@@ -441,16 +448,13 @@ public class GameManager : MonoBehaviour
             Level5.interactable = false;
     }
 
-    IEnumerator InstantiateMethod()
+    IEnumerator SpawnTimer()
     {
-        if (Status == GameState.Playing)
+        while (true)
         {
-            IsSpawning = false;
-            AddCustomer();
-            yield return new WaitForSeconds(3f);
-            IsSpawning = true;
-
+            if (Status == GameState.Playing && SceneManager.GetActiveScene().name == "Jeu")
+            SpawnTimerSecs -= 1;
+            yield return new WaitForSeconds(1f);
         }
-        yield return null;
     }
 }

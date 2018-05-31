@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuManager : MonoBehaviour {
+public class MenuManager : MonoBehaviour {      //Script Menu Pause: Activation et Boutons.
 
     public bool MenuIsEnabled = false;
     GameObject _MainMenu;
@@ -43,7 +43,11 @@ public class MenuManager : MonoBehaviour {
 
     public void Retry()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().ToString());
+        GameManager.Loading.SetActive(true);
+        GameManager.Loading.GetComponent<LoadingScreen>().Loading(2);  //Replay
+        GameManager.Status = GameState.Loading;
+        MenuIsEnabled = false;
+
     }
 
     public void Exit()
