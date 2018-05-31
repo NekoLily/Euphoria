@@ -30,6 +30,8 @@ public class LoadingScreen : MonoBehaviour {
             case "Jeu":
                 if (num == 1)
                     StartCoroutine("LoadMainMenu");
+                else if (num == 2)
+                    StartCoroutine("Replay");
                 else
                     StartCoroutine("LoadScore");
                 break;
@@ -54,7 +56,6 @@ public class LoadingScreen : MonoBehaviour {
             yield return null;
         }
         GameManager.current.StartCoroutine("LoadLevelData");
-        GameManager.Status = GameState.Playing;
     }
 
     IEnumerator ReturnMenu()
@@ -93,7 +94,7 @@ public class LoadingScreen : MonoBehaviour {
             yield return null;
         }
         GameManager.Loading.SetActive(false);
-        GameManager.Status = GameState.Playing;
+        GameManager.current.StartCoroutine("LoadLevelData");
     }
 
     IEnumerator LoadMainMenu()
@@ -121,6 +122,5 @@ public class LoadingScreen : MonoBehaviour {
         GameManager.current.LevelChoisi += 1;
         GameManager.current.StartCoroutine("LoadLevelData");
         GameManager.Loading.SetActive(false);
-        GameManager.Status = GameState.Playing;
     }
 }

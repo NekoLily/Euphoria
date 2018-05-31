@@ -25,11 +25,11 @@ public class Customer : MonoBehaviour
 
     void Start()
     {
-        Anim = GetComponent<Animator>();
         _GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();                  //Lancement du client.
         _DataBase = _GameManager.GetComponent<DataBase>();
-        _ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         ID_Table = _DataBase.GetTable(); // Attribue table
+        Anim = GetComponent<Animator>();      
+        _ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         StartCoroutine("_Move");
         Anim.SetTrigger("move");
     }

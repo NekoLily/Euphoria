@@ -19,8 +19,13 @@ public class DataBase : MonoBehaviour
 
     void Start()
     {
-        Table = new int[4];
+        Table = new int[4] { 0, 0, 0, 0 };
         GetSave();
+    }
+
+    public void ResetTable()
+    {
+        Table = new int[4] { 0, 0, 0, 0 };
     }
 
     public int GetTable()

@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     Text _TimerText;
 
     // Use this for initialization
-    public bool IsSpawning = true;
+    public bool IsSpawning = false;
 
     int[,] OffsetScoreRequired = { { 500, 1000, 1500 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 } }; // {0 , 1, 2} = {1er*, 2eme*, 3eme*}
 
@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         else
             //Nothing
 
-        Debug.Log(Status);
+            Debug.Log(Status);
         switch (Status)
         {
             case GameState.MainMenu:
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
                 Highscore.SetActive(false);
                 break;
 
-            
+
 
             case GameState.SelectLevel:
                 Play.SetActive(true);
@@ -162,21 +162,17 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.GameClear:
+                IsSpawning = false;
                 if (Score >= OffsetScoreRequired[LevelChoisi - 1, 0] && Score < OffsetScoreRequired[LevelChoisi - 1, 1])
-                {
                     Stars = 1;
-                }
                 else if (Score >= OffsetScoreRequired[LevelChoisi - 1, 1] && Score < OffsetScoreRequired[LevelChoisi, 2])
-                {
                     Stars = 2;
-                }
                 else if (Score >= OffsetScoreRequired[LevelChoisi, 2])
-                {
                     Stars = 3;
-                }
                 Loading.SetActive(true);
                 Loading.GetComponent<LoadingScreen>().Loading(0);
                 GameManager.Status = GameState.Loading;
+
                 break;
         }
 
@@ -370,6 +366,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         _DataBase = gameObject.GetComponent<DataBase>();
+        _DataBase.ResetTable();
         _TimerText = GameObject.Find("Timer").GetComponent<Text>();
         Carte = GameObject.Find("Recettes");
         switch (LevelChoisi)
@@ -398,6 +395,8 @@ public class GameManager : MonoBehaviour
         GameManager.Carte.SetActive(false);
         yield return new WaitForSeconds(0.2f);
         GameManager.Loading.SetActive(false);
+        GameManager.Status = GameState.Playing;
+        IsSpawning = true;
     }
 
     public int Shaker(string Cocktail)    //Validation du cocktail créé.
@@ -457,10 +456,10 @@ public class GameManager : MonoBehaviour
         if (Status == GameState.Playing)
         {
             IsSpawning = false;
+
             AddCustomer();
             yield return new WaitForSeconds(3f);
             IsSpawning = true;
-
         }
         yield return null;
     }

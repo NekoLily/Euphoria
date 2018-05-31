@@ -43,7 +43,12 @@ public class MenuManager : MonoBehaviour {      //Script Menu Pause: Activation 
 
     public void Retry()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().ToString());
+        GameManager.Loading.SetActive(true);
+        //GameManager.current.IsSpawning = true;
+        GameManager.Loading.GetComponent<LoadingScreen>().Loading(2);  //Replay
+        GameManager.Status = GameState.Loading;
+        MenuIsEnabled = false;
+
     }
 
     public void Exit()
