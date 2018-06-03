@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Customer
+  - Items
   layers:
   - Default
   - TransparentFX
@@ -64,4 +66,13 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 2561620465
+    locked: 0
+  - name: BGBarman
+    uniqueID: 1579968203
+    locked: 0
+  - name: DrinkBarman
+    uniqueID: 169130669
+    locked: 0
+  - name: UIBarman
+    uniqueID: 2479600421
     locked: 0
