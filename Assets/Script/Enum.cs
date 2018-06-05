@@ -15,4 +15,9 @@
     Retry,
     NextLevel,
     Loading,
+    Tutoriel1,
+    Tutoriel2,
+    Tutoriel3,
+    Tutoriel4,
+    FinTuto,
 }
