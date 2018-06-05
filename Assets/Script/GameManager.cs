@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager current;
     public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Carte, Credits, Highscore, Quitter, Reset, Loading;
-
+    
     Button Jouer, Recette, Credit, Scores, Quit, Réinitialiser;
     Button Level1, Level2, Level3, Level4, Level5;
 
@@ -168,7 +168,6 @@ public class GameManager : MonoBehaviour
                 Loading.SetActive(true);
                 Loading.GetComponent<LoadingScreen>().Loading(0);
                 GameManager.Status = GameState.Loading;
-
                 break;
         }
 
