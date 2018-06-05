@@ -9,12 +9,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameState Status { get; set; }
     public static GameManager current;
-    public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Carte, Bar2, Credits, Highscore, Quitter, Reset, Loading;
+    public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Carte, Bar1, Bar2, Credits, Highscore, Quitter, Reset, Loading;
 
-    public int Stars = 0;
-    public int ID = 1;
-    public int LevelChoisi;
-    public int Score;
+    public static int Stars = 0;
+    public static int ID = 1;
+    public static int LevelChoisi;
+    public static int Score;
 
     public System.Random Rnd, Rnd2;
     int seed = Environment.TickCount;
@@ -32,6 +32,10 @@ public class GameManager : MonoBehaviour
     int[,] OffsetScoreRequired = { { 500, 1000, 1500 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 } }; // {0 , 1, 2} = {1er*, 2eme*, 3eme*}
 
     public float SpawnTimerSecs = 1;
+
+    static GameObject ItemBar_0;
+    static GameObject ItemBar_1;
+    static GameObject ItemBar_2;
 
     void Start()
     {
@@ -105,7 +109,8 @@ public class GameManager : MonoBehaviour
 
             case GameState.Highscore:
                 Highscore.SetActive(true);
-                Highscore.transform.Find("Highscore").GetComponent<Text>().text = String.Format("Votre Highscore est : \n\n Level 1 : {0} \n Level 2 : {1} \n Level 3 : {2} \n Level 4 : {3} \n Level 5 : {4}", _DataBase.Tab_Score[0], _DataBase.Tab_Score[1], _DataBase.Tab_Score[2], _DataBase.Tab_Score[3], _DataBase.Tab_Score[4]);
+                Highscore.transform.Find("HighscoreText").GetComponent<Text>().text = String.Format("Votre Highscore est : \n\n Level 1 : {0} \n Level 2 : {1} \n Level 3 : {2} \n Level 4 : {3} \n Level 5 : {4}",
+                    _DataBase.Tab_Score[0], _DataBase.Tab_Score[1], _DataBase.Tab_Score[2], _DataBase.Tab_Score[3], _DataBase.Tab_Score[4]);
                 break;
 
             case GameState.Quitter:
@@ -144,15 +149,54 @@ public class GameManager : MonoBehaviour
                             {
                                 case "Customer":
                                     Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
+                                    ID_Cocktail = -1;
+                                    Items = new int[3];
                                     break;
                                 case "Items":
-                                    Items[Collider.gameObject.GetComponent<Item>().ItemID] = 0;
-                                    DestroyObject(Collider.gameObject);
+                                    if (Bar1.activeInHierarchy == true)
+                                    {
+                                        Items[Collider.gameObject.GetComponent<Item>().IndexItemID] = 0;
+                                        DestroyObject(Collider.gameObject);
+                                    }
+                                    else if (Bar2.activeInHierarchy == true)
+                                        if (GameObject.Find("DragManager").GetComponent<DragHandler>().ItemObject == null)
+                                        {
+                                            GameObject.Find("DragManager").GetComponent<DragHandler>().ItemObject = Collider.transform;
+                                            Collider.transform.position = new Vector3(0f, -1.5f, 0);
+                                            GameObject.Find("DragManager").GetComponent<DragHandler>().StartPos = Collider.transform.position;
+                                            GameObject.Find("DragManager").GetComponent<DragHandler>().StartRotation = new Vector3(Collider.transform.eulerAngles.x, Collider.transform.eulerAngles.y, Collider.transform.eulerAngles.z);
+                                        }
                                     break;
+                                case "Checker":
+                                    if (Items[1] > 0)
+                                    {
+                                        if (ItemBar_0.GetComponent<Item>().IsPoured && ItemBar_1.GetComponent<Item>().IsPoured)
+                                            ID_Cocktail = Shaker();
+                                    }
+                                    else if (Items[2] > 0)
+                                    {
+                                        if (ItemBar_0.gameObject.GetComponent<Item>().IsPoured && ItemBar_1.gameObject.GetComponent<Item>().IsPoured && ItemBar_2.GetComponent<Item>().IsPoured)
+                                            ID_Cocktail = Shaker();
+                                    }
+                                    Debug.Log(ID_Cocktail);
+                                    Items = new int[3];
+
+                                    DestroyObject(ItemBar_0);
+                                    DestroyObject(ItemBar_1);
+                                    DestroyObject(ItemBar_2);
+
+                                    Bar2.SetActive(false);
+                                    Bar1.SetActive(true);
+                                    break;
+
                             }
                             if (Collider.gameObject.name == "BorderCollider")
                             {
                                 Bar2.SetActive(false);
+                                ItemBar_0.transform.position = new Vector3(3.5f, -1.5f, 0);
+                                ItemBar_1.transform.position = new Vector3(2.5f, -1.5f, 0);
+                                ItemBar_2.transform.position = new Vector3(1.5f, -1.5f, 0);
+                                Bar1.SetActive(true);
                             }
                         }
                     }
@@ -252,6 +296,10 @@ public class GameManager : MonoBehaviour
     public void OnClickEvier()
     {
         ID_Cocktail = -1;
+        Items = new int[3];
+        DestroyObject(ItemBar_0);
+        DestroyObject(ItemBar_1);
+        DestroyObject(ItemBar_2);
         //Changement de sprite a 0.
     }
 
@@ -265,11 +313,35 @@ public class GameManager : MonoBehaviour
 
     public void OnClickBartender()
     {
-        //Bar2.SetActive(true);
-        Debug.Log(Items[0] + " " + Items[1] + " " + Items[2]);
-        ID_Cocktail = Shaker();
-        Debug.Log(ID_Cocktail);
-        if (ID_Cocktail != 0)
+        Debug.Log("Item : " + Items[0] + " " + Items[1] + " " + Items[2]);
+        Debug.Log(LevelChoisi);
+        if (LevelChoisi >= 4)
+        {
+            if (Items[0] > 0 && Items[1] > 0)
+            {
+                Bar2.SetActive(true);
+                Bar1.SetActive(false);
+
+                ItemBar_0.transform.position = new Vector3(-8, -1.5f, 0);
+                ItemBar_1.transform.position = new Vector3(-7, -1.5f, 0);
+
+            }
+            if (Items[2] > 0)
+            {
+                ItemBar_2.transform.position = new Vector3(-6, -1.5f, 0);
+            }
+            else
+                Debug.Log("Pas assez d'ingrédients");
+        }
+        else
+        {
+            ID_Cocktail = Shaker();
+            DestroyObject(ItemBar_0);
+            DestroyObject(ItemBar_1);
+            DestroyObject(ItemBar_2);
+            Debug.Log("Cocktail ID : " + ID_Cocktail);
+        }
+        if (ID_Cocktail > 0)
         {
             //Changement du sprite du curseurs
         }
@@ -277,7 +349,6 @@ public class GameManager : MonoBehaviour
 
     public void OnClickCocktail(int ID)
     {
-        GameObject ItemObject;
         for (int IndexItems = 0; IndexItems < 3; IndexItems++)
         {
             if (Items[IndexItems] == 0)
@@ -286,16 +357,16 @@ public class GameManager : MonoBehaviour
                 switch (IndexItems)
                 {
                     case 0:
-                        ItemObject = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(3.5f, -1.5f, 0), Quaternion.identity);
-                        ItemObject.GetComponent<Item>().ItemID = IndexItems;
+                        ItemBar_0 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(3.5f, -1.5f, 0), Quaternion.identity);
+                        ItemBar_0.GetComponent<Item>().IndexItemID = IndexItems;
                         break;
                     case 1:
-                        ItemObject = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(2.5f, -1.5f, 0), Quaternion.identity);
-                        ItemObject.GetComponent<Item>().ItemID = IndexItems;
+                        ItemBar_1 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(2.5f, -1.5f, 0), Quaternion.identity);
+                        ItemBar_1.GetComponent<Item>().IndexItemID = IndexItems;
                         break;
                     case 2:
-                        ItemObject = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(1.5f, -1.5f, 0), Quaternion.identity);
-                        ItemObject.GetComponent<Item>().ItemID = IndexItems;
+                        ItemBar_2 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(1.5f, -1.5f, 0), Quaternion.identity);
+                        ItemBar_2.GetComponent<Item>().IndexItemID = IndexItems;
                         break;
                 }
                 return;
@@ -309,7 +380,7 @@ public class GameManager : MonoBehaviour
         if (Items[0] > 0 && Items[1] > 0)
         {
             //{Item1, item2, item3, ID_Cocktail}
-            int[,] Info_Cocktail = { { 1, 9, 0, 100 }, { 3, 11, 0, 101 }, { 4, 5, 0, 102 }, { 2, 10, 11, 103 }, { 7, 3, 0, 104 }, { 6, 12, 0, 105 }, { 1, 5, 4, 106 }, { 8, 12, 0, 107 }, { 8, 10, 11, 108 }, { 2, 13, 0, 109 } };
+            int[,] Info_Cocktail = { { 1, 9, 0, 100 }, { 3, 11, 0, 101 }, { 4, 5, 0, 102 }, { 2, 10, 11, 103 }, { 3, 7, 0, 104 }, { 6, 12, 0, 105 }, { 1, 4, 5, 106 }, { 8, 11, 0, 107 }, { 8, 10, 12, 108 }, { 2, 13, 0, 109 } };
 
             for (int Index_IC_1 = 0; Index_IC_1 < Info_Cocktail.GetLength(0); Index_IC_1++)
             {
@@ -434,14 +505,14 @@ public class GameManager : MonoBehaviour
     IEnumerator LoadLevelData()  //Spécificité des niveaux.
     {
         _DataBase.ResetTable();
-        //_TimerText = GameObject.Find("Timer").GetComponent<Text>();
         Carte = GameObject.Find("Recettes");
+        Bar1 = GameObject.Find("Bar1");
         Bar2 = GameObject.Find("Bar2");
         GameManager.Carte.SetActive(false);
         switch (LevelChoisi)
         {
             case 1:
-                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 90;
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 180;
                 break;
             case 2:
                 GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 90;

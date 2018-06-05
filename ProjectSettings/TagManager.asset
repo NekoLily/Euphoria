@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Customer
   - Items
+  - ItemsBar2
+  - Checker
   layers:
   - Default
   - TransparentFX

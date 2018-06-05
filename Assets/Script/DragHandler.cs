@@ -5,40 +5,67 @@ using UnityEngine.EventSystems;
 
 public class DragHandler : MonoBehaviour
 {
-    Vector3 StartPos;
+    public Vector3 StartPos;
+    public Vector3 StartRotation;
+
     Vector3 screenPoint;
 
-    Vector3 StartRotation;
-
     public Transform target;
+    public Transform ItemObject;
 
     float Drink_Value;
     bool IsPouring = false;
-   
-    void Start()
+
+    int Cocktail_ID = -1;
+
+    public int Check(int ID_Cocktail)
     {
-        StartPos = transform.position;
-        StartRotation = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
+        /*int [,] = { {100,  } }
+
+        switch (ID_Cocktail)
+        {
+            case 100:
+                break;
+            case 101:
+                break;
+            case 102:
+                break;
+            case 103:
+                break;
+            case 104:
+                break;
+            case 105:
+                break;
+            case 106:
+                break;
+            case 107:
+                break;
+            case 108:
+                break;
+        }*/
+        return 0;
     }
 
     void Update()
     {
-        Vector3 targetDir = target.position - transform.position;
-        float angle = Vector3.Angle(transform.position, targetDir);
+        if (ItemObject != null)
+        {
+            Vector3 targetDir = target.position - ItemObject.position;
+            float angle = Vector3.Angle(ItemObject.position, targetDir);
 
-        if (transform.position.y >= 0)
-            transform.eulerAngles = new Vector3(0, 0, angle);
-        else
-            transform.eulerAngles = new Vector3();
+            if (ItemObject.position.y >= 0)
+                ItemObject.eulerAngles = new Vector3(0, 0, angle);
+            else
+                ItemObject.eulerAngles = new Vector3();
 
-        if (transform.position.y >= 2 && IsPouring == false)
-            StartCoroutine("IncreaseDrink");
-        
+            if (ItemObject.position.y >= 2 && IsPouring == false)
+                StartCoroutine("IncreaseDrink");
+        }
     }
 
     void OnMouseDown()
     {
-        screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        screenPoint = Camera.main.WorldToScreenPoint(ItemObject.position);
     }
 
     void OnMouseDrag()
@@ -46,17 +73,29 @@ public class DragHandler : MonoBehaviour
         Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
         Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
         if (curPosition.y <= 2 && curPosition.y > -1.8)
-            transform.position = new Vector3(StartPos.x, curPosition.y, transform.position.z);
+            ItemObject.position = new Vector3(StartPos.x, curPosition.y, ItemObject.position.z);
         else if (curPosition.y > 2)
-            transform.position = new Vector3(StartPos.x, 2, transform.position.z);
+            ItemObject.position = new Vector3(StartPos.x, 2, ItemObject.position.z);
     }
 
     void OnMouseUp()
     {
-        Debug.Log(Drink_Value);
-        transform.position = StartPos;
-        transform.eulerAngles = StartRotation;
+        ItemObject.eulerAngles = StartRotation;
         Drink_Value = 0;
+        ItemObject.gameObject.GetComponent<Item>().IsPoured = true;
+        switch(ItemObject.gameObject.GetComponent<Item>().IndexItemID)
+        {
+            case 0:
+                ItemObject.transform.position = new Vector3(-8, -1.5f, 0);
+                break;
+            case 1:
+                ItemObject.transform.position = new Vector3(-7, -1.5f, 0);
+                break;
+            case 2:
+                ItemObject.transform.position = new Vector3(-6, -1.5f, 0);
+                break;
+        }
+        ItemObject = null;
     }
 
     IEnumerator IncreaseDrink()
