@@ -16,36 +16,6 @@ public class DragHandler : MonoBehaviour
     float Drink_Value;
     bool IsPouring = false;
 
-    int Cocktail_ID = -1;
-
-    public int Check(int ID_Cocktail)
-    {
-        /*int [,] = { {100,  } }
-
-        switch (ID_Cocktail)
-        {
-            case 100:
-                break;
-            case 101:
-                break;
-            case 102:
-                break;
-            case 103:
-                break;
-            case 104:
-                break;
-            case 105:
-                break;
-            case 106:
-                break;
-            case 107:
-                break;
-            case 108:
-                break;
-        }*/
-        return 0;
-    }
-
     void Update()
     {
         if (ItemObject != null)
@@ -65,35 +35,45 @@ public class DragHandler : MonoBehaviour
 
     void OnMouseDown()
     {
-        screenPoint = Camera.main.WorldToScreenPoint(ItemObject.position);
+        if (ItemObject != null)
+            screenPoint = Camera.main.WorldToScreenPoint(ItemObject.position);
     }
 
     void OnMouseDrag()
     {
-        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-        if (curPosition.y <= 2 && curPosition.y > -1.8)
-            ItemObject.position = new Vector3(StartPos.x, curPosition.y, ItemObject.position.z);
-        else if (curPosition.y > 2)
-            ItemObject.position = new Vector3(StartPos.x, 2, ItemObject.position.z);
+        if (ItemObject != null)
+        {
+            Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
+            Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
+            if (curPosition.y <= 2 && curPosition.y > -1.8)
+                ItemObject.position = new Vector3(StartPos.x, curPosition.y, ItemObject.position.z);
+            else if (curPosition.y > 2)
+            {
+                ItemObject.position = new Vector3(StartPos.x, 2, ItemObject.position.z);
+                ItemObject.gameObject.GetComponent<Item>().IsPoured = true;
+            }
+        }
     }
 
     void OnMouseUp()
     {
-        ItemObject.eulerAngles = StartRotation;
-        Drink_Value = 0;
-        ItemObject.gameObject.GetComponent<Item>().IsPoured = true;
-        switch(ItemObject.gameObject.GetComponent<Item>().IndexItemID)
+        if (ItemObject != null)
         {
-            case 0:
-                ItemObject.transform.position = new Vector3(-8, -1.5f, 0);
-                break;
-            case 1:
-                ItemObject.transform.position = new Vector3(-7, -1.5f, 0);
-                break;
-            case 2:
-                ItemObject.transform.position = new Vector3(-6, -1.5f, 0);
-                break;
+            ItemObject.eulerAngles = StartRotation;
+            Drink_Value = 0;
+
+            switch (ItemObject.gameObject.GetComponent<Item>().IndexItemID)
+            {
+                case 0:
+                    ItemObject.transform.position = new Vector3(-8, -1.5f, 0);
+                    break;
+                case 1:
+                    ItemObject.transform.position = new Vector3(-7, -1.5f, 0);
+                    break;
+                case 2:
+                    ItemObject.transform.position = new Vector3(-6, -1.5f, 0);
+                    break;
+            }
         }
         ItemObject = null;
     }

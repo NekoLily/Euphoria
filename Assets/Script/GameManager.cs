@@ -151,6 +151,7 @@ public class GameManager : MonoBehaviour
                                     Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
                                     ID_Cocktail = -1;
                                     Items = new int[3];
+                                    Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                                     break;
                                 case "Items":
                                     if (Bar1.activeInHierarchy == true)
@@ -187,6 +188,8 @@ public class GameManager : MonoBehaviour
 
                                     Bar2.SetActive(false);
                                     Bar1.SetActive(true);
+                                    Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boisson/1");
+                                    Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
                                     break;
 
                             }
@@ -206,6 +209,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.GameClear:
+                Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                 SpawnTimerSecs = 1;
                 if (Score >= OffsetScoreRequired[LevelChoisi - 1, 0] && Score < OffsetScoreRequired[LevelChoisi - 1, 1])
                     Stars = 1;
@@ -306,6 +310,7 @@ public class GameManager : MonoBehaviour
 
     public void OnClickEvier()
     {
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         ID_Cocktail = -1;
         Items = new int[3];
         DestroyObject(ItemBar_0);
@@ -335,12 +340,9 @@ public class GameManager : MonoBehaviour
 
                 ItemBar_0.transform.position = new Vector3(-8, -1.5f, 0);
                 ItemBar_1.transform.position = new Vector3(-7, -1.5f, 0);
-
-            }
-            if (Items[2] > 0)
-            {
-                ItemBar_2.transform.position = new Vector3(-6, -1.5f, 0);
-            }
+                if (Items[2] > 0)
+                    ItemBar_2.transform.position = new Vector3(-6, -1.5f, 0);
+            }  
             else
                 Debug.Log("Pas assez d'ingrédients");
         }
@@ -354,7 +356,8 @@ public class GameManager : MonoBehaviour
         }
         if (ID_Cocktail > 0)
         {
-            //Changement du sprite du curseurs
+            Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boisson/1");
+            Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
         }
     }
 

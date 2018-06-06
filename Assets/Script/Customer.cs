@@ -38,7 +38,7 @@ public class Customer : MonoBehaviour
     public void AddOrder()
     {
         ID_Order = _GameManager.Rnd.Next(100,110); // Choisi l'Id de la commande
-        Order = Instantiate(Resources.Load<GameObject>("Prefab/Boisson/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation); // Instantiate l'affichage de la commande
+        Order = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation); // Instantiate l'affichage de la commande
         Order.transform.parent = gameObject.transform;
     }
 
