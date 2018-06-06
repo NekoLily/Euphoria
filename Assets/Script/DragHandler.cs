@@ -5,96 +5,105 @@ using UnityEngine.EventSystems;
 
 public class DragHandler : MonoBehaviour
 {
-    Vector3 StartPos;
-    Vector3 screenPoint;
-    Vector3 offset;
+    public Vector3 StartPos;
+    public Vector3 StartRotation;
 
-    Vector3 StartRotation;
+    Vector3 screenPoint;
 
     public Transform target;
+    public Transform ItemObject;
 
-    // prints "close" if the z-axis of this transform looks
-    // almost towards the target
+    float Drink_Value;
+    bool IsPouring = false;
 
-    void Start()
+    int Cocktail_ID = -1;
+
+    public int Check(int ID_Cocktail)
     {
-        StartPos = transform.position;
-        StartRotation = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
+        /*int [,] = { {100,  } }
+
+        switch (ID_Cocktail)
+        {
+            case 100:
+                break;
+            case 101:
+                break;
+            case 102:
+                break;
+            case 103:
+                break;
+            case 104:
+                break;
+            case 105:
+                break;
+            case 106:
+                break;
+            case 107:
+                break;
+            case 108:
+                break;
+        }*/
+        return 0;
     }
 
     void Update()
     {
-        Vector3 targetDir = target.position - transform.position;
-        float angle = Vector3.Angle(transform.position, targetDir);
+        if (ItemObject != null)
+        {
+            Vector3 targetDir = target.position - ItemObject.position;
+            float angle = Vector3.Angle(ItemObject.position, targetDir);
 
-        if (transform.position.y >= 0)
-            transform.eulerAngles = new Vector3(0, 0, angle);
-        else
-            transform.eulerAngles = new Vector3();
+            if (ItemObject.position.y >= 0)
+                ItemObject.eulerAngles = new Vector3(0, 0, angle);
+            else
+                ItemObject.eulerAngles = new Vector3();
+
+            if (ItemObject.position.y >= 2 && IsPouring == false)
+                StartCoroutine("IncreaseDrink");
+        }
     }
 
     void OnMouseDown()
     {
-        screenPoint = Camera.main.WorldToScreenPoint(transform.position);
-        offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+        screenPoint = Camera.main.WorldToScreenPoint(ItemObject.position);
     }
 
     void OnMouseDrag()
     {
         Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-        if (transform.position.y < 2 || curPosition.y < 2)
-            transform.position = new Vector3(StartPos.x, curPosition.y, transform.position.z);
+        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
+        if (curPosition.y <= 2 && curPosition.y > -1.8)
+            ItemObject.position = new Vector3(StartPos.x, curPosition.y, ItemObject.position.z);
+        else if (curPosition.y > 2)
+            ItemObject.position = new Vector3(StartPos.x, 2, ItemObject.position.z);
     }
 
     void OnMouseUp()
     {
-        transform.position = StartPos;
-        transform.eulerAngles = StartRotation;
+        ItemObject.eulerAngles = StartRotation;
+        Drink_Value = 0;
+        ItemObject.gameObject.GetComponent<Item>().IsPoured = true;
+        switch(ItemObject.gameObject.GetComponent<Item>().IndexItemID)
+        {
+            case 0:
+                ItemObject.transform.position = new Vector3(-8, -1.5f, 0);
+                break;
+            case 1:
+                ItemObject.transform.position = new Vector3(-7, -1.5f, 0);
+                break;
+            case 2:
+                ItemObject.transform.position = new Vector3(-6, -1.5f, 0);
+                break;
+        }
+        ItemObject = null;
+    }
+
+    IEnumerator IncreaseDrink()
+    {
+        IsPouring = true;
+        Drink_Value += 1;
+        Debug.Log(Drink_Value);
+        yield return new WaitForSeconds(1f);
+        IsPouring = false;
     }
 }
-
-
-
-/*     private Color originalColor = Color.white;
-     private Color mouseOverColor = Color.yellow;
-     private bool dragging = false;
-     private float dragDistance;
-
-     // Use this for initialization
-     void Start ()
-     {
-
-     }
-
-     // Update is called once per frame
-     void Update ()
-     {
-         if (dragging)
-         {
-             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-             Vector3 rayPoint = ray.GetPoint(dragDistance);
-             transform.position = rayPoint;
-         }
-     }
-
-     public void OnMouseEnter()
-     {
-         GetComponent<Renderer>().material.color = mouseOverColor;
-     }
-
-     public void OnMouseExit()
-     {
-         GetComponent<Renderer>().material.color = originalColor;
-     }
-
-     public void OnMouseDown()
-     {
-         dragDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
-         dragging = true;
-     }
-
-     public void OnMouseUp()
-     {
-         dragging = false;
-     }*/

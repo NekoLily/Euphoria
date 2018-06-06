@@ -21,7 +21,7 @@ public class Countdown : MonoBehaviour
         Timer.text = ("" + timeLeft);
         if (timeLeft <= 0 && first != false)
         {
-            GameManager.current.Score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>().Score;         //Condition de GameOver.
+            GameManager.Score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>().Score;         //Condition de GameOver.
             GameManager.Status = GameState.GameClear;
             first = false;
         }

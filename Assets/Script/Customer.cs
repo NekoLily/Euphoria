@@ -9,29 +9,25 @@ public class Customer : MonoBehaviour
     DataBase _DataBase;
     ScoreManager _ScoreManager;
 
-    //float Sec;
     public float QTETime = 100;
 
     int ID_Order; // ID de la commande
     int ID_Table;
     public int ID;
 
-    bool IsPressed = false;
-    bool WaitKey = false;
-
     Object Order; // Object commande
     GameObject Homme;
-    Animator Anim;
+    //Animator Anim;
 
     void Start()
     {
         _GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();                  //Lancement du client.
         _DataBase = _GameManager.GetComponent<DataBase>();
         ID_Table = _DataBase.GetTable(); // Attribue table
-        Anim = GetComponent<Animator>();      
+        //Anim = GetComponent<Animator>();      
         _ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         StartCoroutine("_Move");
-        Anim.SetTrigger("move");
+        //Anim.SetTrigger("move");
     }
 
     void Update()
@@ -62,7 +58,7 @@ public class Customer : MonoBehaviour
             _ScoreManager.IncreaseScore();
             Destroy(Order); // supprime la bulle de commande                //Cocktail OK.
             StartCoroutine("_Leave");
-            Anim.SetTrigger("move");
+            //Anim.SetTrigger("move");
             ID_Cocktail = -1;
         }
         else
@@ -163,7 +159,7 @@ public class Customer : MonoBehaviour
                         //fume, cache les bouteilles.
                         Debug.Log("Event7");
                         StartCoroutine("_Leave");
-                        Anim.SetTrigger("move");
+                        //Anim.SetTrigger("move");
                         break;
 
                     case 2:
@@ -197,7 +193,7 @@ public class Customer : MonoBehaviour
         }
         gameObject.GetComponent<Collider2D>().enabled = true;
         AddOrder(); // ajoute une commande
-        Anim.SetTrigger("Att");
+        //Anim.SetTrigger("Att");
     }
 
     IEnumerator _Leave() // Fais sortir le client

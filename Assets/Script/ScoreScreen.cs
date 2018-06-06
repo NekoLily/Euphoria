@@ -26,9 +26,9 @@ public class ScoreScreen : MonoBehaviour {
         genial.SetActive(false);
         excellent.SetActive(false);
 
-        score.GetComponent<Text>().text = "Score" + GameManager.current.Score.ToString();
+        score.GetComponent<Text>().text = "Score" + GameManager.Score.ToString();
 
-        switch (GameManager.current.Stars)
+        switch (GameManager.Stars)
         {
             case 0:
                 Fermeture.SetActive(true);

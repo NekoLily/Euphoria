@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114306222211781408}
   m_Layer: 0
   m_Name: Customer2.2
-  m_TagString: Untagged
+  m_TagString: Customer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,7 +37,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4460801394263692}
   - component: {fileID: 212617854997547864}
-  - component: {fileID: 61120130058128790}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
@@ -72,31 +71,6 @@ Transform:
   m_Father: {fileID: 4357734002513386}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61120130058128790
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1642229718185668}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 13, y: 13}
-    newSize: {x: 13, y: 13}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4, y: 13}
-  m_EdgeRadius: 0
 --- !u!61 &61869954262316962
 BoxCollider2D:
   m_ObjectHideFlags: 1

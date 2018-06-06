@@ -121,7 +121,7 @@ public class LoadingScreen : MonoBehaviour {
             loadingtext.color = new Color(loadingtext.color.r, loadingtext.color.g, loadingtext.color.b, Mathf.PingPong(Time.time, 1));
             yield return null;
         }
-        GameManager.current.LevelChoisi += 1;
+        GameManager.LevelChoisi += 1;
         GameManager.current.StartCoroutine("LoadLevelData");
         GameManager.Loading.SetActive(false);
     }

@@ -63,35 +63,6 @@ public class DataBase : MonoBehaviour
         Table[ID_Table] = 0;
     }
 
-    public int Shaker(string Cocktail)    //Validation du cocktail créé.
-    {
-        switch (Cocktail) //retourne en fonction du string le cocktail créé.
-        {
-            case "113":  //LastCall
-                return 100;
-            case "311":  //Bière
-                return 101;
-            case "45":  //KirRoyal
-                return 102;
-            case "21011":  //Tropical
-                return 103;
-            case "73":  //SakéBomb
-                return 104;
-            case "612":  //Whisky
-                return 105;
-            case "154":  //PinkLove
-                return 106;
-            case "812":  //CubaLibre
-                return 107;
-            case "81011":  //Daïgoro
-                return 108;
-            case "213":  //BloodyMary
-                return 109;
-            default:
-                return 0;
-        }
-    }
-
     public void GetSave()
     {
         string _Text = "";

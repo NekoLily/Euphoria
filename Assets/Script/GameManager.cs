@@ -7,38 +7,38 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public int Stars = 0;
-    public int ID = 1;
-    public int LevelChoisi;
-    public int Score;
-    bool firstcall = true;
-
     public static GameState Status { get; set; }
+    public static GameManager current;
+    public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Carte, Bar1, Bar2, Credits, Highscore, Quitter, Reset, Loading;
+
+    public static int Stars = 0;
+    public static int ID = 1;
+    public static int LevelChoisi;
+    public static int Score;
+
     public System.Random Rnd, Rnd2;
     int seed = Environment.TickCount;
-    public string CocktailString = "";
+
+    public static int[] Items = new int[3];
     static int ID_Cocktail = -1;
-    int customer;
+
     GameObject client;
 
-    public static GameManager current;
-    public static GameObject MenuPrincipal, LevelSelect, Play, Recettes, Carte, Credits, Highscore, Quitter, Reset, Loading;
-    
     Button Jouer, Recette, Credit, Scores, Quit, Réinitialiser;
     Button Level1, Level2, Level3, Level4, Level5;
 
-    public DataBase _DataBase;
-    public Text _HighScore;
-
-    Text _TimerText;
+    DataBase _DataBase;
 
     int[,] OffsetScoreRequired = { { 500, 1000, 1500 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 } }; // {0 , 1, 2} = {1er*, 2eme*, 3eme*}
 
     public float SpawnTimerSecs = 1;
 
+    static GameObject ItemBar_0;
+    static GameObject ItemBar_1;
+    static GameObject ItemBar_2;
+
     void Start()
     {
-
         MenuPrincipal = GameObject.Find("MenuPrincipal");
         LevelSelect = GameObject.Find("LevelSelect");
         Play = GameObject.Find("Jouer");
@@ -86,10 +86,6 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name != "MenuPrincipal")
             MenuPrincipal.SetActive(false);
-        else
-            //Nothing
-
-            Debug.Log(Status);
         switch (Status)
         {
             case GameState.MainMenu:
@@ -113,7 +109,8 @@ public class GameManager : MonoBehaviour
 
             case GameState.Highscore:
                 Highscore.SetActive(true);
-                _HighScore.text = String.Format("Votre Highscore est : \n\n Level 1 : {0} \n Level 2 : {1} \n Level 3 : {2} \n Level 4 : {3} \n Level 5 : {4}", _DataBase.Tab_Score[0], _DataBase.Tab_Score[1], _DataBase.Tab_Score[2], _DataBase.Tab_Score[3], _DataBase.Tab_Score[4]);
+                Highscore.transform.Find("HighscoreText").GetComponent<Text>().text = String.Format("Votre Highscore est : \n\n Level 1 : {0} \n Level 2 : {1} \n Level 3 : {2} \n Level 4 : {3} \n Level 5 : {4}",
+                    _DataBase.Tab_Score[0], _DataBase.Tab_Score[1], _DataBase.Tab_Score[2], _DataBase.Tab_Score[3], _DataBase.Tab_Score[4]);
                 break;
 
             case GameState.Quitter:
@@ -148,8 +145,59 @@ public class GameManager : MonoBehaviour
 
                         if (Collider)
                         {
-                            Debug.Log(ID_Cocktail);
-                            Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
+                            switch (Collider.tag)
+                            {
+                                case "Customer":
+                                    Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
+                                    ID_Cocktail = -1;
+                                    Items = new int[3];
+                                    break;
+                                case "Items":
+                                    if (Bar1.activeInHierarchy == true)
+                                    {
+                                        Items[Collider.gameObject.GetComponent<Item>().IndexItemID] = 0;
+                                        DestroyObject(Collider.gameObject);
+                                    }
+                                    else if (Bar2.activeInHierarchy == true)
+                                        if (GameObject.Find("DragManager").GetComponent<DragHandler>().ItemObject == null)
+                                        {
+                                            GameObject.Find("DragManager").GetComponent<DragHandler>().ItemObject = Collider.transform;
+                                            Collider.transform.position = new Vector3(0f, -1.5f, 0);
+                                            GameObject.Find("DragManager").GetComponent<DragHandler>().StartPos = Collider.transform.position;
+                                            GameObject.Find("DragManager").GetComponent<DragHandler>().StartRotation = new Vector3(Collider.transform.eulerAngles.x, Collider.transform.eulerAngles.y, Collider.transform.eulerAngles.z);
+                                        }
+                                    break;
+                                case "Shaker":
+                                    if (Items[1] > 0)
+                                    {
+                                        if (ItemBar_0.GetComponent<Item>().IsPoured && ItemBar_1.GetComponent<Item>().IsPoured)
+                                            ID_Cocktail = Shaker();
+                                    }
+                                    else if (Items[2] > 0)
+                                    {
+                                        if (ItemBar_0.gameObject.GetComponent<Item>().IsPoured && ItemBar_1.gameObject.GetComponent<Item>().IsPoured && ItemBar_2.GetComponent<Item>().IsPoured)
+                                            ID_Cocktail = Shaker();
+                                    }
+                                    Debug.Log(ID_Cocktail);
+                                    Items = new int[3];
+
+                                    DestroyObject(ItemBar_0);
+                                    DestroyObject(ItemBar_1);
+                                    DestroyObject(ItemBar_2);
+
+                                    Bar2.SetActive(false);
+                                    Bar1.SetActive(true);
+                                    break;
+
+                            }
+                            if (Collider.gameObject.name == "BorderCollider")
+                            {
+                                Bar2.SetActive(false);
+                                ItemBar_0.transform.position = new Vector3(3.5f, -1.5f, 0);
+                                ItemBar_1.transform.position = new Vector3(2.5f, -1.5f, 0);
+                                ItemBar_2.transform.position = new Vector3(1.5f, -1.5f, 0);
+                                Bar1.SetActive(true);
+                            }
                         }
                     }
                     Rnd = new System.Random(seed++);
@@ -170,7 +218,6 @@ public class GameManager : MonoBehaviour
                 GameManager.Status = GameState.Loading;
                 break;
         }
-
     }
 
     void AddCustomer()
@@ -183,8 +230,7 @@ public class GameManager : MonoBehaviour
                 if (_DataBase.Table[i] == 0)
                 {
                     Rnd2 = new System.Random(seed++);
-                    customer = Rnd2.Next(1, 5);
-                    switch (customer)
+                    switch (Rnd2.Next(1, 5))
                     {
                         case 1:
                             if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
@@ -249,8 +295,11 @@ public class GameManager : MonoBehaviour
 
     public void OnClickEvier()
     {
-        CocktailString = "";
         ID_Cocktail = -1;
+        Items = new int[3];
+        DestroyObject(ItemBar_0);
+        DestroyObject(ItemBar_1);
+        DestroyObject(ItemBar_2);
         //Changement de sprite a 0.
     }
 
@@ -264,25 +313,94 @@ public class GameManager : MonoBehaviour
 
     public void OnClickBartender()
     {
-        if (CocktailString == "")
-            Debug.Log("Nothing");
-        else
+        Debug.Log("Item : " + Items[0] + " " + Items[1] + " " + Items[2]);
+        Debug.Log(LevelChoisi);
+        if (LevelChoisi >= 4)
         {
-            ID_Cocktail = Shaker(CocktailString);
-            Debug.Log(CocktailString + " " + ID_Cocktail);
-            CocktailString = "";
-            if (ID_Cocktail != 0)
+            if (Items[0] > 0 && Items[1] > 0)
             {
-                //Changement du sprite du curseurs
+                Bar2.SetActive(true);
+                Bar1.SetActive(false);
+
+                ItemBar_0.transform.position = new Vector3(-8, -1.5f, 0);
+                ItemBar_1.transform.position = new Vector3(-7, -1.5f, 0);
+
+            }
+            if (Items[2] > 0)
+            {
+                ItemBar_2.transform.position = new Vector3(-6, -1.5f, 0);
             }
             else
-                return; // Mauvais Cocktail
+                Debug.Log("Pas assez d'ingrédients");
+        }
+        else
+        {
+            ID_Cocktail = Shaker();
+            DestroyObject(ItemBar_0);
+            DestroyObject(ItemBar_1);
+            DestroyObject(ItemBar_2);
+            Debug.Log("Cocktail ID : " + ID_Cocktail);
+        }
+        if (ID_Cocktail > 0)
+        {
+            //Changement du sprite du curseurs
         }
     }
 
-    public void OnClickCocktail(int num)
+    public void OnClickCocktail(int ID)
     {
-        CocktailString += num;
+        for (int IndexItems = 0; IndexItems < 3; IndexItems++)
+        {
+            if (Items[IndexItems] == 0)
+            {
+                Items[IndexItems] = ID;
+                switch (IndexItems)
+                {
+                    case 0:
+                        ItemBar_0 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(3.5f, -1.5f, 0), Quaternion.identity);
+                        ItemBar_0.GetComponent<Item>().IndexItemID = IndexItems;
+                        break;
+                    case 1:
+                        ItemBar_1 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(2.5f, -1.5f, 0), Quaternion.identity);
+                        ItemBar_1.GetComponent<Item>().IndexItemID = IndexItems;
+                        break;
+                    case 2:
+                        ItemBar_2 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(1.5f, -1.5f, 0), Quaternion.identity);
+                        ItemBar_2.GetComponent<Item>().IndexItemID = IndexItems;
+                        break;
+                }
+                return;
+            }
+        }
+        // Plein enlever d'abord la bouteille
+    }
+
+    public int Shaker()    //Validation du cocktail créé.
+    {
+        if (Items[0] > 0 && Items[1] > 0)
+        {
+            //{Item1, item2, item3, ID_Cocktail}
+            int[,] Info_Cocktail = { { 1, 9, 0, 100 }, { 3, 11, 0, 101 }, { 4, 5, 0, 102 }, { 2, 10, 11, 103 }, { 3, 7, 0, 104 }, { 6, 12, 0, 105 }, { 1, 4, 5, 106 }, { 8, 11, 0, 107 }, { 8, 10, 12, 108 }, { 2, 13, 0, 109 } };
+
+            for (int Index_IC_1 = 0; Index_IC_1 < Info_Cocktail.GetLength(0); Index_IC_1++)
+            {
+                int[] Check_Value = { 0, 0, 0 };
+                for (int Index_IC_2 = 0; Index_IC_2 < 3; Index_IC_2++)
+                {
+                    if (Items[0] == Info_Cocktail[Index_IC_1, Index_IC_2])
+                        Check_Value[0] += 1;
+                    if (Items[1] == Info_Cocktail[Index_IC_1, Index_IC_2])
+                        Check_Value[1] += 1;
+                    if (Items[2] == Info_Cocktail[Index_IC_1, Index_IC_2])
+                        Check_Value[2] += 1;
+                }
+                if (Check_Value[0] == 1 && Check_Value[1] == 1 && Check_Value[2] == 1)
+                    return Info_Cocktail[Index_IC_1, 3];
+            }
+        }
+        else
+            return -1;
+        return 0;
     }
 
     public void OnClickButton(int Number)
@@ -361,69 +479,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator LoadLevelData()  //Spécificité des niveaux.
-    {
-        _DataBase.ResetTable();
-        _TimerText = GameObject.Find("Timer").GetComponent<Text>();
-        Carte = GameObject.Find("Recettes");
-        GameManager.Carte.SetActive(false);
-        switch (LevelChoisi)
-        {
-            case 1:
-                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 20;
-                GameObject.Find("Bar2").SetActive(false);
-                break;
-            case 2:
-                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 90;
-                GameObject.Find("Bar2").SetActive(false);
-                break;
-            case 3:
-                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 90;
-                GameObject.Find("Bar2").SetActive(false);
-                break;
-            case 4:
-                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 180;
-                GameObject.Find("Bar").SetActive(false);
-                break;
-            case 5:
-                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 180;
-                GameObject.Find("Bar").SetActive(false);
-                break;
-        }
-        yield return new WaitForSeconds(0.2f);
-        GameManager.Loading.SetActive(false);
-        GameManager.Status = GameState.Playing;
-    }
-
-    public int Shaker(string Cocktail)    //Validation du cocktail créé.
-    {
-        switch (Cocktail) //retourne en fonction du string le cocktail créé.
-        {
-            case "19":  //LastCall
-                return 100;
-            case "311":  //Bière
-                return 101;
-            case "45":  //KirRoyal
-                return 102;
-            case "21011":  //Tropical
-                return 103;
-            case "73":  //SakéBomb
-                return 104;
-            case "612":  //Whisky
-                return 105;
-            case "154":  //PinkLove
-                return 106;
-            case "812":  //CubaLibre
-                return 107;
-            case "81011":  //Daïgoro
-                return 108;
-            case "213":  //BloodyMary
-                return 109;
-            default:
-                return 0;
-        }
-    }
-
     public void CheckSave()
     {
         if (int.Parse(_DataBase.Tab_Score[0]) >= OffsetScoreRequired[0, 0])
@@ -447,12 +502,43 @@ public class GameManager : MonoBehaviour
             Level5.interactable = false;
     }
 
+    IEnumerator LoadLevelData()  //Spécificité des niveaux.
+    {
+        _DataBase.ResetTable();
+        Carte = GameObject.Find("Recettes");
+        Bar1 = GameObject.Find("Bar1");
+        Bar2 = GameObject.Find("Bar2");
+        Carte.SetActive(false);
+        switch (LevelChoisi)
+        {
+            case 1:
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 180;
+                break;
+            case 2:
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 90;
+                break;
+            case 3:
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 90;
+                break;
+            case 4:
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 180;
+                break;
+            case 5:
+                GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 180;
+                break;
+        }
+        Bar2.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
+        GameManager.Loading.SetActive(false);
+        GameManager.Status = GameState.Playing;
+    }
+
     IEnumerator SpawnTimer()
     {
         while (true)
         {
             if (Status == GameState.Playing && SceneManager.GetActiveScene().name == "Jeu")
-            SpawnTimerSecs -= 1;
+                SpawnTimerSecs -= 1;
             yield return new WaitForSeconds(1f);
         }
     }

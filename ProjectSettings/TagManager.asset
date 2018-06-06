@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Items
+  - Customer
+  - Shaker
   layers:
   - Default
   - TransparentFX
@@ -53,9 +56,6 @@ TagManager:
   - name: Drink
     uniqueID: 1441391795
     locked: 0
-  - name: Drink2
-    uniqueID: 1492116995
-    locked: 0
   - name: Cadre
     uniqueID: 1642695467
     locked: 0
@@ -67,4 +67,10 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 911817181
+    locked: 0
+  - name: Bar2
+    uniqueID: 573110667
+    locked: 0
+  - name: Item
+    uniqueID: 3330998227
     locked: 0
