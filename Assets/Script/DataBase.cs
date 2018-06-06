@@ -30,16 +30,18 @@ public class DataBase : MonoBehaviour
 
     public int GetTable()
     {
-        for (int i = 0; i < 4; i++)
-        {
+        int seed = Environment.TickCount;
+        System.Random Rnd = new System.Random(seed);
+        //for (int i = 0; i < 4; i++)
+        //{
+        int i = Rnd.Next(0, 4);
             if (Table[i] == 0)
             {
                 Table[i] = 1; // Table Occupée
                 return (i); // retourne l'ID de la table
             }
-        }
+        //}
         return -1;
-
     }
 
     public Vector3 FindTable(int ID_Table) // Trouve la position de la table avec L'ID_Table

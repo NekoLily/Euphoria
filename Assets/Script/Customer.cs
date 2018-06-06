@@ -12,10 +12,10 @@ public class Customer : MonoBehaviour
     public float QTETime = 100;
 
     int ID_Order; // ID de la commande
-    int ID_Table;
+    public int ID_Table;
     public int ID;
 
-    Object Order; // Object commande
+    GameObject Order; // Object commande
     GameObject Homme;
     //Animator Anim;
 
@@ -23,7 +23,7 @@ public class Customer : MonoBehaviour
     {
         _GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();                  //Lancement du client.
         _DataBase = _GameManager.GetComponent<DataBase>();
-        ID_Table = _DataBase.GetTable(); // Attribue table
+        //ID_Table = _DataBase.GetTable(); // Attribue table
         //Anim = GetComponent<Animator>();      
         _ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         StartCoroutine("_Move");
@@ -38,7 +38,8 @@ public class Customer : MonoBehaviour
     public void AddOrder()
     {
         ID_Order = _GameManager.Rnd.Next(100,110); // Choisi l'Id de la commande
-        Order = Instantiate(Resources.Load("Prefab/Boisson/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation); // Instantiate l'affichage de la commande
+        Order = Instantiate(Resources.Load<GameObject>("Prefab/Boisson/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation); // Instantiate l'affichage de la commande
+        Order.transform.parent = gameObject.transform;
     }
 
     void Timer()
@@ -173,8 +174,8 @@ public class Customer : MonoBehaviour
                         break;
                 }
                 break;
-                yield return null;
         }
+        return null;
     }
 
     IEnumerator _Move() // Bouge le client à a coter de la table

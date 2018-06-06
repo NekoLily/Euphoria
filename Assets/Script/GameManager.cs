@@ -224,71 +224,82 @@ public class GameManager : MonoBehaviour
     {
         if (SpawnTimerSecs <= 0)
         {
-            SpawnTimerSecs = 3;
-            for (int i = 0; i < 4; i++)
+            SpawnTimerSecs = 1;
+            //for (int i = 0; i < 4; i++)
+            //{
+            int Table_ID;
+            if ((Table_ID = _DataBase.GetTable()) != -1)
             {
-                if (_DataBase.Table[i] == 0)
+                //if (_DataBase.Table[ID] == 0)
+                //{
+                Rnd2 = new System.Random(seed++);
+                switch (Rnd2.Next(1, 5))
                 {
-                    Rnd2 = new System.Random(seed++);
-                    switch (Rnd2.Next(1, 5))
-                    {
-                        case 1:
-                            if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
-                            {
-                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1"));
-                                client.GetComponent<Customer>().ID = 1;
-                                return;
-                            }
-                            else
-                            {
-                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1.2"));
-                                client.GetComponent<Customer>().ID = 1;
-                                return;
-                            }
+                    case 1:
+                        if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1"));
+                            client.GetComponent<Customer>().ID = 1;
+                            client.GetComponent<Customer>().ID_Table = Table_ID;
+                            return;
+                        }
+                        else
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1.2"));
+                            client.GetComponent<Customer>().ID = 1;
+                            client.GetComponent<Customer>().ID_Table = Table_ID;
+                            return;
+                        }
 
-                        case 2:
-                            if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
-                            {
-                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2"));
-                                client.GetComponent<Customer>().ID = 2;
-                                return;
-                            }
-                            else
-                            {
-                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2.2"));
-                                client.GetComponent<Customer>().ID = 2;
-                                return;
-                            }
+                    case 2:
+                        if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2"));
+                            client.GetComponent<Customer>().ID = 2;
+                            client.GetComponent<Customer>().ID_Table = Table_ID;
+                            return;
+                        }
+                        else
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2.2"));
+                            client.GetComponent<Customer>().ID = 2;
+                            client.GetComponent<Customer>().ID_Table = Table_ID;
+                            return;
+                        }
 
-                        case 3:
-                            if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
-                            {
-                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3"));
-                                client.GetComponent<Customer>().ID = 3;
-                                return;
-                            }
-                            else
-                            {
-                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3.2"));
-                                client.GetComponent<Customer>().ID = 3;
-                                return;
-                            }
+                    case 3:
+                        if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3"));
+                            client.GetComponent<Customer>().ID = 3;
+                            client.GetComponent<Customer>().ID_Table = Table_ID;
+                            return;
+                        }
+                        else
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3.2"));
+                            client.GetComponent<Customer>().ID = 3;
+                            client.GetComponent<Customer>().ID_Table = Table_ID;
+                            return;
+                        }
 
-                        case 4:
-                            if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
-                            {
-                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4"));
-                                client.GetComponent<Customer>().ID = 4;
-                                return;
-                            }
-                            else
-                            {
-                                client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4.2"));
-                                client.GetComponent<Customer>().ID = 4;
-                                return;
-                            }
-                    }
+                    case 4:
+                        if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4"));
+                            client.GetComponent<Customer>().ID = 4;
+                            client.GetComponent<Customer>().ID_Table = Table_ID;
+                            return;
+                        }
+                        else
+                        {
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4.2"));
+                            client.GetComponent<Customer>().ID = 4;
+                            client.GetComponent<Customer>().ID_Table = Table_ID;
+                            return;
+                        }
                 }
+                //}
             }
         }
     }
