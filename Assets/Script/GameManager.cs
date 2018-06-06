@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(Status);
         if (SceneManager.GetActiveScene().name != "MenuPrincipal")
             MenuPrincipal.SetActive(false);
         switch (Status)
@@ -226,6 +227,7 @@ public class GameManager : MonoBehaviour
 
     void AddCustomer()
     {
+        Debug.Log("Spawn");
         if (SpawnTimerSecs <= 0)
         {
             SpawnTimerSecs = 1;
@@ -541,7 +543,7 @@ public class GameManager : MonoBehaviour
                 GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 180;
                 break;
         }
-        Bar2.SetActive(false);
+        //Bar2.SetActive(false);
         yield return new WaitForSeconds(0.2f);
         GameManager.Loading.SetActive(false);
         GameManager.Status = GameState.Playing;

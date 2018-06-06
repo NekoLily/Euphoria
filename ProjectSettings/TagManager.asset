@@ -44,11 +44,20 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Bar
+  - name: BarDerriere
     uniqueID: 2829177205
     locked: 0
-  - name: Customer
-    uniqueID: 2464065509
+  - name: Bouteilles
+    uniqueID: 3330998227
+    locked: 0
+  - name: Barman
+    uniqueID: 911817181
+    locked: 0
+  - name: BarDevant
+    uniqueID: 573110667
+    locked: 0
+  - name: ObjetSurBar
+    uniqueID: 3456221689
     locked: 0
   - name: Cloud
     uniqueID: 2387435565
@@ -56,21 +65,12 @@ TagManager:
   - name: Drink
     uniqueID: 1441391795
     locked: 0
-  - name: Cadre
-    uniqueID: 1642695467
-    locked: 0
-  - name: BGui
-    uniqueID: 3745120867
+  - name: Customer
+    uniqueID: 2464065509
     locked: 0
   - name: UI
     uniqueID: 2561620465
     locked: 0
-  - name: Player
-    uniqueID: 911817181
-    locked: 0
-  - name: Bar2
-    uniqueID: 573110667
-    locked: 0
-  - name: Item
-    uniqueID: 3330998227
+  - name: CarteRecette
+    uniqueID: 1494266943
     locked: 0
