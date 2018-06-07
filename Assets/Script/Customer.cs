@@ -17,14 +17,14 @@ public class Customer : MonoBehaviour
 
     GameObject Order; // Object commande
     GameObject Homme;
-    //Animator Anim;
+    Animator Anim;
 
     void Start()
     {
         _GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();                  //Lancement du client.
         _DataBase = _GameManager.GetComponent<DataBase>();
         //ID_Table = _DataBase.GetTable(); // Attribue table
-        //Anim = GetComponent<Animator>();      
+        Anim = GetComponent<Animator>();      
         _ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         StartCoroutine("_Move");
         //Anim.SetTrigger("move");
@@ -38,13 +38,17 @@ public class Customer : MonoBehaviour
     public void AddOrder()
     {
         ID_Order = _GameManager.Rnd.Next(100,110); // Choisi l'Id de la commande
-        Order = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation); // Instantiate l'affichage de la commande
+        if (GameManager.LevelChoisi == 3 || GameManager.LevelChoisi == 5)
+        {
+            Instantiate(Resources.Load<GameObject>("Prefab/Cloud/Bulle"), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f, transform.position.z-0.1f), transform.rotation);
+            Order = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/Image/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation); // Instantiate l'affichage de la commande
+        }
+        else
+        {
+            Instantiate(Resources.Load<GameObject>("Prefab/Cloud/Bulle"), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f, transform.position.z - 0.1f), transform.rotation);
+            Order = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/Text/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation);
+        }  
         Order.transform.parent = gameObject.transform;
-    }
-
-    void Timer()
-    {
-        StartCoroutine("_Event");       //Fonction de fin d'anim client.
     }
 
     public void CheckOrder(int ID_Cocktail) // Check si le cocktail est le bon
@@ -68,6 +72,11 @@ public class Customer : MonoBehaviour
             StartCoroutine("_Event");                               //Ccocktail Pas OK.
             ID_Cocktail = -1;
         }
+    }
+
+    void Timer()
+    {
+        StartCoroutine("_Event");       //Fonction de fin d'anim client.
     }
 
     IEnumerator _Event()                        //Tous les Events possibles selon les clients.
@@ -194,7 +203,7 @@ public class Customer : MonoBehaviour
         }
         gameObject.GetComponent<Collider2D>().enabled = true;
         AddOrder(); // ajoute une commande
-        //Anim.SetTrigger("Att");
+        Anim.SetTrigger("Att");
     }
 
     IEnumerator _Leave() // Fais sortir le client

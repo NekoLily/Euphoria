@@ -7,6 +7,7 @@ TagManager:
   - Items
   - Customer
   - Shaker
+  - Bouton
   layers:
   - Default
   - TransparentFX
@@ -47,17 +48,20 @@ TagManager:
   - name: BarDerriere
     uniqueID: 2829177205
     locked: 0
-  - name: Bouteilles
-    uniqueID: 3330998227
-    locked: 0
   - name: Barman
     uniqueID: 911817181
     locked: 0
   - name: BarDevant
     uniqueID: 573110667
     locked: 0
+  - name: Bouteilles
+    uniqueID: 3330998227
+    locked: 0
   - name: ObjetSurBar
     uniqueID: 3456221689
+    locked: 0
+  - name: BGCloud
+    uniqueID: 316445199
     locked: 0
   - name: Cloud
     uniqueID: 2387435565

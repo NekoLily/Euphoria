@@ -543,7 +543,7 @@ public class GameManager : MonoBehaviour
                 GameObject.Find("Timer").GetComponent<Countdown>().timeLeft = 180;
                 break;
         }
-        //Bar2.SetActive(false);
+        Bar2.SetActive(false);
         yield return new WaitForSeconds(0.2f);
         GameManager.Loading.SetActive(false);
         GameManager.Status = GameState.Playing;
