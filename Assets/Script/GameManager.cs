@@ -222,6 +222,11 @@ public class GameManager : MonoBehaviour
                 Loading.GetComponent<LoadingScreen>().Loading(0);
                 GameManager.Status = GameState.Loading;
                 break;
+
+            case GameState.Tuto:
+                Loading.GetComponent<LoadingScreen>().Loading(1);
+                break;
+
         }
     }
 
@@ -358,8 +363,8 @@ public class GameManager : MonoBehaviour
         }
         if (ID_Cocktail > 0)
         {
-            Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boisson/1");
-            Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
+            /*Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boisson/1");
+            Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);*/
         }
     }
 
@@ -491,6 +496,10 @@ public class GameManager : MonoBehaviour
                 LevelChoisi = 5;
                 Status = GameState.Start;
                 Debug.Log("Level5");
+                break;
+
+            case 6:
+                Status = GameState.Tuto;
                 break;
         }
     }
