@@ -13,6 +13,7 @@ public class Tutoriel : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+        GameManager.Loading.SetActive(false);
         Tuto1 = GameObject.Find("Tuto1");
         Tuto2 = GameObject.Find("Tuto2");
         Tuto3 = GameObject.Find("Tuto3");
@@ -52,6 +53,7 @@ public class Tutoriel : MonoBehaviour
 
             case GameState.FinTuto:
                 Tuto4.SetActive(false);
+                GameManager.Loading.SetActive(true);
                 GameManager.Loading.GetComponent<LoadingScreen>().Loading(0);
                 break;
         }

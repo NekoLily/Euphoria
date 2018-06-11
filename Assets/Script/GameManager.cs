@@ -224,7 +224,14 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Tuto:
+                Loading.SetActive(true);
+                MenuPrincipal.SetActive(true);
+                Play.SetActive(false);
+                Recettes.SetActive(false);
+                Credits.SetActive(false);
+                Highscore.SetActive(false);
                 Loading.GetComponent<LoadingScreen>().Loading(1);
+                GameManager.Status = GameState.Loading;
                 break;
 
         }

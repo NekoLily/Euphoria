@@ -72,9 +72,15 @@ TagManager:
   - name: Customer
     uniqueID: 2464065509
     locked: 0
-  - name: UI
-    uniqueID: 2561620465
+  - name: Bar2
+    uniqueID: 4004028537
+    locked: 0
+  - name: Bouteilles2
+    uniqueID: 957562777
     locked: 0
   - name: CarteRecette
     uniqueID: 1494266943
+    locked: 0
+  - name: UI
+    uniqueID: 2561620465
     locked: 0
