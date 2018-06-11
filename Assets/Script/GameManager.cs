@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour
     static GameObject ItemBar_1;
     static GameObject ItemBar_2;
 
+    public AudioSource SE;
+    public AudioClip MainMenu;
+
     void Start()
     {
         MenuPrincipal = GameObject.Find("MenuPrincipal");
@@ -84,6 +87,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        StartCoroutine("BGM");
         Debug.Log(Status);
         if (SceneManager.GetActiveScene().name != "MenuPrincipal")
             MenuPrincipal.SetActive(false);
@@ -235,6 +239,19 @@ public class GameManager : MonoBehaviour
                 break;
 
         }
+    }
+
+    IEnumerator BGM()
+    {
+        if ((SceneManager.GetActiveScene().name == "MenuPrincipal") && (SE.clip != MainMenu))
+        {
+            SE.Stop();
+            SE.clip = MainMenu;
+            yield return new WaitForSeconds(0.2f);
+            SE.Play();
+        }
+        else
+            SE.Stop();
     }
 
     void AddCustomer()
