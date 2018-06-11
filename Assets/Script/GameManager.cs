@@ -181,15 +181,15 @@ public class GameManager : MonoBehaviour
                                             ID_Cocktail = Shaker();
                                     }
                                     Debug.Log(ID_Cocktail);
-                                    Items = new int[3];
 
+                                    Items = new int[3];
                                     DestroyObject(ItemBar_0);
                                     DestroyObject(ItemBar_1);
                                     DestroyObject(ItemBar_2);
 
                                     Bar2.SetActive(false);
                                     Bar1.SetActive(true);
-                                    Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boisson/1");
+                                    Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boissons/" + ID_Cocktail);
                                     Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
                                     break;
 
@@ -383,27 +383,30 @@ public class GameManager : MonoBehaviour
 
     public void OnClickCocktail(int ID)
     {
-        for (int IndexItems = 0; IndexItems < 3; IndexItems++)
+        if (ID_Cocktail == -1)
         {
-            if (Items[IndexItems] == 0)
+            for (int IndexItems = 0; IndexItems < 3; IndexItems++)
             {
-                Items[IndexItems] = ID;
-                switch (IndexItems)
+                if (Items[IndexItems] == 0)
                 {
-                    case 0:
-                        ItemBar_0 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(3.5f, -1.5f, 0), Quaternion.identity);
-                        ItemBar_0.GetComponent<Item>().IndexItemID = IndexItems;
-                        break;
-                    case 1:
-                        ItemBar_1 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(2.5f, -1.5f, 0), Quaternion.identity);
-                        ItemBar_1.GetComponent<Item>().IndexItemID = IndexItems;
-                        break;
-                    case 2:
-                        ItemBar_2 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(1.5f, -1.5f, 0), Quaternion.identity);
-                        ItemBar_2.GetComponent<Item>().IndexItemID = IndexItems;
-                        break;
+                    Items[IndexItems] = ID;
+                    switch (IndexItems)
+                    {
+                        case 0:
+                            ItemBar_0 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(3.5f, -1.5f, 0), Quaternion.identity);
+                            ItemBar_0.GetComponent<Item>().IndexItemID = IndexItems;
+                            break;
+                        case 1:
+                            ItemBar_1 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(2.5f, -1.5f, 0), Quaternion.identity);
+                            ItemBar_1.GetComponent<Item>().IndexItemID = IndexItems;
+                            break;
+                        case 2:
+                            ItemBar_2 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(1.5f, -1.5f, 0), Quaternion.identity);
+                            ItemBar_2.GetComponent<Item>().IndexItemID = IndexItems;
+                            break;
+                    }
+                    return;
                 }
-                return;
             }
         }
         // Plein enlever d'abord la bouteille
