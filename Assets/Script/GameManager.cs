@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     DataBase _DataBase;
 
-    int[,] OffsetScoreRequired = { { 500, 1000, 1500 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 }, { 1000, 2000, 3000 } }; // {0 , 1, 2} = {1er*, 2eme*, 3eme*}
+    int[,] OffsetScoreRequired = { { 500, 1000, 1500 }, { 500, 1000, 1500 }, { 500, 1000, 1500 }, { 500, 1000, 1500 }, { 500, 1000, 1500 } }; // {0 , 1, 2} = {1er*, 2eme*, 3eme*}
 
     public float SpawnTimerSecs = 1;
 
@@ -170,7 +170,7 @@ public class GameManager : MonoBehaviour
                                         }
                                     break;
                                 case "Shaker":
-                                    if (Items[1] > 0)
+                                    if (Items[2] == 0)
                                     {
                                         if (ItemBar_0.GetComponent<Item>().IsPoured && ItemBar_1.GetComponent<Item>().IsPoured)
                                             ID_Cocktail = Shaker();
@@ -353,9 +353,14 @@ public class GameManager : MonoBehaviour
                 Bar1.SetActive(false);
 
                 ItemBar_0.transform.position = new Vector3(-8, -1.5f, 0);
+                ItemBar_0.GetComponent<SpriteRenderer>().sortingLayerName = "Bouteilles2";
                 ItemBar_1.transform.position = new Vector3(-7, -1.5f, 0);
+                ItemBar_1.GetComponent<SpriteRenderer>().sortingLayerName = "Bouteilles2";
                 if (Items[2] > 0)
+                {
                     ItemBar_2.transform.position = new Vector3(-6, -1.5f, 0);
+                    ItemBar_2.GetComponent<SpriteRenderer>().sortingLayerName = "Bouteilles2";
+                }
             }  
             else
                 Debug.Log("Pas assez d'ingrédients");
