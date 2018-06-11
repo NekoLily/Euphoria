@@ -25,7 +25,10 @@ public class LoadingScreen : MonoBehaviour {
         switch (scene.name)
         {
             case "MenuPrincipal":
-                StartCoroutine("LoadGame");
+                if (num == 1)
+                    StartCoroutine("LoadTuto");
+                else
+                    StartCoroutine("LoadGame");
                 break;
             case "Jeu":
                 if (num == 1)
@@ -43,6 +46,20 @@ public class LoadingScreen : MonoBehaviour {
                 else
                     StartCoroutine("LoadNextGame");
                 break;
+            case "Tutoriel":
+                StartCoroutine("LoadMainMenu");
+                break;
+        }
+    }
+
+    IEnumerator LoadTuto()
+    {
+        yield return new WaitForSeconds(1f);
+        async = SceneManager.LoadSceneAsync(3);
+        while (!async.isDone)
+        {
+            loadingtext.color = new Color(loadingtext.color.r, loadingtext.color.g, loadingtext.color.b, Mathf.PingPong(Time.time, 1));
+            yield return null;
         }
     }
 

@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class Tutoriel : MonoBehaviour
 {
-    public static GameManager current;
-    public static GameState Status { get; set; }
 
     public GameObject Tuto1, Tuto2, Tuto3, Tuto4;
 
@@ -25,13 +23,13 @@ public class Tutoriel : MonoBehaviour
         Tuto3.SetActive(false);
         Tuto4.SetActive(false);
 
-        Status = GameState.Tutoriel1;
+        GameManager.Status = GameState.Tutoriel1;
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-		switch (Status)
+		switch (GameManager.Status)
         {
             case GameState.Tutoriel1:
                 Tuto1.SetActive(true);
@@ -54,7 +52,7 @@ public class Tutoriel : MonoBehaviour
 
             case GameState.FinTuto:
                 Tuto4.SetActive(false);
-                //retour menu principal
+                GameManager.Loading.GetComponent<LoadingScreen>().Loading(0);
                 break;
         }
 	}
@@ -64,23 +62,23 @@ public class Tutoriel : MonoBehaviour
         switch (ImageTuto)
         {
             case 0:
-                Status = GameState.Tutoriel1;
+                GameManager.Status = GameState.Tutoriel1;
                 break;
 
             case 1:
-                Status = GameState.Tutoriel2;
+                GameManager.Status = GameState.Tutoriel2;
                 break;
 
             case 2:
-                Status = GameState.Tutoriel3;
+                GameManager.Status = GameState.Tutoriel3;
                 break;
 
             case 3:
-                Status = GameState.Tutoriel4;
+                GameManager.Status = GameState.Tutoriel4;
                 break;
 
             case 4:
-                Status = GameState.FinTuto;
+                GameManager.Status = GameState.FinTuto;
                 break;
         }
     }

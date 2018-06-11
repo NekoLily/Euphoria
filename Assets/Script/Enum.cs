@@ -20,4 +20,5 @@
     Tutoriel3,
     Tutoriel4,
     FinTuto,
+    Tuto,
 }

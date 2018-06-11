@@ -9,42 +9,46 @@ public class Customer : MonoBehaviour
     DataBase _DataBase;
     ScoreManager _ScoreManager;
 
-    public float QTETime = 100;
-
     int ID_Order; // ID de la commande
     public int ID_Table;
     public int ID;
 
-    GameObject Order; // Object commande
+    
+    GameObject Order; // bulle + Info
+    
+
     GameObject Homme;
-    //Animator Anim;
+    Animator Anim;
+
+    public float Timer_Order = 30;
 
     void Start()
     {
         _GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();                  //Lancement du client.
         _DataBase = _GameManager.GetComponent<DataBase>();
-        //ID_Table = _DataBase.GetTable(); // Attribue table
-        //Anim = GetComponent<Animator>();      
+        Anim = GetComponent<Animator>();
         _ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         StartCoroutine("_Move");
         //Anim.SetTrigger("move");
     }
 
-    void Update()
-    {
-
-    }
-
     public void AddOrder()
     {
-        ID_Order = _GameManager.Rnd.Next(100,110); // Choisi l'Id de la commande
-        Order = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation); // Instantiate l'affichage de la commande
+        ID_Order = _GameManager.Rnd.Next(100, 110); // Choisi l'Id de la commande
+        GameObject Info; // Text ou sprite du cocktail
+        if (GameManager.LevelChoisi == 3 || GameManager.LevelChoisi == 5)
+        {
+            Order = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/Bulle"), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f, transform.position.z - 0.1f), transform.rotation);
+            Info = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/Image/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation); // Instantiate l'affichage de la commande
+        }
+        else
+        {
+            Order = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/Bulle"), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f, transform.position.z - 0.1f), transform.rotation);
+            Info = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/Text/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation);
+        }
         Order.transform.parent = gameObject.transform;
-    }
-
-    void Timer()
-    {
-        StartCoroutine("_Event");       //Fonction de fin d'anim client.
+        Info.transform.parent = Order.transform;
+        StartCoroutine("_Timer");
     }
 
     public void CheckOrder(int ID_Cocktail) // Check si le cocktail est le bon
@@ -194,7 +198,7 @@ public class Customer : MonoBehaviour
         }
         gameObject.GetComponent<Collider2D>().enabled = true;
         AddOrder(); // ajoute une commande
-        //Anim.SetTrigger("Att");
+        Anim.SetTrigger("Att");
     }
 
     IEnumerator _Leave() // Fais sortir le client
@@ -213,5 +217,15 @@ public class Customer : MonoBehaviour
         }
         _DataBase.LeaveTable(ID_Table);
         DestroyObject(this.gameObject);
+    }
+
+    IEnumerator _Timer()
+    {
+        while (Timer_Order > 0)
+        {
+            Timer_Order -= Time.deltaTime;
+            yield return null;
+        }
+        StartCoroutine("_Event");
     }
 }
