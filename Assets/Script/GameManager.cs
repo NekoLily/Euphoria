@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        SE = GetComponent<AudioSource>();
+
         MenuPrincipal = GameObject.Find("MenuPrincipal");
         LevelSelect = GameObject.Find("LevelSelect");
         Play = GameObject.Find("Jouer");
