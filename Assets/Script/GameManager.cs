@@ -368,6 +368,7 @@ public class GameManager : MonoBehaviour
         else
         {
             ID_Cocktail = Shaker();
+            Items = new int[3];
             DestroyObject(ItemBar_0);
             DestroyObject(ItemBar_1);
             DestroyObject(ItemBar_2);
