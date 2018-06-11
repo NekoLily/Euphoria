@@ -361,7 +361,7 @@ public class GameManager : MonoBehaviour
                     ItemBar_2.transform.position = new Vector3(-6, -1.5f, 0);
                     ItemBar_2.GetComponent<SpriteRenderer>().sortingLayerName = "Bouteilles2";
                 }
-            }  
+            }
             else
                 Debug.Log("Pas assez d'ingrédients");
         }
@@ -411,7 +411,7 @@ public class GameManager : MonoBehaviour
 
     public int Shaker()    //Validation du cocktail créé.
     {
-        if (Items[0] > 0 && Items[1] > 0)
+        if (Items[0] > 0 && Items[1] > 0 && (Items[0] != Items[1]) && (Items[0] != Items[2]))
         {
             //{Item1, item2, item3, ID_Cocktail}
             int[,] Info_Cocktail = { { 1, 9, 0, 100 }, { 3, 11, 0, 101 }, { 4, 5, 0, 102 }, { 2, 10, 11, 103 }, { 3, 7, 0, 104 }, { 6, 12, 0, 105 }, { 1, 4, 5, 106 }, { 8, 11, 0, 107 }, { 8, 10, 12, 108 }, { 2, 13, 0, 109 } };
