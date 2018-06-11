@@ -26,7 +26,7 @@ public class ScoreScreen : MonoBehaviour {
         genial.SetActive(false);
         excellent.SetActive(false);
 
-        score.GetComponent<Text>().text = "Score" + GameManager.Score.ToString();
+        score.GetComponent<Text>().text = "Score: " + GameManager.Score.ToString();
 
         switch (GameManager.Stars)
         {

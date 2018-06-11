@@ -375,7 +375,7 @@ public class GameManager : MonoBehaviour
         }
         if (ID_Cocktail > 0)
         {
-            Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boisson/" + ID_Cocktail);
+            Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boissons/" + ID_Cocktail);
             Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
         }
     }

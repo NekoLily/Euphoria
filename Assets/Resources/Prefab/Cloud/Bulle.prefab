@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4898298997618266}
   - component: {fileID: 212073925224663842}
   - component: {fileID: 95400639025738084}
-  - component: {fileID: 114090310574849404}
   m_Layer: 0
   m_Name: Bulle
   m_TagString: Untagged
@@ -59,17 +58,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114090310574849404
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1042271443597624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa5103a1651c3aa4798d42c703069f2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &212073925224663842
 SpriteRenderer:
   m_ObjectHideFlags: 1

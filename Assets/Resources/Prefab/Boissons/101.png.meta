@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 468f7aea7ede23d44afaf776d6b8e61e
+guid: 3fc994a4b52806d4691fb174cfc00cfe
 timeCreated: 1528703205
 licenseType: Free
 TextureImporter:
@@ -58,7 +58,17 @@ TextureImporter:
   textureFormatSet: 0
   platformSettings:
   - buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 64
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 64
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
