@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID_Table: 0
-  ID: 0
+  ID: 3
   Timer_Order: 30
 --- !u!212 &212180279470882410
 SpriteRenderer:
