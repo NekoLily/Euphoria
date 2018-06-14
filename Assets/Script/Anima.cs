@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class Anima : MonoBehaviour {
 
-    public GameObject barman;
+    // public GameObject barman;
     //public float posBouteille;
     //public float speed = 10;
     //public Animator anim;
-
-
+    private Button Barman;
+    
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -34,8 +34,8 @@ public class Anima : MonoBehaviour {
 
     public void onClick()
     {
-        barman.GetComponent<moving>().posbouteille = this.gameObject.transform.position.x + 2;
-        barman.GetComponent<moving>().isMoving = true;
+        Barman.GetComponent<moving>().posbouteille = this.gameObject.transform.position.x + 2;
+        Barman.GetComponent<moving>().isMoving = true;
     }
     /*private void MovePlayer()
     {

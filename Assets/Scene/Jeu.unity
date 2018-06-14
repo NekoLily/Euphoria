@@ -630,7 +630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &83458460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1765,7 +1765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &372998313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1950,7 +1950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &418439184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2209,7 +2209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &447348780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3782,7 +3782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &996610607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4123,7 +4123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &1086837119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4599,7 +4599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &1250224757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5438,7 +5438,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 4aa63ccbe9237cd42ad76ce4ce790978, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 807c2e341e5c60c4cbbab5248a2124e8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5463,7 +5463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &1482087742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5648,7 +5648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &1498798996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6149,7 +6149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &1584657717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6747,7 +6747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &1786503871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7223,7 +7223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &1856277357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7994,7 +7994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &1964552006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8252,7 +8252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2928893425b6624a9b98cf08a4ea012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barman: {fileID: 243201182}
+  Barman: {fileID: 0}
 --- !u!114 &2059789669
 MonoBehaviour:
   m_ObjectHideFlags: 0
