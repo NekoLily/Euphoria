@@ -86,7 +86,7 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(1);
                         Destroy(Order); // supprime la bulle de commande
-                        //anim Explose de rage
+                        //Anim.SetTrigger("E11");
                         Debug.Log("Event1");
                         _DataBase.LeaveTable(ID_Table);
                         DestroyObject(this.gameObject);
@@ -111,7 +111,7 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(3);
                         Destroy(Order); // supprime la bulle de commande
-                        //Anime flamme + bouteille brule
+                        //Anim.SetTrigger("E21");
                         Debug.Log("Event3");
                         _DataBase.LeaveTable(ID_Table);
                         DestroyObject(this.gameObject);
@@ -146,7 +146,7 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(6);
                         Destroy(Order); // supprime la bulle de commande
-                        //Anim explosion de tete
+                        //Anim.SetTrigger("E32");
                         Debug.Log("Event6");
                         _DataBase.LeaveTable(ID_Table);
                         DestroyObject(this.gameObject);
@@ -161,7 +161,7 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(7);
                         Destroy(Order); // supprime la bulle de commande
-                        //fume, cache les bouteilles.
+                        //Anim.SetTrigger("E41");
                         Debug.Log("Event7");
                         StartCoroutine("_Leave");
                         //Anim.SetTrigger("move");
@@ -198,7 +198,6 @@ public class Customer : MonoBehaviour
         }
         gameObject.GetComponent<Collider2D>().enabled = true;
         AddOrder(); // ajoute une commande
-        Anim.SetTrigger("Att");
     }
 
     IEnumerator _Leave() // Fais sortir le client
