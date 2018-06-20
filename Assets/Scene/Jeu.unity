@@ -3231,8 +3231,8 @@ MonoBehaviour:
   ItemObject: {fileID: 0}
   ParticleGood: {fileID: 1472675239}
   ParticleBad: {fileID: 805836064}
-  Good_Clip: {fileID: 8300000, guid: b00d8449063154a499dd5afcb32119d4, type: 3}
-  Bad_Clip: {fileID: 8300000, guid: 5208c47129f38c147869a79f778884cc, type: 3}
+  Good_Clip: {fileID: 8300000, guid: 5f2c2364be6aad04d9efa3fb7245bde7, type: 3}
+  Bad_Clip: {fileID: 8300000, guid: c7b6fb6e799c6074aaef21c564d24ffc, type: 3}
 --- !u!61 &749313458
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3556,7 +3556,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 73095123
+  randomSeed: -864021167
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -9225,7 +9225,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1128891284
+  randomSeed: -139531345
   InitialModule:
     serializedVersion: 3
     enabled: 1
