@@ -10,7 +10,9 @@ public class DragHandler : MonoBehaviour
 
     Vector3 screenPoint;
 
-    public Transform target;
+    public Transform AngleTarget;
+    public Transform LimitPosTop;
+    public Transform LimitPosBot;
     public Transform ItemObject;
 
     float Drink_Value;
@@ -20,7 +22,7 @@ public class DragHandler : MonoBehaviour
     {
         if (ItemObject != null)
         {
-            Vector3 targetDir = target.position - ItemObject.position;
+            Vector3 targetDir = AngleTarget.position - ItemObject.position;
             float angle = Vector3.Angle(ItemObject.position, targetDir);
 
             if (ItemObject.position.y >= 0)
