@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class LoadingScreen : MonoBehaviour {
     Scene scene;
     AsyncOperation async;
-    public Text loadingtext;
+    public RawImage logo;
 
 	// Use this for initialization
 	void Start () {
@@ -58,7 +58,7 @@ public class LoadingScreen : MonoBehaviour {
         async = SceneManager.LoadSceneAsync(3);
         while (!async.isDone)
         {
-            loadingtext.color = new Color(loadingtext.color.r, loadingtext.color.g, loadingtext.color.b, Mathf.PingPong(Time.time, 1));
+            logo.color = new Color(logo.color.r, logo.color.g, logo.color.b, Mathf.PingPong(Time.time, 1));
             yield return null;
         }
     }
@@ -69,7 +69,7 @@ public class LoadingScreen : MonoBehaviour {
         async = SceneManager.LoadSceneAsync(1);
         while (!async.isDone)
         {
-            loadingtext.color = new Color(loadingtext.color.r, loadingtext.color.g, loadingtext.color.b, Mathf.PingPong(Time.time, 1));
+            logo.color = new Color(logo.color.r, logo.color.g, logo.color.b, Mathf.PingPong(Time.time, 1));
             yield return null;
         }
         GameManager.current.StartCoroutine("LoadLevelData");
@@ -81,7 +81,7 @@ public class LoadingScreen : MonoBehaviour {
         async = SceneManager.LoadSceneAsync(1);
         while (!async.isDone)
         {
-            loadingtext.color = new Color(loadingtext.color.r, loadingtext.color.g, loadingtext.color.b, Mathf.PingPong(Time.time, 1));
+            logo.color = new Color(logo.color.r, logo.color.g, logo.color.b, Mathf.PingPong(Time.time, 1));
             yield return null;
         }
         GameManager.Loading.SetActive(false);
@@ -94,7 +94,7 @@ public class LoadingScreen : MonoBehaviour {
         async = SceneManager.LoadSceneAsync(0);
         while (!async.isDone)
         {
-            loadingtext.color = new Color(loadingtext.color.r, loadingtext.color.g, loadingtext.color.b, Mathf.PingPong(Time.time, 1));
+            logo.color = new Color(logo.color.r, logo.color.g, logo.color.b, Mathf.PingPong(Time.time, 1));
             yield return null;
         }
         GameManager.Loading.SetActive(false);
@@ -107,7 +107,7 @@ public class LoadingScreen : MonoBehaviour {
         async = SceneManager.LoadSceneAsync(2);
         while (!async.isDone)
         {
-            loadingtext.color = new Color(loadingtext.color.r, loadingtext.color.g, loadingtext.color.b, Mathf.PingPong(Time.time, 1));
+            logo.color = new Color(logo.color.r, logo.color.g, logo.color.b, Mathf.PingPong(Time.time, 1));
             yield return null;
         }
         GameManager.Loading.SetActive(false);
@@ -122,7 +122,7 @@ public class LoadingScreen : MonoBehaviour {
         async = SceneManager.LoadSceneAsync(0);
         while (!async.isDone)
         {
-            loadingtext.color = new Color(loadingtext.color.r, loadingtext.color.g, loadingtext.color.b, Mathf.PingPong(Time.time, 1));
+            logo.color = new Color(logo.color.r, logo.color.g, logo.color.b, Mathf.PingPong(Time.time, 1));
             yield return null;
         }
         GameManager.Status = GameState.MainMenu;
@@ -135,7 +135,7 @@ public class LoadingScreen : MonoBehaviour {
         async = SceneManager.LoadSceneAsync(1);
         while (!async.isDone)
         {
-            loadingtext.color = new Color(loadingtext.color.r, loadingtext.color.g, loadingtext.color.b, Mathf.PingPong(Time.time, 1));
+            logo.color = new Color(logo.color.r, logo.color.g, logo.color.b, Mathf.PingPong(Time.time, 1));
             yield return null;
         }
         GameManager.LevelChoisi += 1;
