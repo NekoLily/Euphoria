@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class GameManager : MonoBehaviour
     GameObject client;
 
     Button Jouer, Recette, Credit, Scores, Quit, Réinitialiser;
-    Button Level1, Level2, Level3, Level4, Level5;
+    Button Level1, Level2, Level3, Level4, Level5, Tutoriel;
 
     DataBase _DataBase;
 
@@ -58,6 +59,7 @@ public class GameManager : MonoBehaviour
         Level3 = LevelSelect.transform.Find("Level3").GetComponent<Button>();
         Level4 = LevelSelect.transform.Find("Level4").GetComponent<Button>();
         Level5 = LevelSelect.transform.Find("Level5").GetComponent<Button>();
+        Tutoriel = LevelSelect.transform.Find("Tutoriel").GetComponent<Button>();
 
         Level2.interactable = false;
         Level3.interactable = false;
@@ -248,6 +250,17 @@ public class GameManager : MonoBehaviour
                 GameManager.Status = GameState.Loading;
                 break;
 
+            case GameState.FinTuto:
+                GameObject.Find("Tuto6").SetActive(false);
+                Loading.SetActive(true);
+                MenuPrincipal.SetActive(true);
+                Play.SetActive(false);
+                Recettes.SetActive(false);
+                Credits.SetActive(false);
+                Highscore.SetActive(false);
+                Loading.GetComponent<LoadingScreen>().Loading(0);
+                GameManager.Status = GameState.MainMenu;
+                break;
         }
     }
 

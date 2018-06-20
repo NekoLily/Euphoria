@@ -19,6 +19,8 @@
     Tutoriel2,
     Tutoriel3,
     Tutoriel4,
+    Tutoriel5,
+    Tutoriel6,
     FinTuto,
     Tuto,
 }
