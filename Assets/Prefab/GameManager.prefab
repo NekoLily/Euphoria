@@ -708,7 +708,6 @@ GameObject:
   - component: {fileID: 4898449900846384}
   - component: {fileID: 114604166019150516}
   - component: {fileID: 114578648285285060}
-  - component: {fileID: 81765874784418984}
   - component: {fileID: 82634155432060362}
   m_Layer: 0
   m_Name: GameManager
@@ -1428,13 +1427,6 @@ Transform:
   m_Father: {fileID: 224507056324500828}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &81765874784418984
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1602490530412998}
-  m_Enabled: 1
 --- !u!82 &82634155432060362
 AudioSource:
   m_ObjectHideFlags: 1

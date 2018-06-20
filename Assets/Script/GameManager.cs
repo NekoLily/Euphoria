@@ -252,11 +252,9 @@ public class GameManager : MonoBehaviour
         {
             SE.Stop();
             SE.clip = MainMenu;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.5f);
             SE.Play();
         }
-        else
-            SE.Stop();
     }
 
     void AddCustomer()
