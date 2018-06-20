@@ -96,9 +96,9 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(2);
                         Destroy(Order); // supprime la bulle de commande
-                        GameObject.Find("Eclair").GetComponent<RectTransform>().position = new Vector2(transform.position.x, 0);
+                        GameObject.Find("Eclair").GetComponent<RectTransform>().localPosition = new Vector2(transform.localPosition.x, 0);
                         GameObject.Find("Eclair").GetComponent<Animator>().SetTrigger("E12");
-                        GameObject.Find("Eclair").GetComponent<Animator>().ResetTrigger("E12");
+                        //GameObject.Find("Eclair").GetComponent<Animator>().ResetTrigger("E12");
                         Debug.Log("Event2");
                         _DataBase.LeaveTable(ID_Table);
                         DestroyObject(this.gameObject);
@@ -124,7 +124,7 @@ public class Customer : MonoBehaviour
                         _ScoreManager.DecreaseScore(4);
                         Destroy(Order); // supprime la bulle de commande
                         GameObject.Find("Flamme").GetComponent<Animator>().SetTrigger("E22");
-                        GameObject.Find("Flamme").GetComponent<Animator>().ResetTrigger("E22");
+                        //GameObject.Find("Flamme").GetComponent<Animator>().ResetTrigger("E22");
                         Debug.Log("Event4");
                         _DataBase.LeaveTable(ID_Table);
                         DestroyObject(this.gameObject);
@@ -139,9 +139,9 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(5);
                         Destroy(Order); // supprime la bulle de commande
-                        GameObject.Find("Lumiere").GetComponent<RectTransform>().position = new Vector2(transform.position.x, 0);
+                        GameObject.Find("Lumiere").GetComponent<RectTransform>().localPosition = new Vector2(transform.localPosition.x, 0);
                         GameObject.Find("Lumiere").GetComponent<Animator>().SetTrigger("E31");
-                        GameObject.Find("Lumiere").GetComponent<Animator>().ResetTrigger("E31");
+                        //GameObject.Find("Lumiere").GetComponent<Animator>().ResetTrigger("E31");
                         StartCoroutine("lumiere");
                         Debug.Log("Event5");
                         _DataBase.LeaveTable(ID_Table);
@@ -167,9 +167,9 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(7);
                         Destroy(Order); // supprime la bulle de commande
-                        GameObject.Find("Fumée").GetComponent<RectTransform>().position = transform.position;
+                        GameObject.Find("Fumée").GetComponent<RectTransform>().localPosition = transform.localPosition;
                         GameObject.Find("Fumée").GetComponent<Animator>().SetTrigger("E41");
-                        GameObject.Find("Fumée").GetComponent<Animator>().ResetTrigger("E41");
+                        //GameObject.Find("Fumée").GetComponent<Animator>().ResetTrigger("E41");
                         Debug.Log("Event7");
                         StartCoroutine("_Leave");
                         //Anim.SetTrigger("move");
@@ -179,9 +179,9 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(8);
                         Destroy(Order); // supprime la bulle de commande
-                        GameObject.Find("Cri").GetComponent<RectTransform>().position = new Vector2(transform.position.x+20, -250);
+                        GameObject.Find("Cri").GetComponent<RectTransform>().localPosition = new Vector2(Order.transform.localPosition.x+20, -250);
                         GameObject.Find("Cri").GetComponent<Animator>().SetTrigger("E42");
-                        GameObject.Find("Cri").GetComponent<Animator>().ResetTrigger("E42");
+                        //GameObject.Find("Cri").GetComponent<Animator>().ResetTrigger("E42");
                         Debug.Log("Event8");
                         _DataBase.LeaveTable(ID_Table);
                         DestroyObject(this.gameObject);
