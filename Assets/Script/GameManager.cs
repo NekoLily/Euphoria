@@ -216,6 +216,8 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.GameClear:
+                _DataBase.SaveScore(LevelChoisi, Score);
+                CheckSave();
                 Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                 SpawnTimerSecs = 1;
                 if (Score >= OffsetScoreRequired[LevelChoisi - 1, 0] && Score < OffsetScoreRequired[LevelChoisi - 1, 1])

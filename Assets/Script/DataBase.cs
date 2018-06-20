@@ -84,7 +84,7 @@ public class DataBase : MonoBehaviour
     {
         if (Score >= int.Parse(Tab_Score[Level - 1]))
         {
-            Tab_Score[Level - 1] = "" + Score;
+            Tab_Score[Level - 1] = Score;
             StreamWriter _Writter = new StreamWriter("Assets/Resources/Save.txt");
             {
                 for (int i = 0; i < 5; i++)
