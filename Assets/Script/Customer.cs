@@ -13,8 +13,6 @@ public class Customer : MonoBehaviour
     public int ID_Table;
     public int ID;
 
-    public AudioClip Flammes, eclairs, lumieres, fumer, rager, crier, brule;
-
     
     GameObject Order; // bulle + Info
     
@@ -112,6 +110,7 @@ public class Customer : MonoBehaviour
                         _ScoreManager.DecreaseScore(3);
                         Destroy(Order); // supprime la bulle de commande
                         //Anim.SetTrigger("E21");
+                        GameObject.Find("Brule").GetComponent<AudioSource>().Play();
                         Debug.Log("Event3");
                         _DataBase.LeaveTable(ID_Table);
                         DestroyObject(this.gameObject);
@@ -122,7 +121,6 @@ public class Customer : MonoBehaviour
                         _ScoreManager.DecreaseScore(4);
                         Destroy(Order); // supprime la bulle de commande
                         GameObject.Find("Flamme").GetComponent<Animator>().SetTrigger("E22");
-                        GameObject.Find("Flamme").GetComponent<AudioSource>().clip = Flammes;
                         GameObject.Find("Flamme").GetComponent<AudioSource>().Play();
                         Debug.Log("Event4");
                         StartCoroutine("_Leave");
@@ -149,6 +147,7 @@ public class Customer : MonoBehaviour
                         _ScoreManager.DecreaseScore(6);
                         Destroy(Order); // supprime la bulle de commande
                         //Anim.SetTrigger("E32");
+                        GameObject.Find("Explosion").GetComponent<AudioSource>().Play();
                         Debug.Log("Event6");
                         _DataBase.LeaveTable(ID_Table);
                         DestroyObject(this.gameObject);
@@ -184,7 +183,6 @@ public class Customer : MonoBehaviour
 
     IEnumerator rage()
     {
-        GameObject.Find("Rage").GetComponent<AudioSource>().clip = rager;
         GameObject.Find("Rage").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(2f);
         Debug.Log("Event1");
@@ -194,7 +192,6 @@ public class Customer : MonoBehaviour
 
     IEnumerator eclair()
     {
-        GameObject.Find("Eclair").GetComponent<AudioSource>().clip = eclairs;
         GameObject.Find("Eclair").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1f);
         Debug.Log("Event2");
@@ -204,7 +201,6 @@ public class Customer : MonoBehaviour
 
     IEnumerator lumiere()
     {
-        GameObject.Find("Lumiere").GetComponent<AudioSource>().clip = lumieres;
         GameObject.Find("Lumiere").GetComponent<AudioSource>().Play();
         Vector3 currentPos = transform.position;
         Vector3 Pos = new Vector3(transform.position.x, transform.position.y + 1000, transform.position.z);
@@ -224,7 +220,6 @@ public class Customer : MonoBehaviour
 
     IEnumerator fumee()
     {
-        GameObject.Find("Fumée").GetComponent<AudioSource>().clip = fumer;
         GameObject.Find("Fumée").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(3f);
         Debug.Log("Event7");
@@ -234,7 +229,6 @@ public class Customer : MonoBehaviour
 
     IEnumerator cri()
     {
-        GameObject.Find("Cri").GetComponent<AudioSource>().clip = crier;
         GameObject.Find("Cri").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(2f);
         Debug.Log("Event8");

@@ -3231,6 +3231,10 @@ MonoBehaviour:
   SpawnTimerSecs: 1
   SE: {fileID: 0}
   MainMenu: {fileID: 8300000, guid: 37528a9d185e3ea4dab1d7e147fe4823, type: 3}
+  Jeu: {fileID: 0}
+  ScoreMenu: {fileID: 8300000, guid: 95a92a16ae2af7f449a432d2b21b874e, type: 3}
+  good: {fileID: 8300000, guid: 003b0b2d33982cd41bc13feb99bfd124, type: 3}
+  bad: {fileID: 8300000, guid: 134329de0eb902a4e851964d90841334, type: 3}
 --- !u!114 &114610131839409116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5189,8 +5193,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.1, y: 73.6}
-  m_SizeDelta: {x: 272.2, y: 272.2}
+  m_AnchoredPosition: {x: 9, y: 82}
+  m_SizeDelta: {x: 373.9, y: 373.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224263452453203346
 RectTransform:

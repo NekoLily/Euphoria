@@ -38,7 +38,8 @@ public class GameManager : MonoBehaviour
     static GameObject ItemBar_2;
 
     public AudioSource SE;
-    public AudioClip MainMenu;
+    public AudioClip MainMenu, Jeu, ScoreMenu;
+    public AudioClip good, bad;
 
     void Start()
     {
@@ -253,10 +254,19 @@ public class GameManager : MonoBehaviour
 
     IEnumerator BGM()
     {
-        if ((SceneManager.GetActiveScene().name == "MenuPrincipal") && (SE.clip != MainMenu))
+        if (((SceneManager.GetActiveScene().name == "MenuPrincipal") || (SceneManager.GetActiveScene().name == "Tutoriel")) && (SE.clip != MainMenu))
         {
             SE.Stop();
             SE.clip = MainMenu;
+            SE.loop = true;
+            yield return new WaitForSeconds(0.5f);
+            SE.Play();
+        }
+        else if ((SceneManager.GetActiveScene().name == "Jeu") && (SE.clip != Jeu))
+        {
+            SE.Stop();
+            SE.clip = Jeu;
+            SE.loop = true;
             yield return new WaitForSeconds(0.5f);
             SE.Play();
         }
@@ -306,6 +316,7 @@ public class GameManager : MonoBehaviour
 
     public void OnClickEvier()
     {
+        GameObject.Find("Evier").GetComponent<AudioSource>().Play();
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         ID_Cocktail = -1;
         Items = new int[3];
@@ -317,7 +328,10 @@ public class GameManager : MonoBehaviour
     public void OnClickRecette()
     {
         if (Carte.activeInHierarchy == false)
+        {
             Carte.SetActive(true);
+            GameObject.Find("Carte").GetComponent<AudioSource>().Play();
+        }  
         else
             Carte.SetActive(false);
     }
@@ -360,6 +374,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            GameObject.Find("Barman").GetComponent<AudioSource>().clip = good;
+            GameObject.Find("Barman").GetComponent<AudioSource>().Play();
             ID_Cocktail = Shaker();
             Items = new int[3];
             DestroyObject(ItemBar_0);
@@ -369,6 +385,8 @@ public class GameManager : MonoBehaviour
         }
         if (ID_Cocktail != -1)
         {
+            GameObject.Find("Barman").GetComponent<AudioSource>().clip = bad;
+            GameObject.Find("Barman").GetComponent<AudioSource>().Play();
             Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boissons/" + ID_Cocktail);
             Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
         }
