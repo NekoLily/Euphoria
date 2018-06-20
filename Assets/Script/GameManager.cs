@@ -171,7 +171,7 @@ public class GameManager : MonoBehaviour
                                         if (GameObject.Find("DragManager").GetComponent<DragHandler>().ItemObject == null)
                                         {
                                             GameObject.Find("DragManager").GetComponent<DragHandler>().ItemObject = Collider.transform;
-                                            Collider.transform.position = new Vector3(0f, -1.5f, 0);
+                                            Collider.transform.position = new Vector3(2.5f, -1.5f, 0);
                                             GameObject.Find("DragManager").GetComponent<DragHandler>().StartPos = Collider.transform.position;
                                             GameObject.Find("DragManager").GetComponent<DragHandler>().StartRotation = new Vector3(Collider.transform.eulerAngles.x, Collider.transform.eulerAngles.y, Collider.transform.eulerAngles.z);
                                         }
@@ -209,8 +209,11 @@ public class GameManager : MonoBehaviour
                                 case "BorderCollider":
                                     Bar2.SetActive(false);
                                     ItemBar_0.transform.position = new Vector3(3.5f, -1.5f, 0);
+                                    ItemBar_0.transform.localScale = ItemBar_0.GetComponent<Item>().DefaultScale;
                                     ItemBar_1.transform.position = new Vector3(2.5f, -1.5f, 0);
+                                    ItemBar_1.transform.localScale = ItemBar_0.GetComponent<Item>().DefaultScale;
                                     ItemBar_2.transform.position = new Vector3(1.5f, -1.5f, 0);
+                                    ItemBar_2.transform.localScale = ItemBar_0.GetComponent<Item>().DefaultScale;
                                     Bar1.SetActive(true);
                                     break;
                             }
@@ -323,23 +326,35 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Item : " + Items[0] + " " + Items[1] + " " + Items[2]);
         Debug.Log(LevelChoisi);
-        if (LevelChoisi >= 4)
+        if (LevelChoisi >= 4 && (ItemBar_0 != null || ItemBar_1 != null || ItemBar_2 != null))
         {
             Bar2.SetActive(true);
             Bar1.SetActive(false);
             if (Items[0] > 0)
             {
                 ItemBar_0.transform.position = new Vector3(-8, -1.5f, 0);
+                if (Items[0] == 11 || Items[0] == 12)
+                    ItemBar_0.transform.localScale += transform.localScale * 0.08f;
+                else
+                    ItemBar_0.transform.localScale += transform.localScale * 0.8f;
                 ItemBar_0.GetComponent<SpriteRenderer>().sortingLayerName = "Bouteilles2";
             }
             if (Items[1] > 0)
             {
-                ItemBar_1.transform.position = new Vector3(-7, -1.5f, 0);
+                ItemBar_1.transform.position = new Vector3(-6, -1.5f, 0);
+                if (Items[1] == 11 || Items[1] == 12)
+                    ItemBar_1.transform.localScale += transform.localScale * 0.08f;
+                else
+                    ItemBar_1.transform.localScale += transform.localScale * 0.8f;
                 ItemBar_1.GetComponent<SpriteRenderer>().sortingLayerName = "Bouteilles2";
             }
             if (Items[2] > 0)
             {
-                ItemBar_2.transform.position = new Vector3(-6, -1.5f, 0);
+                ItemBar_2.transform.position = new Vector3(-4, -1.5f, 0);
+                if (Items[2] == 11 || Items[2] == 12)
+                    ItemBar_2.transform.localScale += transform.localScale * 0.08f;
+                else
+                    ItemBar_2.transform.localScale += transform.localScale * 0.8f;
                 ItemBar_2.GetComponent<SpriteRenderer>().sortingLayerName = "Bouteilles2";
             }
         }
@@ -420,7 +435,7 @@ public class GameManager : MonoBehaviour
                 if (Check_Value[0] == 1 && Check_Value[1] == 1 && Check_Value[2] == 1)
                     return Info_Cocktail[Index_IC_1, 3];
             }
-                return 0;
+            return 0;
         }
         else if (Items[0] > 0 || Items[1] > 0 || Items[2] > 0)
             return 0;

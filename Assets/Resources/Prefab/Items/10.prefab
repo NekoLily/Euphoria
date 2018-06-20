@@ -79,7 +79,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IndexItemID: 0
+  ItemID: 10
   IsPoured: 0
+  AlreadyPoured: 0
+  DefaultScale: {x: 0, y: 0, z: 0}
 --- !u!212 &212234325728962234
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -112,7 +115,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -963969069
-  m_SortingLayer: 4
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3dc6247db1944e348ae1bb612add6600, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

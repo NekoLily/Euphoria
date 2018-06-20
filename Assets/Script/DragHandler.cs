@@ -25,7 +25,7 @@ public class DragHandler : MonoBehaviour
             Vector3 targetDir = AngleTarget.position - ItemObject.position;
             float angle = Vector3.Angle(ItemObject.position, targetDir);
 
-            if (ItemObject.position.y >= 0)
+            if (ItemObject.position.y >= 1)
                 ItemObject.eulerAngles = new Vector3(0, 0, angle);
             else
                 ItemObject.eulerAngles = new Vector3();
@@ -38,12 +38,21 @@ public class DragHandler : MonoBehaviour
     void OnMouseDown()
     {
         if (ItemObject != null)
-            screenPoint = Camera.main.WorldToScreenPoint(ItemObject.position);
+        {
+            if (ItemObject.GetComponent<Item>().ItemID == 11 || ItemObject.GetComponent<Item>().ItemID == 12)
+            {
+
+                ItemObject.transform.position = new Vector3(0, 2, 0);
+                ItemObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            }
+            else
+                screenPoint = Camera.main.WorldToScreenPoint(ItemObject.position);
+        }
     }
 
     void OnMouseDrag()
     {
-        if (ItemObject != null)
+        if (ItemObject != null && ItemObject.GetComponent<Item>().ItemID != 11 && ItemObject.GetComponent<Item>().ItemID != 12)
         {
             Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
             Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
@@ -52,7 +61,10 @@ public class DragHandler : MonoBehaviour
             else if (curPosition.y > 2)
             {
                 ItemObject.position = new Vector3(StartPos.x, 2, ItemObject.position.z);
-                ItemObject.gameObject.GetComponent<Item>().IsPoured = true;
+                if (ItemObject.GetComponent<Item>().AlreadyPoured)
+                    ItemObject.gameObject.GetComponent<Item>().IsPoured = false;
+                else if (ItemObject.GetComponent<Item>().IsPoured == false)
+                    ItemObject.gameObject.GetComponent<Item>().IsPoured = true;
             }
         }
     }
@@ -62,20 +74,29 @@ public class DragHandler : MonoBehaviour
         if (ItemObject != null)
         {
             ItemObject.eulerAngles = StartRotation;
+            if (ItemObject.gameObject.GetComponent<Item>().IsPoured)
+                ItemObject.GetComponent<Item>().AlreadyPoured = true;
             Drink_Value = 0;
-
-            switch (ItemObject.gameObject.GetComponent<Item>().IndexItemID)
+            if (ItemObject.GetComponent<Item>().ItemID != 11 && ItemObject.GetComponent<Item>().ItemID != 12)
             {
-                case 0:
-                    ItemObject.transform.position = new Vector3(-8, -1.5f, 0);
-                    break;
-                case 1:
-                    ItemObject.transform.position = new Vector3(-7, -1.5f, 0);
-                    break;
-                case 2:
-                    ItemObject.transform.position = new Vector3(-6, -1.5f, 0);
-                    break;
+                MoveDefaultPos();
             }
+        }
+    }
+
+    public void MoveDefaultPos()
+    {
+        switch (ItemObject.gameObject.GetComponent<Item>().IndexItemID)
+        {
+            case 0:
+                ItemObject.transform.position = new Vector3(-8, -1.5f, 0);
+                break;
+            case 1:
+                ItemObject.transform.position = new Vector3(-6, -1.5f, 0);
+                break;
+            case 2:
+                ItemObject.transform.position = new Vector3(-4, -1.5f, 0);
+                break;
         }
         ItemObject = null;
     }
