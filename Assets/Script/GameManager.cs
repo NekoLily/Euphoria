@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviour
                                     GameObject[] ObjectItems = GameObject.FindGameObjectsWithTag("Items");
                                     int PouredNumber = ObjectItems.Length;
                                     foreach (GameObject ObjectItem in ObjectItems)
-                                        if (ObjectItem.GetComponent<Item>().IsPoured == false)
+                                        if (ObjectItem.GetComponent<Item>().IsPoured == false && ObjectItem.GetComponent<Item>().AlreadyPoured == false)
                                             PouredNumber--;
                                     if (PouredNumber == ObjectItems.Length) // Si toutes les ingérdients on été verser
                                         ID_Cocktail = Shaker();
@@ -228,9 +228,9 @@ public class GameManager : MonoBehaviour
                 SpawnTimerSecs = 1;
                 if (Score >= OffsetScoreRequired[LevelChoisi - 1, 0] && Score < OffsetScoreRequired[LevelChoisi - 1, 1])
                     Stars = 1;
-                else if (Score >= OffsetScoreRequired[LevelChoisi - 1, 1] && Score < OffsetScoreRequired[LevelChoisi, 2])
+                else if (Score >= OffsetScoreRequired[LevelChoisi - 1, 1] && Score < OffsetScoreRequired[LevelChoisi - 1, 2])
                     Stars = 2;
-                else if (Score >= OffsetScoreRequired[LevelChoisi, 2])
+                else if (Score >= OffsetScoreRequired[LevelChoisi - 1, 2])
                     Stars = 3;
                 Loading.SetActive(true);
                 Loading.GetComponent<LoadingScreen>().Loading(0);

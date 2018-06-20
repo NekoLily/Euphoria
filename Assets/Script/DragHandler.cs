@@ -11,9 +11,12 @@ public class DragHandler : MonoBehaviour
     Vector3 screenPoint;
 
     public Transform AngleTarget;
-    public Transform LimitPosTop;
-    public Transform LimitPosBot;
     public Transform ItemObject;
+    public GameObject ParticleGood;
+    public GameObject ParticleBad;
+
+    public AudioClip Good_Clip;
+    public AudioClip Bad_Clip;
 
     float Drink_Value;
     bool IsPouring = false;
@@ -29,9 +32,6 @@ public class DragHandler : MonoBehaviour
                 ItemObject.eulerAngles = new Vector3(0, 0, angle);
             else
                 ItemObject.eulerAngles = new Vector3();
-
-            if (ItemObject.position.y >= 2 && IsPouring == false)
-                StartCoroutine("IncreaseDrink");
         }
     }
 
@@ -60,11 +60,26 @@ public class DragHandler : MonoBehaviour
                 ItemObject.position = new Vector3(StartPos.x, curPosition.y, ItemObject.position.z);
             else if (curPosition.y > 2)
             {
+
                 ItemObject.position = new Vector3(StartPos.x, 2, ItemObject.position.z);
                 if (ItemObject.GetComponent<Item>().AlreadyPoured)
-                    ItemObject.gameObject.GetComponent<Item>().IsPoured = false;
+                {
+                    if (IsPouring == false)
+                    {
+                        IsPouring = true;
+                        transform.GetComponent<AudioSource>().clip = Bad_Clip;
+                        transform.GetComponent<AudioSource>().Play();
+                        ParticleBad.GetComponent<ParticleSystem>().Play();
+                        ItemObject.gameObject.GetComponent<Item>().IsPoured = false;
+                    }
+                }
                 else if (ItemObject.GetComponent<Item>().IsPoured == false)
+                {
+                    transform.GetComponent<AudioSource>().clip = Good_Clip;
+                    transform.GetComponent<AudioSource>().Play();
+                    ParticleGood.GetComponent<ParticleSystem>().Play();
                     ItemObject.gameObject.GetComponent<Item>().IsPoured = true;
+                }
             }
         }
     }
@@ -73,6 +88,7 @@ public class DragHandler : MonoBehaviour
     {
         if (ItemObject != null)
         {
+            IsPouring = false;
             ItemObject.eulerAngles = StartRotation;
             if (ItemObject.gameObject.GetComponent<Item>().IsPoured)
                 ItemObject.GetComponent<Item>().AlreadyPoured = true;
@@ -99,14 +115,5 @@ public class DragHandler : MonoBehaviour
                 break;
         }
         ItemObject = null;
-    }
-
-    IEnumerator IncreaseDrink()
-    {
-        IsPouring = true;
-        Drink_Value += 1;
-        Debug.Log(Drink_Value);
-        yield return new WaitForSeconds(1f);
-        IsPouring = false;
     }
 }
