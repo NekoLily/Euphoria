@@ -145,13 +145,14 @@ public class GameManager : MonoBehaviour
             case GameState.Playing:
                 if (SceneManager.GetActiveScene().name == "Jeu")
                 {
+                    Rnd = new System.Random(seed++);
+                    AddCustomer();
                     if (Input.GetMouseButtonDown(0))
                     {
                         Vector3 CAM_POS = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
                         Collider2D Collider = Physics2D.OverlapPoint(CAM_POS);
 
                         if (Collider)
-                        {
                             switch (Collider.tag)
                             {
                                 case "Customer":
@@ -170,22 +171,24 @@ public class GameManager : MonoBehaviour
                                         if (GameObject.Find("DragManager").GetComponent<DragHandler>().ItemObject == null)
                                         {
                                             GameObject.Find("DragManager").GetComponent<DragHandler>().ItemObject = Collider.transform;
-                                            Collider.transform.position = new Vector3(0f, -1.5f, 0);
+                                            Collider.transform.position = new Vector3(2.5f, -1.5f, 0);
                                             GameObject.Find("DragManager").GetComponent<DragHandler>().StartPos = Collider.transform.position;
                                             GameObject.Find("DragManager").GetComponent<DragHandler>().StartRotation = new Vector3(Collider.transform.eulerAngles.x, Collider.transform.eulerAngles.y, Collider.transform.eulerAngles.z);
                                         }
                                     break;
                                 case "Shaker":
-                                    if (Items[2] == 0)
-                                    {
-                                        if (ItemBar_0.GetComponent<Item>().IsPoured && ItemBar_1.GetComponent<Item>().IsPoured)
-                                            ID_Cocktail = Shaker();
-                                    }
-                                    else if (Items[2] > 0)
-                                    {
-                                        if (ItemBar_0.gameObject.GetComponent<Item>().IsPoured && ItemBar_1.gameObject.GetComponent<Item>().IsPoured && ItemBar_2.GetComponent<Item>().IsPoured)
-                                            ID_Cocktail = Shaker();
-                                    }
+                                    GameObject[] ObjectItems = GameObject.FindGameObjectsWithTag("Items");
+                                    int PouredNumber = ObjectItems.Length;
+                                    foreach (GameObject ObjectItem in ObjectItems)
+                                        if (ObjectItem.GetComponent<Item>().IsPoured == false)
+                                            PouredNumber--;
+                                    if (PouredNumber == ObjectItems.Length) // Si toutes les ingérdients on été verser
+                                        ID_Cocktail = Shaker();
+                                    else if (PouredNumber != 0) // manque des ingrédients
+                                        ID_Cocktail = 0;
+                                    else // rien 
+                                        ID_Cocktail = -1;
+
                                     Debug.Log(ID_Cocktail);
 
                                     Items = new int[3];
@@ -195,23 +198,26 @@ public class GameManager : MonoBehaviour
 
                                     Bar2.SetActive(false);
                                     Bar1.SetActive(true);
-                                    Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boissons/" + ID_Cocktail);
-                                    Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
+
+                                    if (ID_Cocktail != -1)
+                                    {
+                                        Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boissons/" + ID_Cocktail);
+                                        Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
+                                    }
                                     break;
 
+                                case "BorderCollider":
+                                    Bar2.SetActive(false);
+                                    ItemBar_0.transform.position = new Vector3(3.5f, -1.5f, 0);
+                                    ItemBar_0.transform.localScale = ItemBar_0.GetComponent<Item>().DefaultScale;
+                                    ItemBar_1.transform.position = new Vector3(2.5f, -1.5f, 0);
+                                    ItemBar_1.transform.localScale = ItemBar_0.GetComponent<Item>().DefaultScale;
+                                    ItemBar_2.transform.position = new Vector3(1.5f, -1.5f, 0);
+                                    ItemBar_2.transform.localScale = ItemBar_0.GetComponent<Item>().DefaultScale;
+                                    Bar1.SetActive(true);
+                                    break;
                             }
-                            if (Collider.gameObject.name == "BorderCollider")
-                            {
-                                Bar2.SetActive(false);
-                                ItemBar_0.transform.position = new Vector3(3.5f, -1.5f, 0);
-                                ItemBar_1.transform.position = new Vector3(2.5f, -1.5f, 0);
-                                ItemBar_2.transform.position = new Vector3(1.5f, -1.5f, 0);
-                                Bar1.SetActive(true);
-                            }
-                        }
                     }
-                    Rnd = new System.Random(seed++);
-                    AddCustomer();
                 }
                 break;
 
@@ -251,94 +257,49 @@ public class GameManager : MonoBehaviour
         {
             SE.Stop();
             SE.clip = MainMenu;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.5f);
             SE.Play();
         }
-        else
-            SE.Stop();
     }
 
     void AddCustomer()
     {
-        Debug.Log("Spawn");
         if (SpawnTimerSecs <= 0)
         {
             SpawnTimerSecs = 1;
-            //for (int i = 0; i < 4; i++)
-            //{
             int Table_ID;
             if ((Table_ID = _DataBase.GetTable()) != -1)
             {
-                //if (_DataBase.Table[ID] == 0)
-                //{
                 Rnd2 = new System.Random(seed++);
                 switch (Rnd2.Next(1, 5))
                 {
                     case 1:
                         if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
-                        {
                             client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1"));
-                            client.GetComponent<Customer>().ID = 1;
-                            client.GetComponent<Customer>().ID_Table = Table_ID;
-                            return;
-                        }
                         else
-                        {
                             client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer1.2"));
-                            client.GetComponent<Customer>().ID = 1;
-                            client.GetComponent<Customer>().ID_Table = Table_ID;
-                            return;
-                        }
-
+                        break;
                     case 2:
                         if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
-                        {
                             client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2"));
-                            client.GetComponent<Customer>().ID = 2;
-                            client.GetComponent<Customer>().ID_Table = Table_ID;
-                            return;
-                        }
                         else
-                        {
                             client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer2.2"));
-                            client.GetComponent<Customer>().ID = 2;
-                            client.GetComponent<Customer>().ID_Table = Table_ID;
-                            return;
-                        }
-
+                        break;
                     case 3:
                         if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
-                        {
                             client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3"));
-                            client.GetComponent<Customer>().ID = 3;
-                            client.GetComponent<Customer>().ID_Table = Table_ID;
-                            return;
-                        }
                         else
-                        {
-                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3.2"));
-                            client.GetComponent<Customer>().ID = 3;
-                            client.GetComponent<Customer>().ID_Table = Table_ID;
-                            return;
-                        }
 
+                            client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer3.2"));
+                        break;
                     case 4:
                         if (LevelChoisi == 1 || LevelChoisi == 2 || LevelChoisi == 4)
-                        {
                             client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4"));
-                            client.GetComponent<Customer>().ID = 4;
-                            client.GetComponent<Customer>().ID_Table = Table_ID;
-                            return;
-                        }
                         else
-                        {
                             client = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Customer4.2"));
-                            client.GetComponent<Customer>().ID = 4;
-                            client.GetComponent<Customer>().ID_Table = Table_ID;
-                            return;
-                        }
+                        break;
                 }
-                //}
+                client.GetComponent<Customer>().ID_Table = Table_ID;
             }
         }
     }
@@ -351,7 +312,6 @@ public class GameManager : MonoBehaviour
         DestroyObject(ItemBar_0);
         DestroyObject(ItemBar_1);
         DestroyObject(ItemBar_2);
-        //Changement de sprite a 0.
     }
 
     public void OnClickRecette()
@@ -366,25 +326,37 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Item : " + Items[0] + " " + Items[1] + " " + Items[2]);
         Debug.Log(LevelChoisi);
-        if (LevelChoisi >= 4)
+        if (LevelChoisi >= 4 && (ItemBar_0 != null || ItemBar_1 != null || ItemBar_2 != null))
         {
-            if (Items[0] > 0 && Items[1] > 0)
+            Bar2.SetActive(true);
+            Bar1.SetActive(false);
+            if (Items[0] > 0)
             {
-                Bar2.SetActive(true);
-                Bar1.SetActive(false);
-
                 ItemBar_0.transform.position = new Vector3(-8, -1.5f, 0);
+                if (Items[0] == 11 || Items[0] == 12)
+                    ItemBar_0.transform.localScale += transform.localScale * 0.08f;
+                else
+                    ItemBar_0.transform.localScale += transform.localScale * 0.8f;
                 ItemBar_0.GetComponent<SpriteRenderer>().sortingLayerName = "Bouteilles2";
-                ItemBar_1.transform.position = new Vector3(-7, -1.5f, 0);
-                ItemBar_1.GetComponent<SpriteRenderer>().sortingLayerName = "Bouteilles2";
-                if (Items[2] > 0)
-                {
-                    ItemBar_2.transform.position = new Vector3(-6, -1.5f, 0);
-                    ItemBar_2.GetComponent<SpriteRenderer>().sortingLayerName = "Bouteilles2";
-                }
             }
-            else
-                Debug.Log("Pas assez d'ingrédients");
+            if (Items[1] > 0)
+            {
+                ItemBar_1.transform.position = new Vector3(-6, -1.5f, 0);
+                if (Items[1] == 11 || Items[1] == 12)
+                    ItemBar_1.transform.localScale += transform.localScale * 0.08f;
+                else
+                    ItemBar_1.transform.localScale += transform.localScale * 0.8f;
+                ItemBar_1.GetComponent<SpriteRenderer>().sortingLayerName = "Bouteilles2";
+            }
+            if (Items[2] > 0)
+            {
+                ItemBar_2.transform.position = new Vector3(-4, -1.5f, 0);
+                if (Items[2] == 11 || Items[2] == 12)
+                    ItemBar_2.transform.localScale += transform.localScale * 0.08f;
+                else
+                    ItemBar_2.transform.localScale += transform.localScale * 0.8f;
+                ItemBar_2.GetComponent<SpriteRenderer>().sortingLayerName = "Bouteilles2";
+            }
         }
         else
         {
@@ -395,7 +367,7 @@ public class GameManager : MonoBehaviour
             DestroyObject(ItemBar_2);
             Debug.Log("Cocktail ID : " + ID_Cocktail);
         }
-        if (ID_Cocktail > 0)
+        if (ID_Cocktail != -1)
         {
             Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boissons/" + ID_Cocktail);
             Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
@@ -416,16 +388,24 @@ public class GameManager : MonoBehaviour
                         case 0:
                             ItemBar_0 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(3.5f, -1.5f, 0), Quaternion.identity);
                             ItemBar_0.GetComponent<Item>().IndexItemID = IndexItems;
+                            if (Items[IndexItems] == 11 || Items[IndexItems] == 12)
+                                ItemBar_0.transform.position = new Vector3(ItemBar_0.transform.position.x, ItemBar_0.transform.position.y - 0.5f);
                             break;
                         case 1:
                             ItemBar_1 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(2.5f, -1.5f, 0), Quaternion.identity);
                             ItemBar_1.GetComponent<Item>().IndexItemID = IndexItems;
+                            if (Items[IndexItems] == 11 || Items[IndexItems] == 12)
+                                ItemBar_1.transform.position = new Vector3(ItemBar_1.transform.position.x, ItemBar_1.transform.position.y - 0.5f);
                             break;
                         case 2:
                             ItemBar_2 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(1.5f, -1.5f, 0), Quaternion.identity);
                             ItemBar_2.GetComponent<Item>().IndexItemID = IndexItems;
+                            if (Items[IndexItems] == 11 || Items[IndexItems] == 12)
+                                ItemBar_2.transform.position = new Vector3(ItemBar_2.transform.position.x, ItemBar_2.transform.position.y - 0.5f);
                             break;
                     }
+
+
                     return;
                 }
             }
@@ -435,7 +415,7 @@ public class GameManager : MonoBehaviour
 
     public int Shaker()    //Validation du cocktail créé.
     {
-        if (Items[0] > 0 && Items[1] > 0 && (Items[0] != Items[1]) && (Items[0] != Items[2]))
+        if (Items[0] != Items[1] && Items[0] != Items[2] && Items[1] != Items[2])
         {
             //{Item1, item2, item3, ID_Cocktail}
             int[,] Info_Cocktail = { { 1, 9, 0, 100 }, { 3, 11, 0, 101 }, { 4, 5, 0, 102 }, { 2, 10, 11, 103 }, { 3, 7, 0, 104 }, { 6, 12, 0, 105 }, { 1, 4, 5, 106 }, { 8, 11, 0, 107 }, { 8, 10, 12, 108 }, { 2, 13, 0, 109 } };
@@ -455,10 +435,11 @@ public class GameManager : MonoBehaviour
                 if (Check_Value[0] == 1 && Check_Value[1] == 1 && Check_Value[2] == 1)
                     return Info_Cocktail[Index_IC_1, 3];
             }
+            return 0;
         }
-        else
-            return -1;
-        return 0;
+        else if (Items[0] > 0 || Items[1] > 0 || Items[2] > 0)
+            return 0;
+        return -1;
     }
 
     public void OnClickButton(int Number)

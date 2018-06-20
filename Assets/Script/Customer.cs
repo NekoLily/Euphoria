@@ -86,20 +86,18 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(1);
                         Destroy(Order); // supprime la bulle de commande
-                        //anim Explose de rage
-                        Debug.Log("Event1");
-                        _DataBase.LeaveTable(ID_Table);
-                        DestroyObject(this.gameObject);
+                        GameObject.Find("Rage").GetComponent<RectTransform>().position = new Vector2(transform.position.x-0.5f, -2);
+                        GameObject.Find("Rage").GetComponent<Animator>().SetTrigger("E11");
+                        StartCoroutine("rage");
                         break;
 
                     case 2:
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(2);
                         Destroy(Order); // supprime la bulle de commande
-                        //anim foudre + explosion bouteille
-                        Debug.Log("Event2");
-                        _DataBase.LeaveTable(ID_Table);
-                        DestroyObject(this.gameObject);
+                        GameObject.Find("Eclair").GetComponent<RectTransform>().position = new Vector2(transform.position.x, 0);
+                        GameObject.Find("Eclair").GetComponent<Animator>().SetTrigger("E12");
+                        StartCoroutine("eclair");
                         break;
                 }
                 break;
@@ -111,7 +109,7 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(3);
                         Destroy(Order); // supprime la bulle de commande
-                        //Anime flamme + bouteille brule
+                        //Anim.SetTrigger("E21");
                         Debug.Log("Event3");
                         _DataBase.LeaveTable(ID_Table);
                         DestroyObject(this.gameObject);
@@ -121,10 +119,10 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(4);
                         Destroy(Order); // supprime la bulle de commande
-                        //Flamme devant poubelle durant 5 sec.
+                        GameObject.Find("Flamme").GetComponent<Animator>().SetTrigger("E22");
                         Debug.Log("Event4");
-                        _DataBase.LeaveTable(ID_Table);
-                        DestroyObject(this.gameObject);
+                        StartCoroutine("_Leave");
+                        //Anim.SetTrigger("move");
                         break;
                 }
                 break;
@@ -136,17 +134,17 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(5);
                         Destroy(Order); // supprime la bulle de commande
-                        //Enlevement Alien
-                        Debug.Log("Event5");
-                        _DataBase.LeaveTable(ID_Table);
-                        DestroyObject(this.gameObject);
+                        GameObject.Find("Lumiere").GetComponent<RectTransform>().position = new Vector2(transform.position.x, 0);
+                        GameObject.Find("Lumiere").GetComponent<Animator>().SetTrigger("E31");
+                        StartCoroutine("lumiere");
+                        
                         break;
 
                     case 2:
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(6);
                         Destroy(Order); // supprime la bulle de commande
-                        //Anim explosion de tete
+                        //Anim.SetTrigger("E32");
                         Debug.Log("Event6");
                         _DataBase.LeaveTable(ID_Table);
                         DestroyObject(this.gameObject);
@@ -161,25 +159,73 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(7);
                         Destroy(Order); // supprime la bulle de commande
-                        //fume, cache les bouteilles.
-                        Debug.Log("Event7");
-                        StartCoroutine("_Leave");
-                        //Anim.SetTrigger("move");
+                        GameObject.Find("Fumée").GetComponent<RectTransform>().position = new Vector2(transform.position.x, 0);
+                        GameObject.Find("Fumée").GetComponent<Animator>().SetTrigger("E41");
+                        StartCoroutine("fumee");
                         break;
 
                     case 2:
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(8);
                         Destroy(Order); // supprime la bulle de commande
-                        //Anim Crie + casse bouteille
-                        Debug.Log("Event8");
-                        _DataBase.LeaveTable(ID_Table);
-                        DestroyObject(this.gameObject);
+                        GameObject.Find("Cri").GetComponent<RectTransform>().position = new Vector2(transform.position.x + 1, -1);
+                        GameObject.Find("Cri").GetComponent<Animator>().SetTrigger("E42");
+                        StartCoroutine("cri");
                         break;
                 }
                 break;
         }
         return null;
+    }
+
+    IEnumerator rage()
+    {
+        yield return new WaitForSeconds(2f);
+        Debug.Log("Event1");
+        _DataBase.LeaveTable(ID_Table);
+        DestroyObject(this.gameObject);
+    }
+
+    IEnumerator eclair()
+    {
+        yield return new WaitForSeconds(1f);
+        Debug.Log("Event2");
+        _DataBase.LeaveTable(ID_Table);
+        DestroyObject(this.gameObject);
+    }
+
+    IEnumerator lumiere()
+    {
+        Vector3 currentPos = transform.position;
+        Vector3 Pos = new Vector3(transform.position.x, transform.position.y + 1000, transform.position.z);
+        yield return new WaitForSeconds(1f);
+        var t = 0f;
+        /*while (t < 1)
+        {
+            t += Time.deltaTime / 3;
+            transform.localPosition = Vector3.Lerp(currentPos, Pos, t);
+        }*/
+        transform.localPosition = Vector3.MoveTowards(currentPos, Pos, 20* Time.deltaTime);
+        yield return new WaitForSeconds(2f);
+        Debug.Log("Event5");
+        _DataBase.LeaveTable(ID_Table);
+        DestroyObject(this.gameObject);
+    }
+
+    IEnumerator fumee()
+    {
+        yield return new WaitForSeconds(3f);
+        Debug.Log("Event7");
+        StartCoroutine("_Leave");
+        //Anim.SetTrigger("move");
+    }
+
+    IEnumerator cri()
+    {
+        yield return new WaitForSeconds(2f);
+        Debug.Log("Event8");
+        _DataBase.LeaveTable(ID_Table);
+        DestroyObject(this.gameObject);
     }
 
     IEnumerator _Move() // Bouge le client à a coter de la table
@@ -198,7 +244,6 @@ public class Customer : MonoBehaviour
         }
         gameObject.GetComponent<Collider2D>().enabled = true;
         AddOrder(); // ajoute une commande
-        Anim.SetTrigger("Att");
     }
 
     IEnumerator _Leave() // Fais sortir le client
