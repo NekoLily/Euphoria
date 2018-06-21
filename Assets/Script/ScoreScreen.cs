@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class ScoreScreen : MonoBehaviour {
 
-    GameObject Star1, Star2, Star3, Fermeture, Bienjoue, genial, excellent, score, nbbouteille;
+    GameObject Star1, Star2, Star3, Fermeture, Bienjoue, genial, excellent, score, nbbouteille, End;
 
     public AudioClip good, bad, applause;
 
 	// Use this for initialization
 	void Start () {  //Mise en Place de la Scene.
+        End = GameObject.Find("End");
         Star1 = GameObject.Find("1 Star");
         Star2 = GameObject.Find("2 Star");
         Star3 = GameObject.Find("3 Star");
@@ -75,18 +76,21 @@ public class ScoreScreen : MonoBehaviour {
         switch(num)
         {
             case 1:
+                End.SetActive(false);
                 GameManager.Loading.SetActive(true);
                 GameManager.Loading.GetComponent<LoadingScreen>().Loading(2);  //Retry
                 GameManager.Status = GameState.Loading;
                 break;
 
             case 2:
+                End.SetActive(false);
                 GameManager.Loading.SetActive(true);
                 GameManager.Loading.GetComponent<LoadingScreen>().Loading(1);   //Menu
                 GameManager.Status = GameState.Loading;
                 break;
 
             case 3:                                         //NExtLEvel
+                End.SetActive(false);
                 GameManager.Loading.SetActive(true);
                 GameManager.Loading.GetComponent<LoadingScreen>().Loading(0);
                 GameManager.Status = GameState.Loading;

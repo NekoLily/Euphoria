@@ -18,7 +18,7 @@ public class Countdown : MonoBehaviour
     }
     void Update()
     {
-        Timer.text = ("" + timeLeft);
+        Timer.text = ("Temps: " + timeLeft);
         if (timeLeft <= 0 && first != false)
         {
             GameManager.Score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>().Score;         //Condition de GameOver.

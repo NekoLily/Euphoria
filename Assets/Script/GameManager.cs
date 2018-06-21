@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
                 Highscore.SetActive(false);
                 break;
             case GameState.SelectLevel:
+                CheckSave();
                 Play.SetActive(true);
                 break;
 
@@ -118,6 +119,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Highscore:
+                CheckSave();
                 Highscore.SetActive(true);
                 Highscore.transform.Find("HighscoreText").GetComponent<Text>().text = String.Format("Votre Highscore est : \n\n Level 1 : {0} \n Level 2 : {1} \n Level 3 : {2} \n Level 4 : {3} \n Level 5 : {4}",
                     _DataBase.Tab_Score[0], _DataBase.Tab_Score[1], _DataBase.Tab_Score[2], _DataBase.Tab_Score[3], _DataBase.Tab_Score[4]);
@@ -202,8 +204,25 @@ public class GameManager : MonoBehaviour
                                     Bar2.SetActive(false);
                                     Bar1.SetActive(true);
 
+                                    GameObject.Find("DragManager").GetComponent<BoxCollider2D>().enabled = false;
+                                    GameObject.Find("DragManager").GetComponent<DragHandler>().enabled = false;
+
                                     if (ID_Cocktail != -1)
                                     {
+                                        Vector3 TMP_POS = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                                        if (ID_Cocktail == 0)
+                                        {
+                                            GameObject.Find("Barman").GetComponent<AudioSource>().clip = bad;
+                                            GameObject.Find("Barman").GetComponent<AudioSource>().Play();
+
+                                            Instantiate(Resources.Load<GameObject>("Prefab/FxParticle/ParticleBad"), new Vector3(TMP_POS.x, TMP_POS.y, -1), transform.rotation);
+                                        }
+                                        else
+                                        {
+                                            GameObject.Find("Barman").GetComponent<AudioSource>().clip = good;
+                                            GameObject.Find("Barman").GetComponent<AudioSource>().Play();
+                                            Instantiate(Resources.Load<GameObject>("Prefab/FxParticle/ParticleGood"), new Vector3(TMP_POS.x, TMP_POS.y, -1), transform.rotation);
+                                        }
                                         Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boissons/" + ID_Cocktail);
                                         Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
                                     }
@@ -355,6 +374,9 @@ public class GameManager : MonoBehaviour
         Debug.Log(LevelChoisi);
         if (LevelChoisi >= 4 && (ItemBar_0 != null || ItemBar_1 != null || ItemBar_2 != null))
         {
+            GameObject.Find("DragManager").GetComponent<BoxCollider2D>().enabled = false;
+            GameObject.Find("DragManager").GetComponent<DragHandler>().enabled = false;
+
             Bar2.SetActive(true);
             Bar1.SetActive(false);
             if (Items[0] > 0)
@@ -387,8 +409,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            GameObject.Find("Barman").GetComponent<AudioSource>().clip = good;
-            GameObject.Find("Barman").GetComponent<AudioSource>().Play();
             ID_Cocktail = Shaker();
             Items = new int[3];
             DestroyObject(ItemBar_0);
@@ -398,8 +418,20 @@ public class GameManager : MonoBehaviour
         }
         if (ID_Cocktail != -1)
         {
-            GameObject.Find("Barman").GetComponent<AudioSource>().clip = bad;
-            GameObject.Find("Barman").GetComponent<AudioSource>().Play();
+            Vector3 TMP_POS = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (ID_Cocktail == 0)
+            {
+                GameObject.Find("Barman").GetComponent<AudioSource>().clip = bad;
+                GameObject.Find("Barman").GetComponent<AudioSource>().Play();
+
+                Instantiate(Resources.Load<GameObject>("Prefab/FxParticle/ParticleBad"), new Vector3(TMP_POS.x, TMP_POS.y, -1), transform.rotation);
+            }
+            else
+            {
+                GameObject.Find("Barman").GetComponent<AudioSource>().clip = good;
+                GameObject.Find("Barman").GetComponent<AudioSource>().Play();
+                Instantiate(Resources.Load<GameObject>("Prefab/FxParticle/ParticleGood"), new Vector3(TMP_POS.x, TMP_POS.y, -1), transform.rotation);
+            }
             Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boissons/" + ID_Cocktail);
             Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
         }
