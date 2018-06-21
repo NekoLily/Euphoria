@@ -109,11 +109,9 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(3);
                         Destroy(Order); // supprime la bulle de commande
-                        //Anim.SetTrigger("E21");
-                        GameObject.Find("Brule").GetComponent<AudioSource>().Play();
-                        Debug.Log("Event3");
-                        _DataBase.LeaveTable(ID_Table);
-                        DestroyObject(this.gameObject);
+                        GameObject.Find("Brule").GetComponent<RectTransform>().position = new Vector2(transform.position.x - 0.5f, -2);
+                        GameObject.Find("Brule").GetComponent<Animator>().SetTrigger("E21");
+                        StartCoroutine("bruler");
                         break;
 
                     case 2:
@@ -146,11 +144,8 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(6);
                         Destroy(Order); // supprime la bulle de commande
-                        //Anim.SetTrigger("E32");
-                        GameObject.Find("Explosion").GetComponent<AudioSource>().Play();
-                        Debug.Log("Event6");
-                        _DataBase.LeaveTable(ID_Table);
-                        DestroyObject(this.gameObject);
+                        Anim.SetTrigger("E32");
+                        StartCoroutine("tete");
                         break;
                 }
                 break;
@@ -183,8 +178,8 @@ public class Customer : MonoBehaviour
 
     IEnumerator rage()
     {
-        GameObject.Find("Rage").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(2f);
+        GameObject.Find("Rage").GetComponent<AudioSource>().Play();
         Debug.Log("Event1");
         _DataBase.LeaveTable(ID_Table);
         DestroyObject(this.gameObject);
@@ -195,6 +190,15 @@ public class Customer : MonoBehaviour
         GameObject.Find("Eclair").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1f);
         Debug.Log("Event2");
+        _DataBase.LeaveTable(ID_Table);
+        DestroyObject(this.gameObject);
+    }
+
+    IEnumerator bruler()
+    {
+        GameObject.Find("Brule").GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(1.5f);
+        Debug.Log("Event3");
         _DataBase.LeaveTable(ID_Table);
         DestroyObject(this.gameObject);
     }
@@ -214,6 +218,15 @@ public class Customer : MonoBehaviour
         transform.localPosition = Vector3.MoveTowards(currentPos, Pos, 20* Time.deltaTime);
         yield return new WaitForSeconds(2f);
         Debug.Log("Event5");
+        _DataBase.LeaveTable(ID_Table);
+        DestroyObject(this.gameObject);
+    }
+
+    IEnumerator tete()
+    {
+        GameObject.Find("Explosion").GetComponent<AudioSource>().Play();
+        Debug.Log("Event6");
+        yield return new WaitForSeconds(2f);
         _DataBase.LeaveTable(ID_Table);
         DestroyObject(this.gameObject);
     }

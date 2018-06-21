@@ -396,6 +396,7 @@ public class GameManager : MonoBehaviour
     {
         if (ID_Cocktail == -1)
         {
+            GameObject.Find("Bar").GetComponent<AudioSource>().Play();
             for (int IndexItems = 0; IndexItems < 3; IndexItems++)
             {
                 if (Items[IndexItems] == 0)
@@ -462,6 +463,7 @@ public class GameManager : MonoBehaviour
 
     public void OnClickButton(int Number)
     {
+        GameObject.Find("Canvas").GetComponent<AudioSource>().Play();
         switch (Number)
         {
             case 0:
@@ -502,6 +504,7 @@ public class GameManager : MonoBehaviour
 
     public void OnClickLevel(int number)
     {
+        GameObject.Find("Canvas").GetComponent<AudioSource>().Play();
         switch (number)
         {
             case 1:

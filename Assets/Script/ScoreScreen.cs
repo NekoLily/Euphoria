@@ -76,7 +76,7 @@ public class ScoreScreen : MonoBehaviour {
         {
             case 1:
                 GameManager.Loading.SetActive(true);
-                GameManager.Loading.GetComponent<LoadingScreen>().Loading(2);  //Replay
+                GameManager.Loading.GetComponent<LoadingScreen>().Loading(2);  //Retry
                 GameManager.Status = GameState.Loading;
                 break;
 
