@@ -78,8 +78,8 @@ public class MenuManager : MonoBehaviour {      //Script Menu Pause: Activation 
 
     public void ReturnOnClick()
     {
+        GameObject.Find("Carte").GetComponent<AudioSource>().Play();
         _RecettesMenu.SetActive(false);
-        GameObject.Find("Retour").GetComponent<AudioSource>().Play();
     }
 
     public void Resume()

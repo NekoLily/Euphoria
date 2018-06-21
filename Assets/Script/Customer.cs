@@ -14,7 +14,7 @@ public class Customer : MonoBehaviour
     public int ID;
 
     
-    GameObject Order; // bulle + Info
+    GameObject Order, Humeur; // bulle + Info
     
 
     GameObject Homme;
@@ -29,7 +29,6 @@ public class Customer : MonoBehaviour
         Anim = GetComponent<Animator>();
         _ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         StartCoroutine("_Move");
-        //Anim.SetTrigger("move");
     }
 
     public void AddOrder()
@@ -40,11 +39,13 @@ public class Customer : MonoBehaviour
         {
             Order = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/Bulle"), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f, transform.position.z - 0.1f), transform.rotation);
             Info = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/Image/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation); // Instantiate l'affichage de la commande
+            Humeur = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Humeur"), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation);
         }
         else
         {
             Order = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/Bulle"), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f, transform.position.z - 0.1f), transform.rotation);
             Info = Instantiate(Resources.Load<GameObject>("Prefab/Cloud/Text/" + ID_Order), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation);
+            Humeur = Instantiate(Resources.Load<GameObject>("Prefab/Customer/Humeur"), new Vector3(transform.position.x - 0.7f, transform.position.y + 2.5f), transform.rotation);
         }
         Order.transform.parent = gameObject.transform;
         Info.transform.parent = Order.transform;
@@ -62,12 +63,15 @@ public class Customer : MonoBehaviour
             gameObject.GetComponent<Collider2D>().enabled = false;
             _ScoreManager.IncreaseScore();
             Destroy(Order); // supprime la bulle de commande                //Cocktail OK.
+            Humeur.transform.localScale = new Vector2(2, 2);
+            Humeur.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Prefab/Customer/good");
             StartCoroutine("_Leave");
-            //Anim.SetTrigger("move");
             ID_Cocktail = -1;
         }
         else
         {
+            Humeur.transform.localScale = new Vector2(0.5f, 0.5f);
+            Humeur.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Prefab/Customer/bad");
             Debug.Log("Wrong cocktail");
             StartCoroutine("_Event");                               //Ccocktail Pas OK.
             ID_Cocktail = -1;
@@ -183,6 +187,7 @@ public class Customer : MonoBehaviour
         Debug.Log("Event1");
         _DataBase.LeaveTable(ID_Table);
         DestroyObject(this.gameObject);
+        Destroy(Humeur);
     }
 
     IEnumerator eclair()
@@ -192,6 +197,7 @@ public class Customer : MonoBehaviour
         Debug.Log("Event2");
         _DataBase.LeaveTable(ID_Table);
         DestroyObject(this.gameObject);
+        Destroy(Humeur);
     }
 
     IEnumerator bruler()
@@ -201,6 +207,7 @@ public class Customer : MonoBehaviour
         Debug.Log("Event3");
         _DataBase.LeaveTable(ID_Table);
         DestroyObject(this.gameObject);
+        Destroy(Humeur);
     }
 
     IEnumerator lumiere()
@@ -220,6 +227,7 @@ public class Customer : MonoBehaviour
         Debug.Log("Event5");
         _DataBase.LeaveTable(ID_Table);
         DestroyObject(this.gameObject);
+        Destroy(Humeur);
     }
 
     IEnumerator tete()
@@ -229,6 +237,7 @@ public class Customer : MonoBehaviour
         yield return new WaitForSeconds(2f);
         _DataBase.LeaveTable(ID_Table);
         DestroyObject(this.gameObject);
+        Destroy(Humeur);
     }
 
     IEnumerator fumee()
@@ -247,6 +256,7 @@ public class Customer : MonoBehaviour
         Debug.Log("Event8");
         _DataBase.LeaveTable(ID_Table);
         DestroyObject(this.gameObject);
+        Destroy(Humeur);
     }
 
     IEnumerator _Move() // Bouge le client à a coter de la table
@@ -269,6 +279,8 @@ public class Customer : MonoBehaviour
 
     IEnumerator _Leave() // Fais sortir le client
     {
+        yield return new WaitForSeconds(1f);
+        Destroy(Humeur);
         Vector3 currentPos = transform.localPosition;
         Vector3 Pos = new Vector3(-10, -5, 0); // position de sortie
         var t = 0f;
