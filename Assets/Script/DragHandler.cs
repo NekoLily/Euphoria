@@ -12,8 +12,6 @@ public class DragHandler : MonoBehaviour
 
     public Transform AngleTarget;
     public Transform ItemObject;
-    public GameObject ParticleGood;
-    public GameObject ParticleBad;
 
     public AudioClip Good_Clip;
     public AudioClip Bad_Clip;
