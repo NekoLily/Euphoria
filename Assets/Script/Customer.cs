@@ -109,10 +109,9 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(3);
                         Destroy(Order); // supprime la bulle de commande
-                        //Anim.SetTrigger("E21");
-                        Debug.Log("Event3");
-                        _DataBase.LeaveTable(ID_Table);
-                        DestroyObject(this.gameObject);
+                        GameObject.Find("Brule").GetComponent<RectTransform>().position = new Vector2(transform.position.x - 0.5f, -2);
+                        GameObject.Find("Brule").GetComponent<Animator>().SetTrigger("E21");
+                        StartCoroutine("bruler");
                         break;
 
                     case 2:
@@ -120,6 +119,7 @@ public class Customer : MonoBehaviour
                         _ScoreManager.DecreaseScore(4);
                         Destroy(Order); // supprime la bulle de commande
                         GameObject.Find("Flamme").GetComponent<Animator>().SetTrigger("E22");
+                        GameObject.Find("Flamme").GetComponent<AudioSource>().Play();
                         Debug.Log("Event4");
                         StartCoroutine("_Leave");
                         //Anim.SetTrigger("move");
@@ -144,10 +144,8 @@ public class Customer : MonoBehaviour
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         _ScoreManager.DecreaseScore(6);
                         Destroy(Order); // supprime la bulle de commande
-                        //Anim.SetTrigger("E32");
-                        Debug.Log("Event6");
-                        _DataBase.LeaveTable(ID_Table);
-                        DestroyObject(this.gameObject);
+                        Anim.SetTrigger("E32");
+                        StartCoroutine("tete");
                         break;
                 }
                 break;
@@ -181,6 +179,7 @@ public class Customer : MonoBehaviour
     IEnumerator rage()
     {
         yield return new WaitForSeconds(2f);
+        GameObject.Find("Rage").GetComponent<AudioSource>().Play();
         Debug.Log("Event1");
         _DataBase.LeaveTable(ID_Table);
         DestroyObject(this.gameObject);
@@ -188,14 +187,25 @@ public class Customer : MonoBehaviour
 
     IEnumerator eclair()
     {
+        GameObject.Find("Eclair").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1f);
         Debug.Log("Event2");
         _DataBase.LeaveTable(ID_Table);
         DestroyObject(this.gameObject);
     }
 
+    IEnumerator bruler()
+    {
+        GameObject.Find("Brule").GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(1.5f);
+        Debug.Log("Event3");
+        _DataBase.LeaveTable(ID_Table);
+        DestroyObject(this.gameObject);
+    }
+
     IEnumerator lumiere()
     {
+        GameObject.Find("Lumiere").GetComponent<AudioSource>().Play();
         Vector3 currentPos = transform.position;
         Vector3 Pos = new Vector3(transform.position.x, transform.position.y + 1000, transform.position.z);
         yield return new WaitForSeconds(1f);
@@ -212,8 +222,18 @@ public class Customer : MonoBehaviour
         DestroyObject(this.gameObject);
     }
 
+    IEnumerator tete()
+    {
+        GameObject.Find("Explosion").GetComponent<AudioSource>().Play();
+        Debug.Log("Event6");
+        yield return new WaitForSeconds(2f);
+        _DataBase.LeaveTable(ID_Table);
+        DestroyObject(this.gameObject);
+    }
+
     IEnumerator fumee()
     {
+        GameObject.Find("Fumée").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(3f);
         Debug.Log("Event7");
         StartCoroutine("_Leave");
@@ -222,6 +242,7 @@ public class Customer : MonoBehaviour
 
     IEnumerator cri()
     {
+        GameObject.Find("Cri").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(2f);
         Debug.Log("Event8");
         _DataBase.LeaveTable(ID_Table);

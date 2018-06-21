@@ -75,6 +75,7 @@ public class Tutoriel : MonoBehaviour
 
     public void OnClickTuto(int ImageTuto)
     {
+        GameObject.Find("TutoManager").GetComponent<AudioSource>().Play();
         switch (ImageTuto)
         {
             case 0:

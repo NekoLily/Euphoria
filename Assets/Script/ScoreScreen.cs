@@ -8,6 +8,8 @@ public class ScoreScreen : MonoBehaviour {
 
     GameObject Star1, Star2, Star3, Fermeture, Bienjoue, genial, excellent, score, nbbouteille;
 
+    public AudioClip good, bad, applause;
+
 	// Use this for initialization
 	void Start () {  //Mise en Place de la Scene.
         Star1 = GameObject.Find("1 Star");
@@ -31,23 +33,32 @@ public class ScoreScreen : MonoBehaviour {
         switch (GameManager.Stars)
         {
             case 0:
+                GameObject.Find("Main Camera").GetComponent<AudioSource>().clip = bad;
+                GameObject.Find("Main Camera").GetComponent<AudioSource>().Play();
                 Fermeture.SetActive(true);
                 break;
 
             case 1:
+                GameObject.Find("Main Camera").GetComponent<AudioSource>().clip = applause;
+                GameObject.Find("Main Camera").GetComponent<AudioSource>().Play();
                 Bienjoue.SetActive(true);
                 Star1.SetActive(true);
                 break;
 
             case 2:
+                GameObject.Find("Main Camera").GetComponent<AudioSource>().clip = applause;
+                GameObject.Find("Main Camera").GetComponent<AudioSource>().Play();
                 genial.SetActive(true);
                 Star1.SetActive(true);
                 Star2.SetActive(true);
                 break;
 
             case 3:
+                GameObject.Find("Main Camera").GetComponent<AudioSource>().clip = applause;
+                GameObject.Find("Main Camera").GetComponent<AudioSource>().Play();
                 excellent.SetActive(true);
                 Star1.SetActive(true);
+                GameObject.Find("Canvas").GetComponent<AudioSource>().PlayOneShot(good);
                 Star2.SetActive(true);
                 Star3.SetActive(true);
                 break;
@@ -65,7 +76,7 @@ public class ScoreScreen : MonoBehaviour {
         {
             case 1:
                 GameManager.Loading.SetActive(true);
-                GameManager.Loading.GetComponent<LoadingScreen>().Loading(2);  //Replay
+                GameManager.Loading.GetComponent<LoadingScreen>().Loading(2);  //Retry
                 GameManager.Status = GameState.Loading;
                 break;
 

@@ -25,6 +25,10 @@ public class Countdown : MonoBehaviour
             GameManager.Status = GameState.GameClear;
             first = false;
         }
+        if (timeLeft <= 30)
+            Timer.color = new Color32(255, 0, 0, 255);
+        else
+            Timer.color = new Color32(0, 0, 0, 255);
     }
 
     IEnumerator LoseTime()

@@ -26,8 +26,11 @@ public class MenuManager : MonoBehaviour {      //Script Menu Pause: Activation 
 	// Update is called once per frame
 	void Update ()
     {
-	    if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
             MenuIsEnabled = !MenuIsEnabled;
+            GameObject.Find("Carte").GetComponent<AudioSource>().Play();
+        }
 
         if (_RecettesMenu.activeInHierarchy)
             MenuRIsEnabled = true;
@@ -76,10 +79,12 @@ public class MenuManager : MonoBehaviour {      //Script Menu Pause: Activation 
     public void ReturnOnClick()
     {
         _RecettesMenu.SetActive(false);
+        GameObject.Find("Retour").GetComponent<AudioSource>().Play();
     }
 
     public void Resume()
     {
+        GameObject.Find("Resume").GetComponent<AudioSource>().Play();
         Time.timeScale = 1f;
         GameManager.Status = GameState.Playing;
         _MainMenu.SetActive(false);
@@ -87,6 +92,7 @@ public class MenuManager : MonoBehaviour {      //Script Menu Pause: Activation 
 
     public void Retry()
     {
+        GameObject.Find("Retry").GetComponent<AudioSource>().Play();
         GameManager.Loading.SetActive(true);
         GameManager.Loading.GetComponent<LoadingScreen>().Loading(2);  //Replay
         GameManager.Status = GameState.Loading;
@@ -96,6 +102,7 @@ public class MenuManager : MonoBehaviour {      //Script Menu Pause: Activation 
 
     public void Exit()
     {
+        GameObject.Find("Exit").GetComponent<AudioSource>().Play();
         GameManager.Loading.SetActive(true);
         GameManager.Loading.GetComponent<LoadingScreen>().Loading(1);
         GameManager.Status = GameState.Loading;
