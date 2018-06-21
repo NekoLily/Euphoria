@@ -86,8 +86,11 @@ public class MenuManager : MonoBehaviour {      //Script Menu Pause: Activation 
     {
         GameObject.Find("Resume").GetComponent<AudioSource>().Play();
         Time.timeScale = 1f;
-        GameManager.Status = GameState.Playing;
         _MainMenu.SetActive(false);
+        GameManager.Status = GameState.Playing;
+
+        MenuIsEnabled = false;
+       
     }
 
     public void Retry()
@@ -103,6 +106,7 @@ public class MenuManager : MonoBehaviour {      //Script Menu Pause: Activation 
     public void Exit()
     {
         GameObject.Find("Exit").GetComponent<AudioSource>().Play();
+        MenuIsEnabled = false;
         GameManager.Loading.SetActive(true);
         GameManager.Loading.GetComponent<LoadingScreen>().Loading(1);
         GameManager.Status = GameState.Loading;
