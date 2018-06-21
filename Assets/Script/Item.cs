@@ -26,14 +26,14 @@ public class Item : MonoBehaviour
             {
                 _DragManager.GetComponent<AudioSource>().clip = _DragManager.GetComponent<DragHandler>().Bad_Clip;
                 _DragManager.GetComponent<AudioSource>().Play();
-                _DragManager.GetComponent<DragHandler>().ParticleBad.GetComponent<ParticleSystem>().Play();
+                Instantiate(Resources.Load<GameObject>("Prefab/FxParticle/ParticleBad"), new Vector3(-0.54f, -1.38f, -1), transform.rotation);
                 IsPoured = false;
             }
             else if (IsPoured == false)
             {
                 _DragManager.GetComponent<AudioSource>().clip = _DragManager.GetComponent<DragHandler>().Good_Clip;
                 _DragManager.GetComponent<AudioSource>().Play();
-                _DragManager.GetComponent<DragHandler>().ParticleGood.GetComponent<ParticleSystem>().Play();
+                Instantiate(Resources.Load<GameObject>("Prefab/FxParticle/ParticleGood"), new Vector3(-0.54f, -1.38f, -1), transform.rotation);
                 IsPoured = true;
             }
             if (IsPoured)
