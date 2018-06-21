@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4531895002126938}
-  - component: {fileID: 212352462892220554}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
@@ -38,6 +37,7 @@ GameObject:
   - component: {fileID: 61965240591010544}
   - component: {fileID: 114487512615045380}
   - component: {fileID: 95676761527837888}
+  - component: {fileID: 212293844335741762}
   m_Layer: 0
   m_Name: Customer3
   m_TagString: Customer
@@ -66,7 +66,7 @@ Transform:
   m_GameObject: {fileID: 1584259345193638}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -9.4, y: -4.55, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 0.65, y: 0.65, z: 1}
   m_Children:
   - {fileID: 4531895002126938}
   m_Father: {fileID: 0}
@@ -87,10 +87,10 @@ BoxCollider2D:
   m_Offset: {x: 0.17006683, y: -3.1957693}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.68, y: 10.8}
+    newSize: {x: 5.68, y: 10.8}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
@@ -128,12 +128,12 @@ MonoBehaviour:
   ID_Table: 0
   ID: 3
   Timer_Order: 30
---- !u!212 &212352462892220554
+--- !u!212 &212293844335741762
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1021442858170424}
+  m_GameObject: {fileID: 1584259345193638}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -167,7 +167,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 13, y: 13}
+  m_Size: {x: 5.68, y: 10.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
