@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class ScoreScreen : MonoBehaviour {
 
     GameObject Star1, Star2, Star3, Fermeture, Bienjoue, genial, excellent, score, nbbouteille, End;
+    Button next;
 
     public AudioClip good, bad, applause;
 
@@ -28,6 +29,7 @@ public class ScoreScreen : MonoBehaviour {
         Bienjoue.SetActive(false);
         genial.SetActive(false);
         excellent.SetActive(false);
+        next = GameObject.Find("Next Level").GetComponent<Button>();
 
         score.GetComponent<Text>().text = "Score: " + GameManager.Score.ToString();
 
@@ -37,6 +39,7 @@ public class ScoreScreen : MonoBehaviour {
                 GameObject.Find("Main Camera").GetComponent<AudioSource>().clip = bad;
                 GameObject.Find("Main Camera").GetComponent<AudioSource>().Play();
                 Fermeture.SetActive(true);
+                next.interactable = false;
                 break;
 
             case 1:

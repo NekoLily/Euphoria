@@ -20,6 +20,10 @@ public class DataBase : MonoBehaviour
     void Start()
     {
         Table = new int[4] { 0, 0, 0, 0 };
+        if (File.Exists(Application.persistentDataPath + "/Save.txt"))
+            GetSave();
+        else
+            CreateFile();
         GetSave();
     }
 
@@ -65,18 +69,28 @@ public class DataBase : MonoBehaviour
         Table[ID_Table] = 0;
     }
 
+    void CreateFile()
+    {
+        FileStream file = File.Create(Application.persistentDataPath + "/Save.txt");
+        file.Close();
+        ResetScore();
+    }
+
     public void GetSave()
     {
-        string _Text = "";
-        StreamReader _Reader = new StreamReader("Assets/Resources/Save.txt");
+        if (File.Exists(Application.persistentDataPath + "/Save.txt"))
         {
-            while (!_Reader.EndOfStream)
+            string _Text = "";
+            StreamReader _Reader = new StreamReader(Application.persistentDataPath + "/Save.txt");
             {
-                _Text += _Reader.ReadLine();
-                _Text += "\n";
+                while (!_Reader.EndOfStream)
+                {
+                    _Text += _Reader.ReadLine();
+                    _Text += "\n";
+                }
+                _Reader.Close();
+                Tab_Score = _Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             }
-            _Reader.Close();
-            Tab_Score = _Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 
@@ -85,7 +99,7 @@ public class DataBase : MonoBehaviour
         if (Score >= int.Parse(Tab_Score[Level - 1]))
         {
             Tab_Score[Level - 1] = Score.ToString();
-            StreamWriter _Writter = new StreamWriter("Assets/Resources/Save.txt");
+            StreamWriter _Writter = new StreamWriter(Application.persistentDataPath + "/Save.txt");
             {
                 for (int i = 0; i < 5; i++)
                     _Writter.WriteLine(Tab_Score[i]);
@@ -96,7 +110,7 @@ public class DataBase : MonoBehaviour
 
     public void ResetScore()
     {
-        StreamWriter _Writter = new StreamWriter("Assets/Resources/Save.txt");
+        StreamWriter _Writter = new StreamWriter(Application.persistentDataPath + "/Save.txt");
         {
             for (int i = 0; i < 5; i++)
                 _Writter.WriteLine("0");

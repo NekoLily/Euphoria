@@ -460,6 +460,36 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114266540770593686, guid: 6b2aff4475943de4a901918eb7ae788d,
+        type: 2}
+      propertyPath: m_SpriteState.m_DisabledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 20205aeaad6d03f468fb3e20c07ed357,
+        type: 3}
+    - target: {fileID: 114733352009466242, guid: 6b2aff4475943de4a901918eb7ae788d,
+        type: 2}
+      propertyPath: m_SpriteState.m_DisabledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 20205aeaad6d03f468fb3e20c07ed357,
+        type: 3}
+    - target: {fileID: 114180947921638728, guid: 6b2aff4475943de4a901918eb7ae788d,
+        type: 2}
+      propertyPath: m_SpriteState.m_DisabledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 20205aeaad6d03f468fb3e20c07ed357,
+        type: 3}
+    - target: {fileID: 114595502378736312, guid: 6b2aff4475943de4a901918eb7ae788d,
+        type: 2}
+      propertyPath: m_SpriteState.m_DisabledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 20205aeaad6d03f468fb3e20c07ed357,
+        type: 3}
+    - target: {fileID: 114698654076194382, guid: 6b2aff4475943de4a901918eb7ae788d,
+        type: 2}
+      propertyPath: m_SpriteState.m_DisabledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 20205aeaad6d03f468fb3e20c07ed357,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6b2aff4475943de4a901918eb7ae788d, type: 2}
   m_IsPrefabParent: 0
