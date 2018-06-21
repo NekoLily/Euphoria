@@ -69,7 +69,9 @@ public class DragHandler : MonoBehaviour
                         IsPouring = true;
                         transform.GetComponent<AudioSource>().clip = Bad_Clip;
                         transform.GetComponent<AudioSource>().Play();
-                        ParticleBad.GetComponent<ParticleSystem>().Play();
+
+                        Instantiate(Resources.Load<GameObject>("Prefab/FxParticle/ParticleBad"), new Vector3(-0.54f, -1.38f, -1), transform.rotation);
+
                         ItemObject.gameObject.GetComponent<Item>().IsPoured = false;
                     }
                 }
@@ -77,7 +79,9 @@ public class DragHandler : MonoBehaviour
                 {
                     transform.GetComponent<AudioSource>().clip = Good_Clip;
                     transform.GetComponent<AudioSource>().Play();
-                    ParticleGood.GetComponent<ParticleSystem>().Play();
+
+                    Instantiate(Resources.Load<GameObject>("Prefab/FxParticle/ParticleGood"), new Vector3(-0.54f, -1.38f, -1), transform.rotation);
+
                     ItemObject.gameObject.GetComponent<Item>().IsPoured = true;
                 }
             }
