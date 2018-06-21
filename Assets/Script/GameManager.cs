@@ -74,7 +74,6 @@ public class GameManager : MonoBehaviour
         Loading.SetActive(false);
 
         _DataBase = gameObject.GetComponent<DataBase>();
-        CheckSave();
         Status = GameState.MainMenu;
         StartCoroutine("SpawnTimer");
     }
