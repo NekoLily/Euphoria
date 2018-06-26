@@ -41,6 +41,7 @@ public class DragHandler : MonoBehaviour
             {
 
                 ItemObject.transform.position = new Vector3(0, 2, 0);
+                ItemObject.gameObject.AddComponent<Rigidbody2D>();
                 ItemObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             }
             else

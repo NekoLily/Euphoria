@@ -38,7 +38,7 @@ public class Item : MonoBehaviour
             }
             if (IsPoured)
                 AlreadyPoured = true;
-            transform.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+            Destroy(transform.GetComponent<Rigidbody2D>());
             GameObject.Find("DragManager").GetComponent<DragHandler>().MoveDefaultPos();
         }
     }

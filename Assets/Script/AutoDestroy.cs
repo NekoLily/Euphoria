@@ -14,6 +14,6 @@ public class AutoDestroy : MonoBehaviour {
     IEnumerator _Destroy()
     {
         yield return new WaitForSeconds(3f);
-        DestroyObject(transform);
+        DestroyObject(transform.gameObject);
     }
 }
