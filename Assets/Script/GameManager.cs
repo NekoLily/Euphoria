@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public System.Random Rnd, Rnd2;
     int seed = Environment.TickCount;
 
-    public static int[] Items = new int[3];
+    public int[] Items = new int[3] { 0, 0, 0 };
     static int ID_Cocktail = -1;
 
     GameObject client;
@@ -161,8 +161,8 @@ public class GameManager : MonoBehaviour
                             {
                                 case "Customer":
                                     Collider.gameObject.GetComponent<Customer>().CheckOrder(ID_Cocktail);
+                                    Items = new int[3] { 0, 0, 0 };
                                     ID_Cocktail = -1;
-                                    Items = new int[3];
                                     Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                                     break;
                                 case "Items":
@@ -195,11 +195,11 @@ public class GameManager : MonoBehaviour
 
                                     Debug.Log(ID_Cocktail);
 
-                                    Items = new int[3];
+
                                     DestroyObject(ItemBar_0);
                                     DestroyObject(ItemBar_1);
                                     DestroyObject(ItemBar_2);
-
+                                    Items = new int[3] { 0, 0, 0 };
                                     Bar2.SetActive(false);
                                     Bar1.SetActive(true);
 
@@ -243,6 +243,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.GameClear:
+                Items = new int[3] { 0, 0, 0 };
                 _DataBase.SaveScore(LevelChoisi, Score);
                 CheckSave();
                 Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
@@ -349,11 +350,13 @@ public class GameManager : MonoBehaviour
     {
         GameObject.Find("Evier").GetComponent<AudioSource>().Play();
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-        ID_Cocktail = -1;
-        Items = new int[3];
+
         DestroyObject(ItemBar_0);
         DestroyObject(ItemBar_1);
         DestroyObject(ItemBar_2);
+        ID_Cocktail = -1;
+        Items = new int[3] { 0, 0, 0 };
+
     }
 
     public void OnClickRecette()
@@ -369,8 +372,6 @@ public class GameManager : MonoBehaviour
 
     public void OnClickBartender()
     {
-        Debug.Log("Item : " + Items[0] + " " + Items[1] + " " + Items[2]);
-        Debug.Log(LevelChoisi);
         if (LevelChoisi >= 4 && (ItemBar_0 != null || ItemBar_1 != null || ItemBar_2 != null))
         {
             GameObject.Find("DragManager").GetComponent<BoxCollider2D>().enabled = false;
@@ -409,10 +410,10 @@ public class GameManager : MonoBehaviour
         else
         {
             ID_Cocktail = Shaker();
-            Items = new int[3];
             DestroyObject(ItemBar_0);
             DestroyObject(ItemBar_1);
             DestroyObject(ItemBar_2);
+            Items = new int[3] { 0, 0, 0 };
             Debug.Log("Cocktail ID : " + ID_Cocktail);
         }
         if (ID_Cocktail != -1)
@@ -432,7 +433,7 @@ public class GameManager : MonoBehaviour
                 Instantiate(Resources.Load<GameObject>("Prefab/FxParticle/ParticleGood"), new Vector3(TMP_POS.x, TMP_POS.y, -1), transform.rotation);
             }
             Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boissons/" + ID_Cocktail);
-            Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width/2, Cursor_Sprite.texture.height/2), CursorMode.ForceSoftware);
+            Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
         }
     }
 
@@ -445,6 +446,7 @@ public class GameManager : MonoBehaviour
             {
                 if (Items[IndexItems] == 0)
                 {
+                    Debug.Log(IndexItems + "  " + ID);
                     Items[IndexItems] = ID;
                     switch (IndexItems)
                     {
@@ -467,8 +469,6 @@ public class GameManager : MonoBehaviour
                                 ItemBar_2.transform.position = new Vector3(1.5f, -1.5f - 0.5f);
                             break;
                     }
-
-
                     return;
                 }
             }
