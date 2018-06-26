@@ -8744,8 +8744,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 680, y: -73}
-  m_SizeDelta: {x: 496.1, y: 702.4}
+  m_AnchoredPosition: {x: 785, y: -141.8}
+  m_SizeDelta: {x: 398.8, y: 564.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1809527387
 MonoBehaviour:
@@ -8928,7 +8928,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967039
 --- !u!223 &1809527392
 Canvas:
   m_ObjectHideFlags: 0

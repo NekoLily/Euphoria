@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 61869954262316962}
   - component: {fileID: 114306222211781408}
   - component: {fileID: 95922964551829050}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Customer2.2
   m_TagString: Customer
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4460801394263692}
   - component: {fileID: 212617854997547864}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Customer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
