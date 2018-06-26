@@ -243,6 +243,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.GameClear:
+                Items = new int[3] { 0, 0, 0 };
                 _DataBase.SaveScore(LevelChoisi, Score);
                 CheckSave();
                 Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
