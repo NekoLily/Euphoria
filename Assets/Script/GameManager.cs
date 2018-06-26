@@ -432,7 +432,7 @@ public class GameManager : MonoBehaviour
                 Instantiate(Resources.Load<GameObject>("Prefab/FxParticle/ParticleGood"), new Vector3(TMP_POS.x, TMP_POS.y, -1), transform.rotation);
             }
             Sprite Cursor_Sprite = Resources.Load<Sprite>("Prefab/Boissons/" + ID_Cocktail);
-            Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width / 2, Cursor_Sprite.texture.height / 2), CursorMode.ForceSoftware);
+            Cursor.SetCursor(Cursor_Sprite.texture, new Vector2(Cursor_Sprite.texture.width/2, Cursor_Sprite.texture.height/2), CursorMode.ForceSoftware);
         }
     }
 
@@ -452,19 +452,19 @@ public class GameManager : MonoBehaviour
                             ItemBar_0 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(3.5f, -1.5f, 0), Quaternion.identity);
                             ItemBar_0.GetComponent<Item>().IndexItemID = IndexItems;
                             if (Items[IndexItems] == 11 || Items[IndexItems] == 12)
-                                ItemBar_0.transform.position = new Vector3(ItemBar_0.transform.position.x, ItemBar_0.transform.position.y - 0.5f);
+                                ItemBar_0.transform.position = new Vector3(3.5f, -1.5f - 0.5f);
                             break;
                         case 1:
                             ItemBar_1 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(2.5f, -1.5f, 0), Quaternion.identity);
                             ItemBar_1.GetComponent<Item>().IndexItemID = IndexItems;
                             if (Items[IndexItems] == 11 || Items[IndexItems] == 12)
-                                ItemBar_1.transform.position = new Vector3(ItemBar_1.transform.position.x, ItemBar_1.transform.position.y - 0.5f);
+                                ItemBar_1.transform.position = new Vector3(2.5f, -1.5f - 0.5f);
                             break;
                         case 2:
                             ItemBar_2 = Instantiate(Resources.Load<GameObject>("Prefab/Items/" + ID), new Vector3(1.5f, -1.5f, 0), Quaternion.identity);
                             ItemBar_2.GetComponent<Item>().IndexItemID = IndexItems;
                             if (Items[IndexItems] == 11 || Items[IndexItems] == 12)
-                                ItemBar_2.transform.position = new Vector3(ItemBar_2.transform.position.x, ItemBar_2.transform.position.y - 0.5f);
+                                ItemBar_2.transform.position = new Vector3(1.5f, -1.5f - 0.5f);
                             break;
                     }
 

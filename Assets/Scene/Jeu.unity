@@ -7387,7 +7387,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Bloody Mary : \nVodka & Jus de Tomate"
+  m_Text: "Bloody Mary : \nJus de Tomate & Vodka"
 --- !u!222 &1523254330
 CanvasRenderer:
   m_ObjectHideFlags: 0
